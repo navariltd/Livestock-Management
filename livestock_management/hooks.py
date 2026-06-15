@@ -16,7 +16,7 @@ doc_events = {
     },
     "Stock Entry": {
         "validate": "livestock_management.livestock_management.overrides.stock_entry.validate_livestock_fields",
-        "on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_feeding"
+        "on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_livestock_entry"
     },
 }
 
