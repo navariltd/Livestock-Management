@@ -12,7 +12,7 @@ def on_submit_feeding(doc, method):
         doc (frappe.Document): The Stock Entry document being submitted.
         method (str): The hook method name (typically 'on_submit').
     """
-    if doc.purpose == "Material Issue" and doc.lvm_is_feeding:
+    if doc.purpose == "Material Issue" and doc.lvm_material_issue_purpose == "Feeding":
 
         for item in doc.items:
             if item.batch_no:
