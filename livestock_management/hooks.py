@@ -8,12 +8,15 @@ app_license = "mit"
 # Apps
 # ------------------
 
-required_apps = ['frappe/erpnext']
+required_apps = ["frappe/erpnext"]
 
 doc_events = {
     "Batch": {
         "before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save"
-    }
+    },
+    "Stock Entry": {
+        "on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_feeding"
+    },
 }
 
 # Each item in the list will be shown as an app in the apps page
@@ -261,4 +264,3 @@ doc_events = {
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-
