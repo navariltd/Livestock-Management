@@ -61,3 +61,14 @@ def validate_livestock_fields(doc, method):
         if doc.lvm_material_issue_purpose in ["Feeding", "Treatment"]:
             if not doc.lvm_employee or not doc.lvm_shift_type:
                 frappe.throw(f"Employee and Shift Type are mandatory for {doc.lvm_material_issue_purpose}.")
+
+    validate_egg_collection(doc)
+
+def validate_egg_collection(doc):
+    if doc.purpose == "Material Receipt" and doc.lvm_is_egg_collection:
+        if not doc.lvm_collector_name:
+            frappe.throw("Collector Name is mandatory for Egg Collection.")
+
+        for item in doc.items:
+            if not item.batch_no:
+                frappe.throw(f"Batch ID is mandatory for item {item.item_code} in Egg Collection.")
