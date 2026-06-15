@@ -1,0 +1,92 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "creation": "2026-06-16 00:49:37.698517",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "weight_capture_ref",
+  "item",
+  "batch",
+  "scheduled_date",
+  "column_break_omwg",
+  "actual_weight",
+  "status",
+  "completion_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "weight_capture_ref",
+   "fieldtype": "Link",
+   "label": "Weight Capture Ref",
+   "options": "Weight Capture"
+  },
+  {
+   "fetch_from": "weight_capture_ref.item",
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item"
+  },
+  {
+   "fetch_from": "weight_capture_ref.batch",
+   "fieldname": "batch",
+   "fieldtype": "Link",
+   "label": "Batch",
+   "options": "Batch"
+  },
+  {
+   "fieldname": "scheduled_date",
+   "fieldtype": "Date",
+   "label": "Scheduled Date"
+  },
+  {
+   "fieldname": "column_break_omwg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "actual_weight",
+   "fieldtype": "Float",
+   "label": "Actual Weight"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Completed\nCancelled\nPlanned\nOverdue"
+  },
+  {
+   "fieldname": "completion_date",
+   "fieldtype": "Date",
+   "label": "Completion Date"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-16 00:54:34.507134",
+ "modified_by": "Administrator",
+ "module": "Livestock Management",
+ "name": "Weight Log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
