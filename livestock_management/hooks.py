@@ -15,6 +15,7 @@ doc_events = {
         "before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save"
     },
     "Stock Entry": {
+        "validate": "livestock_management.livestock_management.overrides.stock_entry.validate_livestock_fields",
         "on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_feeding"
     },
 }

@@ -49,3 +49,15 @@ def create_repack_entry(feeding_doc, item_row):
 
     repack_doc.insert()
     repack_doc.submit()
+
+
+def validate_livestock_fields(doc, method):
+    if doc.purpose == "Material Issue":
+
+        if doc.lvm_material_issue_purpose == "Mortality Entry":
+            if not doc.lvm_mortality_reason:
+                frappe.throw("Mortality Reason is mandatory when Material Issue Purpose is 'Mortality Entry'.")
+
+        if doc.lvm_material_issue_purpose in ["Feeding", "Treatment"]:
+            if not doc.lvm_employee or not doc.lvm_shift_type:
+                frappe.throw(f"Employee and Shift Type are mandatory for {doc.lvm_material_issue_purpose}.")
