@@ -5,7 +5,7 @@ def on_submit_livestock_entry(doc, method):
     Handle Stock Entry submissions for Feeding and Treatment,
     creating repack entries for active batch capitalisation.
     """
-    if doc.purpose == "Material Issue" and doc.lvm_material_issue_purpose in ["Feeding", "Treatment"]:
+    if doc.purpose == "Material Issue" and doc.stock_entry_type in ["Feeding", "Treatment"]:
         for item in doc.items:
             if item.batch_no:
                 batch = frappe.get_doc("Batch", item.batch_no)
@@ -22,13 +22,13 @@ def create_repack_entry(source_doc, item_row):
 
     expense_account = None
 
-    if source_doc.lvm_material_issue_purpose == "Feeding":
+    if source_doc.stock_entry_type == "Feeding":
         expense_account = "Feeding-Expense-Account"
-    elif source_doc.lvm_material_issue_purpose == "Treatment":
+    elif source_doc.stock_entry_type == "Treatment":
         expense_account = "Treatment-Expense-Account"
 
     repack_doc.append("additional_costs", {
-        "description": f"Capitalizing {source_doc.lvm_material_issue_purpose} for batch {item_row.batch_no}",
+        "description": f"Capitalizing {source_doc.stock_entry_type} for batch {item_row.batch_no}",
         "amount": item_row.amount,
         "expense_account": expense_account
     })
@@ -45,14 +45,14 @@ def create_repack_entry(source_doc, item_row):
 
 def validate_livestock_fields(doc, method):
     if doc.purpose == "Material Issue":
-        if doc.lvm_material_issue_purpose == "Mortality Entry" and not doc.lvm_mortality_reason:
+        if doc.stock_entry_type == "Mortality Entry" and not doc.lvm_mortality_reason:
             frappe.throw("Mortality Reason is mandatory for Mortality Entry.")
 
-        if doc.lvm_material_issue_purpose in ["Feeding", "Treatment"]:
+        if doc.stock_entry_type in ["Feeding", "Treatment"]:
             if not doc.lvm_employee or not doc.lvm_shift_type:
-                frappe.throw(f"Employee and Shift Type are mandatory for {doc.lvm_material_issue_purpose}.")
+                frappe.throw(f"Employee and Shift Type are mandatory for {doc.stock_entry_type}.")
 
-            if doc.lvm_material_issue_purpose == "Treatment":
+            if doc.stock_entry_type == "Treatment":
                 if not doc.lvm_treatment_type:
                     frappe.throw("Treatment Type is mandatory for Treatment entries.")
 
