@@ -1,0 +1,59 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "creation": "2026-06-18 03:12:26.505688",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "default_feeding_expense_account",
+  "column_break_dznz",
+  "default_treatment_account_expense"
+ ],
+ "fields": [
+  {
+   "fieldname": "default_feeding_expense_account",
+   "fieldtype": "Link",
+   "label": "Default Feeding Expense Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "default_treatment_account_expense",
+   "fieldtype": "Link",
+   "label": "Default Treatment Account Expense",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "column_break_dznz",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-06-18 03:15:21.529253",
+ "modified_by": "Administrator",
+ "module": "Livestock Management",
+ "name": "Livestock Management Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
