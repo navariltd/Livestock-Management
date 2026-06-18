@@ -32,6 +32,7 @@ def create_repack_entry(source_doc, item_row):
     batch_doc = frappe.get_doc("Batch", source_doc.lvm_batch)
     warehouse = batch_doc.get("lvm_location")
     batch_qty = batch_doc.get("batch_qty")
+    batch_item = batch_doc.get("item")
 
     if not warehouse:
         frappe.throw(f"Batch {source_doc.lvm_batch} does not have a defined Location/Warehouse.")
@@ -46,8 +47,8 @@ def create_repack_entry(source_doc, item_row):
     # 4. Append two rows: Raw Material (s_warehouse) and Finished Good (t_warehouse)
     # Row 1: Source (Raw Material)
     repack_doc.append("items", {
-        "item_code": item_row.item_code,
-        "batch_no": item_row.batch_no,
+        "item_code": batch_item,
+        "batch_no": source_doc.lvm_batch,
         "s_warehouse": warehouse,
         "qty": batch_qty,  # Use the batch quantity for the source row
         "basic_rate": item_row.basic_rate,
@@ -56,8 +57,8 @@ def create_repack_entry(source_doc, item_row):
 
     # Row 2: Target (Finished Good)
     repack_doc.append("items", {
-        "item_code": item_row.item_code,
-        "batch_no": item_row.batch_no,
+        "item_code": batch_item,
+        "batch_no": source_doc.lvm_batch,
         "t_warehouse": warehouse,
         "qty": batch_qty,  # Use the batch quantity for the target row
         "basic_rate": item_row.basic_rate,
