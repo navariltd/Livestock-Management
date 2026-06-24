@@ -19,6 +19,10 @@ doc_events = {
     },
 }
 
+override_doctype_class = {
+    "Quality Inspection": "livestock_management.livestock_management.overrides.quality_inspection.CustomQualityInspection"
+}
+
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
 # 	{
