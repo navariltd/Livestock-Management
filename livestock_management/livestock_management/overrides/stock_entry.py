@@ -17,10 +17,10 @@ def on_submit_livestock_entry(doc, method):
 
 def create_repack_entry(source_doc, item_row):
     """
-    Create and submit a repack Stock Entry for a qualifying feed or treatment batch.
+    Create and submit a Capitalisation(repack) Stock Entry for a qualifying feed or treatment batch.
     """
     repack_doc = frappe.new_doc("Stock Entry")
-    repack_doc.stock_entry_type = "Repack"
+    repack_doc.stock_entry_type = "Capitalisation"
     repack_doc.purpose = "Material Transfer for Manufacture"
     repack_doc.company = source_doc.company
 
