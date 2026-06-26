@@ -8,7 +8,7 @@ app_license = "mit"
 # Apps
 # ------------------
 
-required_apps = ["frappe/erpnext"]
+required_apps = ["frappe/erpnext", "frappe/hrms"]
 
 doc_events = {
     "Batch": {
@@ -99,7 +99,7 @@ override_doctype_class = {
 # ------------
 
 # before_install = "livestock_management.install.before_install"
-# after_install = "livestock_management.install.after_install"
+after_install = "livestock_management.install.after_install"
 
 # Uninstallation
 # ------------
