@@ -19,6 +19,10 @@ def create_custom_stock_entry_types():
             "stock_entry_type": "Capitalisation",
             "purpose": "Repack",
         },
+        {
+			"stock_entry_type": "Mortality",
+			"purpose": "Material Issue",
+		}
     ]
 
     for entry_type in stock_entry_types:
