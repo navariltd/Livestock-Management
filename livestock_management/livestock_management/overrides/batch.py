@@ -18,4 +18,3 @@ def before_batch_save(doc, method):
 			doc.lvm_age_in_weeks = days // 7
 		except (ValueError, TypeError):
 			frappe.msgprint("Invalid date or capitalization days format.")
-

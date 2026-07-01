@@ -11,16 +11,14 @@ app_license = "mit"
 required_apps = ["frappe/erpnext", "frappe/hrms"]
 
 doc_events = {
-    "Batch": {
-        "before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save"
-    },
-    "Stock Entry": {
-        "on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_livestock_entry"
-    },
+	"Batch": {"before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save"},
+	"Stock Entry": {
+		"on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_livestock_entry"
+	},
 }
 
 override_doctype_class = {
-    "Quality Inspection": "livestock_management.livestock_management.overrides.quality_inspection.CustomQualityInspection"
+	"Quality Inspection": "livestock_management.livestock_management.overrides.quality_inspection.CustomQualityInspection"
 }
 
 # Each item in the list will be shown as an app in the apps page
