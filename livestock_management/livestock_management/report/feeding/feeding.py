@@ -2,10 +2,8 @@
 # For license information, please see license.txt
 
 import frappe
-
 from frappe import _
 from frappe.query_builder import DocType
-
 
 stock_entry = DocType("Stock Entry")
 stock_entry_detail = DocType("Stock Entry Detail")
@@ -61,6 +59,11 @@ def get_columns() -> list[dict]:
 			"fieldname": "valuation_rate",
 			"fieldtype": "Currency",
 		},
+		{
+			"label": _("Total Cost"),
+			"fieldname": "total_cost",
+			"fieldtype": "Currency",
+		},
 	]
 
 
@@ -101,6 +104,7 @@ def get_data(filters: dict | None = None) -> list[dict]:
 			stock_entry_detail.s_warehouse.as_("s_warehouse"),
 			stock_entry_detail.qty.as_("actual_qty"),
 			stock_entry_detail.valuation_rate.as_("valuation_rate"),
+			(stock_entry_detail.qty * stock_entry_detail.valuation_rate).as_("total_cost"),
 		)
 		.where(stock_entry.docstatus == 1)
 		.where(stock_entry.stock_entry_type == "Feeding")
@@ -112,6 +116,7 @@ def get_data(filters: dict | None = None) -> list[dict]:
 	query = apply_filters(query, filters, stock_entry, stock_entry_detail)
 
 	return query.run(as_dict=True)
+
 
 # def get_data(filters: dict | None = None) -> list[dict]:
 # 	filters = frappe._dict(filters or {})
