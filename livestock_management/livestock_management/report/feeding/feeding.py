@@ -77,6 +77,9 @@ def apply_filters(query, filters, stock_entry, stock_entry_detail):
 	if filters.get("company"):
 		query = query.where(stock_entry.company == filters.company)
 
+	if filters.get("stock_entry"):
+		query = query.where(stock_entry.name == filters.stock_entry)
+
 	if filters.get("item_code"):
 		query = query.where(stock_entry_detail.item_code == filters.item_code)
 
@@ -116,61 +119,3 @@ def get_data(filters: dict | None = None) -> list[dict]:
 	query = apply_filters(query, filters, stock_entry, stock_entry_detail)
 
 	return query.run(as_dict=True)
-
-
-# def get_data(filters: dict | None = None) -> list[dict]:
-# 	filters = frappe._dict(filters or {})
-
-# 	conditions = ["se.docstatus = 1"]
-
-# 	conditions.append("se.stock_entry_type = %(stock_entry_type)s")
-
-# 	query_filters = {
-# 		"stock_entry_type": "Feeding",
-# 	}
-
-# 	if filters and filters.get("posting_date"):
-# 		conditions.append("se.posting_date = %(posting_date)s")
-# 		query_filters["posting_date"] = filters['posting_date']
-
-# 	if filters and filters.get("company"):
-# 		conditions.append("se.company = %(company)s")
-# 		query_filters["company"] = filters['company']
-
-# 	if filters and filters.get("item_code"):
-# 		conditions.append("sed.item_code = %(item_code)s")
-# 		query_filters["item_code"] = filters['item_code']
-
-# 	if filters and filters.get("batch"):
-# 		conditions.append("se.lvm_batch = %(batch)s")
-# 		query_filters["batch"] = filters['batch']
-
-# 	if filters and filters.get("warehouse"):
-# 		conditions.append("sed.s_warehouse = %(warehouse)s")
-# 		query_filters["warehouse"] = filters['warehouse']
-
-# 	return frappe.db.sql(
-# 		f"""
-# 		SELECT
-# 			se.posting_date AS posting_date,
-# 			se.name AS stock_entry,
-# 			se.lvm_batch AS batch,
-# 			sed.item_code AS item_code,
-# 			sed.s_warehouse AS s_warehouse,
-# 			sed.qty AS actual_qty,
-# 			sed.valuation_rate AS valuation_rate
-# 		FROM
-# 			`tabStock Entry` se
-# 		INNER JOIN
-# 			`tabStock Entry Detail` sed
-# 			ON sed.parent = se.name
-# 		WHERE
-# 			{" AND ".join(conditions)}
-# 		ORDER BY
-# 			se.posting_date DESC,
-# 			se.posting_time DESC,
-# 			se.name DESC
-# 		""",
-# 		query_filters,
-# 		as_dict=True,
-# 	)
