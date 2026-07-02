@@ -20,7 +20,7 @@ frappe.query_reports["Mortality Report"] = {
 				return {
 					filters: {
 						docstatus: 1,
-						stock_entry_type: "Feeding",
+						stock_entry_type: "Mortality",
 					},
 				};
 			},
