@@ -1,5 +1,5 @@
 {
- "add_total_row": 0,
+ "add_total_row": 1,
  "add_translate_data": 0,
  "columns": [],
  "creation": "2026-06-30 13:48:36.399276",
@@ -11,7 +11,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": null,
- "modified": "2026-06-30 13:48:36.399276",
+ "modified": "2026-07-01 10:32:41.283734",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Feeding",

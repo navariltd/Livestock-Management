@@ -9,6 +9,21 @@ frappe.query_reports["Feeding"] = {
 			fieldtype: "Link",
 			options: "Company",
 			reqd: 1,
+			default: frappe.defaults.get_user_default("Company"),
+		},
+		{
+			fieldname: "stock_entry",
+			label: __("Stock Entry"),
+			fieldtype: "Link",
+			options: "Stock Entry",
+			get_query: function () {
+				return {
+					filters: {
+						docstatus: 1,
+						stock_entry_type: "Feeding",
+					},
+				};
+			},
 		},
 		{
 			fieldname: "posting_date",
