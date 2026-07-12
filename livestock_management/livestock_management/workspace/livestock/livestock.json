@@ -1,7 +1,7 @@
 {
  "app": "livestock_management",
  "charts": [],
- "content": "[]",
+ "content": "[{\"id\":\"t_EiNBvcom\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">Livestock Management</span>\",\"col\":12}},{\"id\":\"Lr-TL5XdJL\",\"type\":\"paragraph\",\"data\":{\"text\":\"Click on \\n\\t\\t\\t\\n\\t\\t\\t\\n\\t\\t to edit\",\"col\":12}},{\"id\":\"iaJ5qqsDPA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Feeding Entries\",\"col\":3}},{\"id\":\"F4yTVI1ufV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mortality Entries\",\"col\":3}},{\"id\":\"xojEH9X94D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Capitalization Entries\",\"col\":3}},{\"id\":\"jVsQpV0cBU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Egg Production\",\"col\":3}},{\"id\":\"Q1QZgA3b_h\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"mfIeeHKm-z\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"jz0ukC9wHD\",\"type\":\"card\",\"data\":{\"card_name\":\"Quality Inspection\",\"col\":4}},{\"id\":\"9QhB2fOlTl\",\"type\":\"card\",\"data\":{\"card_name\":\"Other Shortcuts\",\"col\":4}}]",
  "creation": "2026-07-12 23:17:00.898040",
  "custom_blocks": [],
  "docstatus": 0,
@@ -12,8 +12,127 @@
  "is_hidden": 0,
  "label": "Livestock",
  "link_type": "DocType",
- "links": [],
- "modified": "2026-07-12 23:19:39.576528",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Feeding Report",
+   "link_count": 0,
+   "link_to": "Feeding",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Mortality Report",
+   "link_count": 0,
+   "link_to": "Mortality Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "report_ref_doctype": "Stock Entry",
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Quality Inspection",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Quality Inspection",
+   "link_count": 0,
+   "link_to": "Quality Inspection",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Quality Inspection Template",
+   "link_count": 0,
+   "link_to": "Quality Inspection Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Quality Inspection Parameter Group",
+   "link_count": 0,
+   "link_to": "Quality Inspection Parameter Group",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Quality Inspection Parameter",
+   "link_count": 0,
+   "link_to": "Quality Inspection Parameter",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Other Shortcuts",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Batch",
+   "link_count": 0,
+   "link_to": "Batch",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Project",
+   "link_count": 0,
+   "link_to": "Project",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Invoice",
+   "link_count": 0,
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-07-12 23:34:53.322344",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
@@ -23,7 +142,40 @@
  "quick_lists": [],
  "roles": [],
  "sequence_id": 0.0,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Feeding Entries",
+   "link_to": "Stock Entry",
+   "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Feeding\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Mortality Entries",
+   "link_to": "Stock Entry",
+   "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Mortality\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Capitalization Entries",
+   "link_to": "Stock Entry",
+   "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Capitalisation\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Egg Production",
+   "link_to": "Stock Entry",
+   "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Egg Production\"]]",
+   "type": "DocType"
+  }
+ ],
  "title": "Livestock",
  "type": "Workspace"
 }
