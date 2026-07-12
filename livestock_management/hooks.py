@@ -13,7 +13,8 @@ required_apps = ["frappe/erpnext", "frappe/hrms"]
 doc_events = {
 	"Batch": {"before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save"},
 	"Stock Entry": {
-		"on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_livestock_entry"
+		"before_save": "livestock_management.livestock_management.overrides.stock_entry.before_save_livestock_entry",
+		"on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_livestock_entry",
 	},
 }
 

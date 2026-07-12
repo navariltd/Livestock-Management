@@ -6,35 +6,65 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "default_feeding_expense_account",
+  "default_stock_entry_difference_accounts_section",
+  "feeding_stock_entry_difference_account",
+  "capitalisation_stock_entry_difference_account",
+  "egg_production_stock_entry_difference_account",
   "column_break_dznz",
-  "default_treatment_account_expense"
+  "treatment_stock_entry_difference_account",
+  "mortality_stock_entry_difference_account"
  ],
  "fields": [
   {
-   "fieldname": "default_feeding_expense_account",
-   "fieldtype": "Link",
-   "label": "Default Feeding Expense Account",
-   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
-   "options": "Account"
-  },
-  {
-   "fieldname": "default_treatment_account_expense",
-   "fieldtype": "Link",
-   "label": "Default Treatment Account Expense",
-   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
-   "options": "Account"
-  },
-  {
    "fieldname": "column_break_dznz",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_stock_entry_difference_accounts_section",
+   "fieldtype": "Section Break",
+   "label": "Default Stock Entry Difference Accounts"
+  },
+  {
+   "fieldname": "feeding_stock_entry_difference_account",
+   "fieldtype": "Link",
+   "label": "Feeding Stock Entry Difference Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "treatment_stock_entry_difference_account",
+   "fieldtype": "Link",
+   "label": "Treatment Stock Entry Difference Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "capitalisation_stock_entry_difference_account",
+   "fieldtype": "Link",
+   "label": "Capitalisation Stock Entry Difference Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "egg_production_stock_entry_difference_account",
+   "fieldtype": "Link",
+   "label": "Egg Production Stock Entry Difference Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "mortality_stock_entry_difference_account",
+   "fieldtype": "Link",
+   "label": "Mortality Stock Entry Difference Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
+   "options": "Account"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-06-18 03:15:21.529253",
+ "modified": "2026-07-12 23:53:30.406408",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock Management Settings",

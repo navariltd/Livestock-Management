@@ -1,5 +1,29 @@
 import frappe
 
+STOCK_ENTRY_DIFFERENCE_ACCOUNT_FIELDS = {
+	"Feeding": "feeding_stock_entry_difference_account",
+	"Treatment": "treatment_stock_entry_difference_account",
+	"Capitalisation": "capitalisation_stock_entry_difference_account",
+	"Egg Production": "egg_production_stock_entry_difference_account",
+	"Mortality": "mortality_stock_entry_difference_account",
+}
+
+
+def before_save_livestock_entry(doc, method):
+	"""
+	Set Stock Entry Detail difference accounts from Livestock Management Settings.
+	"""
+	settings_field = STOCK_ENTRY_DIFFERENCE_ACCOUNT_FIELDS.get(doc.stock_entry_type)
+	if not settings_field:
+		return
+
+	expense_account = frappe.db.get_single_value("Livestock Management Settings", settings_field)
+	if not expense_account:
+		return
+
+	for item in doc.items:
+		item.expense_account = expense_account
+
 
 def on_submit_livestock_entry(doc, method):
 	"""
