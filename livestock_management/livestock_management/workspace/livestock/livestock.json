@@ -1,7 +1,7 @@
 {
  "app": "livestock_management",
  "charts": [],
- "content": "[{\"id\":\"t_EiNBvcom\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">Livestock Management</span>\",\"col\":12}},{\"id\":\"Lr-TL5XdJL\",\"type\":\"paragraph\",\"data\":{\"text\":\"Click on \\n\\t\\t\\t\\n\\t\\t\\t\\n\\t\\t to edit\",\"col\":12}},{\"id\":\"iaJ5qqsDPA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Feeding Entries\",\"col\":3}},{\"id\":\"F4yTVI1ufV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mortality Entries\",\"col\":3}},{\"id\":\"xojEH9X94D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Capitalization Entries\",\"col\":3}},{\"id\":\"jVsQpV0cBU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Egg Production\",\"col\":3}},{\"id\":\"Q1QZgA3b_h\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"mfIeeHKm-z\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"jz0ukC9wHD\",\"type\":\"card\",\"data\":{\"card_name\":\"Quality Inspection\",\"col\":4}},{\"id\":\"9QhB2fOlTl\",\"type\":\"card\",\"data\":{\"card_name\":\"Other Shortcuts\",\"col\":4}}]",
+ "content": "[{\"id\":\"t_EiNBvcom\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">Livestock Management</span>\",\"col\":12}},{\"id\":\"Lr-TL5XdJL\",\"type\":\"paragraph\",\"data\":{\"text\":\"Click on \\n\\t\\t\\t\\n\\t\\t\\t\\n\\t\\t to edit\",\"col\":12}},{\"id\":\"iaJ5qqsDPA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Feeding Entries\",\"col\":4}},{\"id\":\"F4yTVI1ufV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mortality Entries\",\"col\":4}},{\"id\":\"xojEH9X94D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Capitalization Entries\",\"col\":4}},{\"id\":\"ozYBXzeC8-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Treatment Entries\",\"col\":4}},{\"id\":\"jVsQpV0cBU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Egg Production\",\"col\":4}},{\"id\":\"oQvaHWFUnX\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Livestock Management Settings\",\"col\":4}},{\"id\":\"Q1QZgA3b_h\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"mfIeeHKm-z\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"jz0ukC9wHD\",\"type\":\"card\",\"data\":{\"card_name\":\"Quality Inspection\",\"col\":4}},{\"id\":\"9QhB2fOlTl\",\"type\":\"card\",\"data\":{\"card_name\":\"Other Shortcuts\",\"col\":4}}]",
  "creation": "2026-07-12 23:17:00.898040",
  "custom_blocks": [],
  "docstatus": 0,
@@ -132,7 +132,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-07-12 23:34:53.322344",
+ "modified": "2026-07-13 00:36:11.922840",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
@@ -154,9 +154,24 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "label": "Treatment Entries",
+   "link_to": "Stock Entry",
+   "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Treatment\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
    "label": "Mortality Entries",
    "link_to": "Stock Entry",
    "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Mortality\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Livestock Management Settings",
+   "link_to": "Livestock Management Settings",
    "type": "DocType"
   },
   {
