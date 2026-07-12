@@ -1,6 +1,6 @@
 {
  "app": "livestock_management",
- "creation": "2026-07-06 12:18:26.511142",
+ "creation": "2026-07-12 23:17:00.921714",
  "docstatus": 0,
  "doctype": "Workspace Sidebar",
  "idx": 0,
@@ -10,17 +10,17 @@
    "collapsible": 1,
    "indent": 0,
    "keep_closed": 0,
-   "label": "Livestock Mgmt",
-   "link_to": "Livestock Mgmt",
+   "label": "Livestock",
+   "link_to": "Livestock",
    "link_type": "Workspace",
    "show_arrow": 0,
    "type": "Link"
   }
  ],
- "modified": "2026-07-06 12:20:57.172098",
+ "modified": "2026-07-12 23:19:21.762194",
  "modified_by": "Administrator",
- "name": "Livestock Mgmt",
+ "name": "Livestock",
  "owner": "Administrator",
  "standard": 1,
- "title": "Livestock Mgmt"
+ "title": "Livestock"
 }
