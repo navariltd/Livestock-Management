@@ -2,6 +2,10 @@
 // For license information, please see license.txt
 
 frappe.query_reports["Mortality Report"] = {
+	tree: true,
+	name_field: "row_index",
+	parent_field: "parent_row_index",
+	initial_depth: 1,
 	filters: [
 		{
 			fieldname: "company",
