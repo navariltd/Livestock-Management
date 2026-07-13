@@ -127,10 +127,6 @@ def get_conditions(filters: frappe._dict) -> tuple[list[str], dict]:
 		conditions.append("se.posting_date = %(posting_date)s")
 		params["posting_date"] = filters.posting_date
 
-	if filters.get("batch"):
-		conditions.append("se.lvm_batch = %(batch)s")
-		params["batch"] = filters.batch
-
 	if filters.get("warehouse"):
 		conditions.append(
 			"""EXISTS (
@@ -199,11 +195,11 @@ def get_data(filters: dict | None = None) -> list[dict]:
 	detail_conditions = ["sed.parent IN %(stock_entries)s"]
 	detail_params = {"stock_entries": stock_entry_names}
 
-	if filters.get("warehouse"):
+	if filters and filters.get("warehouse"):
 		detail_conditions.append("sed.s_warehouse = %(warehouse)s")
 		detail_params["warehouse"] = filters.warehouse
 
-	if filters.get("item_code"):
+	if filters and filters.get("item_code"):
 		detail_conditions.append("sed.item_code = %(item_code)s")
 		detail_params["item_code"] = filters.item_code
 
@@ -213,6 +209,7 @@ def get_data(filters: dict | None = None) -> list[dict]:
 				sed.parent AS stock_entry,
 				sed.idx,
 				sed.item_code,
+				sed.batch_no AS batch,
 				sed.s_warehouse,
 				sed.qty AS quantity,
 				sed.valuation_rate,
@@ -256,6 +253,7 @@ def get_data(filters: dict | None = None) -> list[dict]:
 					"row_index": f"{parent_row_index}.{detail_index}",
 					"parent_row_index": parent_row_index,
 					"stock_entry": detail.stock_entry,
+					"batch": detail.batch,
 					"item_code": detail.item_code,
 					"s_warehouse": detail.s_warehouse,
 					"quantity": detail.quantity,

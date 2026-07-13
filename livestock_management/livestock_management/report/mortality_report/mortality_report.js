@@ -35,12 +35,6 @@ frappe.query_reports["Mortality Report"] = {
 			fieldtype: "Date",
 		},
 		{
-			fieldname: "batch",
-			label: __("Batch"),
-			fieldtype: "Link",
-			options: "Batch",
-		},
-		{
 			fieldname: "warehouse",
 			label: __("Source Warehouse"),
 			fieldtype: "Link",
