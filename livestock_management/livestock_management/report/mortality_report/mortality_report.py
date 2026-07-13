@@ -132,17 +132,6 @@ def get_conditions(filters: frappe._dict) -> tuple[list[str], dict]:
 		)
 		params["warehouse"] = filters.warehouse
 
-	if filters.get("item_code"):
-		conditions.append(
-			"""EXISTS (
-				SELECT 1
-				FROM `tabStock Entry Detail` sed_filter
-				WHERE sed_filter.parent = se.name
-					AND sed_filter.item_code = %(item_code)s
-			)"""
-		)
-		params["item_code"] = filters.item_code
-
 	return conditions, params
 
 
