@@ -3,6 +3,7 @@
 
 import frappe
 from frappe import _
+from frappe.utils import date_diff, nowdate
 
 READING_FIELDS = tuple(f"reading_{index}" for index in range(1, 11))
 
@@ -37,6 +38,18 @@ def get_columns() -> list[dict]:
 			"fieldtype": "Link",
 			"options": "Batch",
 			"width": 140,
+		},
+		{
+			"label": _("Age in Days"),
+			"fieldname": "age_in_days",
+			"fieldtype": "Int",
+			"width": 110,
+		},
+		{
+			"label": _("Age in Weeks"),
+			"fieldname": "age_in_weeks",
+			"fieldtype": "Int",
+			"width": 110,
 		},
 		{
 			"label": _("Sample Size"),
@@ -119,12 +132,13 @@ def get_data(filters: dict | None = None) -> list[dict]:
 	reading_sum = " + ".join(f"COALESCE(qir.{field}, 0)" for field in READING_FIELDS)
 	reading_count = " + ".join(f"CASE WHEN qir.{field} IS NULL THEN 0 ELSE 1 END" for field in READING_FIELDS)
 
-	return frappe.db.sql(
+	data = frappe.db.sql(
 		f"""
 			SELECT
 				qi.name AS quality_inspection,
 				qi.report_date AS inspection_date,
 				qi.batch_no AS batch,
+				b.manufacturing_date,
 				qi.sample_size,
 				qi.quality_inspection_template,
 				qir.specification AS parameter,
@@ -143,9 +157,23 @@ def get_data(filters: dict | None = None) -> list[dict]:
 			FROM `tabQuality Inspection` qi
 			INNER JOIN `tabQuality Inspection Reading` qir
 				ON qir.parent = qi.name
+			LEFT JOIN `tabBatch` b
+				ON b.name = qi.batch_no
 			WHERE {" AND ".join(conditions)}
 			ORDER BY qi.report_date DESC, qi.name DESC, qir.idx
 		""",
 		params,
 		as_dict=True,
 	)
+
+	today = nowdate()
+	for row in data:
+		manufacturing_date = row.get("manufacturing_date")
+		if not manufacturing_date:
+			continue
+
+		age_in_days = date_diff(today, manufacturing_date)
+		row["age_in_days"] = age_in_days
+		row["age_in_weeks"] = age_in_days // 7
+
+	return data
