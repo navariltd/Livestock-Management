@@ -27,12 +27,6 @@ def get_columns() -> list[dict]:
 	"""
 	return [
 		{
-			"label": _("#"),
-			"fieldname": "row_index",
-			"fieldtype": "Data",
-			"width": 80,
-		},
-		{
 			"label": _("Posting Date"),
 			"fieldname": "posting_date",
 			"fieldtype": "Date",
@@ -231,7 +225,6 @@ def get_data(filters: dict | None = None) -> list[dict]:
 		parent_row_index = str(stock_entry_index)
 		data.append(
 			{
-				"row_index": parent_row_index,
 				"posting_date": stock_entry.posting_date,
 				"stock_entry": stock_entry.stock_entry,
 				"batch": stock_entry.batch,
@@ -245,12 +238,9 @@ def get_data(filters: dict | None = None) -> list[dict]:
 			}
 		)
 
-		for detail_index, detail in enumerate(
-			details_by_stock_entry.get(stock_entry.stock_entry, []), start=1
-		):
+		for _idx, detail in enumerate(details_by_stock_entry.get(stock_entry.stock_entry, []), start=1):
 			data.append(
 				{
-					"row_index": f"{parent_row_index}.{detail_index}",
 					"parent_row_index": parent_row_index,
 					"stock_entry": detail.stock_entry,
 					"batch": detail.batch,

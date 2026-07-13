@@ -40,11 +40,5 @@ frappe.query_reports["Mortality Report"] = {
 			fieldtype: "Link",
 			options: "Warehouse",
 		},
-		{
-			fieldname: "item_code",
-			label: __("Item Code"),
-			fieldtype: "Link",
-			options: "Item",
-		},
 	],
 };
