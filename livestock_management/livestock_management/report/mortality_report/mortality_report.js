@@ -2,6 +2,10 @@
 // For license information, please see license.txt
 
 frappe.query_reports["Mortality Report"] = {
+	tree: true,
+	name_field: "row_index",
+	parent_field: "parent_row_index",
+	initial_depth: 1,
 	filters: [
 		{
 			fieldname: "company",
@@ -31,22 +35,10 @@ frappe.query_reports["Mortality Report"] = {
 			fieldtype: "Date",
 		},
 		{
-			fieldname: "batch",
-			label: __("Batch"),
-			fieldtype: "Link",
-			options: "Batch",
-		},
-		{
 			fieldname: "warehouse",
 			label: __("Source Warehouse"),
 			fieldtype: "Link",
 			options: "Warehouse",
-		},
-		{
-			fieldname: "item_code",
-			label: __("Item Code"),
-			fieldtype: "Link",
-			options: "Item",
 		},
 	],
 };

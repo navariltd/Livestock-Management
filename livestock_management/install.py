@@ -23,6 +23,10 @@ def create_custom_stock_entry_types():
 			"stock_entry_type": "Mortality",
 			"purpose": "Material Issue",
 		},
+		{
+			"stock_entry_type": "Production",
+			"purpose": "Material Receipt",
+		},
 	]
 
 	for entry_type in stock_entry_types:
