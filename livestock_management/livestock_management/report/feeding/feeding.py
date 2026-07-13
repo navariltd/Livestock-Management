@@ -4,7 +4,9 @@
 import frappe
 from frappe import _
 from frappe.query_builder import DocType
+from frappe.utils import date_diff, nowdate
 
+batch = DocType("Batch")
 stock_entry = DocType("Stock Entry")
 stock_entry_detail = DocType("Stock Entry Detail")
 
@@ -36,6 +38,16 @@ def get_columns() -> list[dict]:
 			"fieldname": "batch",
 			"fieldtype": "Link",
 			"options": "Batch",
+		},
+		{
+			"label": _("Age in Days"),
+			"fieldname": "age_in_days",
+			"fieldtype": "Int",
+		},
+		{
+			"label": _("Age in Weeks"),
+			"fieldname": "age_in_weeks",
+			"fieldtype": "Int",
 		},
 		{
 			"label": _("Item Code"),
@@ -72,22 +84,22 @@ def apply_filters(query, filters, stock_entry, stock_entry_detail):
 		return query
 
 	if filters.get("posting_date"):
-		query = query.where(stock_entry.posting_date == filters.posting_date)
+		query = query.where(stock_entry.posting_date == filters.get("posting_date"))
 
 	if filters.get("company"):
-		query = query.where(stock_entry.company == filters.company)
+		query = query.where(stock_entry.company == filters.get("company"))
 
 	if filters.get("stock_entry"):
-		query = query.where(stock_entry.name == filters.stock_entry)
+		query = query.where(stock_entry.name == filters.get("stock_entry"))
 
 	if filters.get("item_code"):
-		query = query.where(stock_entry_detail.item_code == filters.item_code)
+		query = query.where(stock_entry_detail.item_code == filters.get("item_code"))
 
 	if filters.get("batch"):
-		query = query.where(stock_entry.lvm_batch == filters.batch)
+		query = query.where(stock_entry.lvm_batch == filters.get("batch"))
 
 	if filters.get("warehouse"):
-		query = query.where(stock_entry_detail.s_warehouse == filters.warehouse)
+		query = query.where(stock_entry_detail.s_warehouse == filters.get("warehouse"))
 
 	return query
 
@@ -99,10 +111,13 @@ def get_data(filters: dict | None = None) -> list[dict]:
 		frappe.qb.from_(stock_entry)
 		.inner_join(stock_entry_detail)
 		.on(stock_entry_detail.parent == stock_entry.name)
+		.left_join(batch)
+		.on(batch.name == stock_entry.lvm_batch)
 		.select(
 			stock_entry.posting_date.as_("posting_date"),
 			stock_entry.name.as_("stock_entry"),
 			stock_entry.lvm_batch.as_("batch"),
+			batch.manufacturing_date.as_("manufacturing_date"),
 			stock_entry_detail.item_code.as_("item_code"),
 			stock_entry_detail.s_warehouse.as_("s_warehouse"),
 			stock_entry_detail.qty.as_("actual_qty"),
@@ -118,4 +133,16 @@ def get_data(filters: dict | None = None) -> list[dict]:
 
 	query = apply_filters(query, filters, stock_entry, stock_entry_detail)
 
-	return query.run(as_dict=True)
+	data = query.run(as_dict=True)
+	today = nowdate()
+
+	for row in data:
+		manufacturing_date = row.get("manufacturing_date")
+		if not manufacturing_date:
+			continue
+
+		age_in_days = date_diff(today, manufacturing_date)
+		row["age_in_days"] = age_in_days
+		row["age_in_weeks"] = age_in_days // 7
+
+	return data
