@@ -143,17 +143,16 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Livestock Inspection Report",
    "link_count": 0,
    "link_to": "Livestock Inspection Report",
    "link_type": "Report",
    "onboard": 0,
-   "report_ref_doctype": "Quality Inspection",
    "type": "Link"
   }
  ],
- "modified": "2026-07-14 02:14:48.143223",
+ "modified": "2026-07-16 22:25:27.713199",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
