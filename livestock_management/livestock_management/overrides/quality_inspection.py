@@ -4,6 +4,8 @@ from erpnext.stock.doctype.quality_inspection.quality_inspection import QualityI
 class CustomQualityInspection(QualityInspection):
 	def validate(self):
 		# Temporarily set fields to avoid mandatory error
+		if not self.inspection_type:
+			self.inspection_type = None
 		if not self.reference_type:
 			self.reference_type = None
 		if not self.reference_name:
