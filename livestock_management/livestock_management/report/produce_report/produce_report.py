@@ -161,26 +161,29 @@ def get_data(filters: dict | None = None) -> list[dict]:
 				se.lvm_batch AS batch,
 				b.manufacturing_date,
 				SUM(sed.qty) AS total_produce,
-				SUM(COALESCE(sle.qty_after_transaction - sle.actual_qty, 0)) AS opening_stock,
+				COALESCE(b.batch_qty, 0) AS opening_stock,
 				CASE
-					WHEN SUM(COALESCE(sle.qty_after_transaction - sle.actual_qty, 0)) = 0 THEN 0
+					WHEN COALESCE(b.batch_qty, 0) = 0 THEN 0
 					ELSE (
 						SUM(sed.qty)
-						/ SUM(COALESCE(sle.qty_after_transaction - sle.actual_qty, 0))
+						/ COALESCE(b.batch_qty, 0)
 					) * 100
 				END AS produce_percent,
 				SUM(sed.qty * sed.valuation_rate) AS total_cost
 			FROM `tabStock Entry` se
 			INNER JOIN `tabStock Entry Detail` sed
 				ON sed.parent = se.name
-			LEFT JOIN `tabStock Ledger Entry` sle
-				ON sle.voucher_no = se.name
-				AND sle.voucher_detail_no = sed.name
 			LEFT JOIN `tabBatch` b
 				ON b.name = se.lvm_batch
 			WHERE {where_clause}
 				AND sed.t_warehouse IS NOT NULL
-			GROUP BY se.name, se.posting_date, se.posting_time, se.lvm_batch, b.manufacturing_date
+			GROUP BY
+				se.name,
+				se.posting_date,
+				se.posting_time,
+				se.lvm_batch,
+				b.manufacturing_date,
+				b.batch_qty
 			ORDER BY se.posting_date DESC, se.posting_time DESC, se.name DESC
 		""",
 		params,
@@ -211,20 +214,21 @@ def get_data(filters: dict | None = None) -> list[dict]:
 				sed.batch_no AS batch,
 				sed.t_warehouse,
 				sed.qty AS total_produce,
-				COALESCE(sle.qty_after_transaction - sle.actual_qty, 0) AS opening_stock,
+				COALESCE(b.batch_qty, 0) AS opening_stock,
 				CASE
-					WHEN COALESCE(sle.qty_after_transaction - sle.actual_qty, 0) = 0 THEN 0
+					WHEN COALESCE(b.batch_qty, 0) = 0 THEN 0
 					ELSE (
 						sed.qty
-						/ COALESCE(sle.qty_after_transaction - sle.actual_qty, 0)
+						/ COALESCE(b.batch_qty, 0)
 					) * 100
 				END AS produce_percent,
 				sed.valuation_rate,
 				(sed.qty * sed.valuation_rate) AS total_cost
 			FROM `tabStock Entry Detail` sed
-			LEFT JOIN `tabStock Ledger Entry` sle
-				ON sle.voucher_no = sed.parent
-				AND sle.voucher_detail_no = sed.name
+			INNER JOIN `tabStock Entry` se
+				ON se.name = sed.parent
+			LEFT JOIN `tabBatch` b
+				ON b.name = se.lvm_batch
 			WHERE {" AND ".join(detail_conditions)}
 			ORDER BY sed.parent, sed.idx
 		""",
