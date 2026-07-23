@@ -131,6 +131,30 @@ def get_data(filters: dict | None = None) -> list[dict]:
 	conditions, params = get_conditions(filters)
 	reading_sum = " + ".join(f"COALESCE(qir.{field}, 0)" for field in READING_FIELDS)
 	reading_count = " + ".join(f"CASE WHEN qir.{field} IS NULL THEN 0 ELSE 1 END" for field in READING_FIELDS)
+	value_based_reading = """
+		(
+			COALESCE(qir.numeric, 0) = 0
+			OR (
+				COALESCE(qir.min_value, 0) = 0
+				AND COALESCE(qir.max_value, 0) = 0
+			)
+		)
+	"""
+	standard_reading = f"""
+		CASE
+			WHEN {value_based_reading}
+			THEN CAST(NULLIF(qir.value, '') AS DECIMAL(21, 9))
+			ELSE (COALESCE(qir.min_value, 0) + COALESCE(qir.max_value, 0)) / 2
+		END
+	"""
+	actual_reading = f"""
+		CASE
+			WHEN {value_based_reading}
+			THEN CAST(NULLIF(qir.reading_value, '') AS DECIMAL(21, 9))
+			WHEN ({reading_count}) = 0 THEN NULL
+			ELSE ({reading_sum}) / ({reading_count})
+		END
+	"""
 
 	data = frappe.db.sql(
 		f"""
@@ -142,17 +166,11 @@ def get_data(filters: dict | None = None) -> list[dict]:
 				qi.sample_size,
 				qi.quality_inspection_template,
 				qir.specification AS parameter,
-				((COALESCE(qir.min_value, 0) + COALESCE(qir.max_value, 0)) / 2) AS standard_reading,
+				({standard_reading}) AS standard_reading,
+				({actual_reading}) AS actual_reading,
 				CASE
-					WHEN ({reading_count}) = 0 THEN NULL
-					ELSE ({reading_sum}) / ({reading_count})
-				END AS actual_reading,
-				CASE
-					WHEN ({reading_count}) = 0 THEN NULL
-					ELSE (
-						(({reading_sum}) / ({reading_count}))
-						- ((COALESCE(qir.min_value, 0) + COALESCE(qir.max_value, 0)) / 2)
-					)
+					WHEN ({actual_reading}) IS NULL THEN NULL
+					ELSE ({actual_reading}) - ({standard_reading})
 				END AS variance
 			FROM `tabQuality Inspection` qi
 			INNER JOIN `tabQuality Inspection Reading` qir

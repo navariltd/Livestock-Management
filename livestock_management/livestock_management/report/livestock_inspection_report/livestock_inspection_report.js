@@ -25,9 +25,9 @@ frappe.query_reports["Livestock Inspection Report"] = {
 			},
 		},
 		{
-			fieldname: "from_date",
 			label: __("From Date"),
 			fieldtype: "Date",
+			fieldname: "from_date",
 		},
 		{
 			fieldname: "to_date",
