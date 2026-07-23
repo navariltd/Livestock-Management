@@ -13,7 +13,6 @@ def execute(filters: dict | None = None):
 
 	columns = get_columns()
 	data = get_data(filters)
-	print()
 
 	return columns, data
 
@@ -157,8 +156,6 @@ def get_data(filters: dict | None = None) -> list[dict]:
 		END
 	"""
 
-	print(f"\n\n\nDEBUG: standard_reading: {standard_reading}")
-
 	data = frappe.db.sql(
 		f"""
 			SELECT
@@ -196,9 +193,5 @@ def get_data(filters: dict | None = None) -> list[dict]:
 		age_in_days = date_diff(today, manufacturing_date)
 		row["age_in_days"] = age_in_days
 		row["age_in_weeks"] = age_in_days // 7
-
-		print(
-			f"DEBUG: Quality Inspection: {row['quality_inspection']}, Quality Inspection Template: {row['quality_inspection_template']}, Parameter: {row['parameter']}, Standard Reading: {row['standard_reading']}, Actual Reading: {row['actual_reading']}, Variance: {row['variance']}"
-		)
 
 	return data
