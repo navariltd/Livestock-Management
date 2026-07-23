@@ -40,6 +40,11 @@ def get_columns() -> list[dict]:
 			"options": "Batch",
 		},
 		{
+			"label": _("Batch Qty"),
+			"fieldname": "batch_qty",
+			"fieldtype": "Float",
+		},
+		{
 			"label": _("Age in Days"),
 			"fieldname": "age_in_days",
 			"fieldtype": "Int",
@@ -118,6 +123,7 @@ def get_data(filters: dict | None = None) -> list[dict]:
 			stock_entry.name.as_("stock_entry"),
 			stock_entry.lvm_batch.as_("batch"),
 			batch.manufacturing_date.as_("manufacturing_date"),
+			batch.batch_qty.as_("batch_qty"),
 			stock_entry_detail.item_code.as_("item_code"),
 			stock_entry_detail.s_warehouse.as_("s_warehouse"),
 			stock_entry_detail.qty.as_("actual_qty"),
