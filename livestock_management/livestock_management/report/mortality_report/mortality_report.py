@@ -47,26 +47,6 @@ def get_columns() -> list[dict]:
 			"width": 140,
 		},
 		{
-			"label": _("Item Code"),
-			"fieldname": "item_code",
-			"fieldtype": "Link",
-			"options": "Item",
-			"width": 170,
-		},
-		{
-			"label": _("Warehouse"),
-			"fieldname": "s_warehouse",
-			"fieldtype": "Link",
-			"options": "Warehouse",
-			"width": 180,
-		},
-		{
-			"label": _("Quantity"),
-			"fieldname": "quantity",
-			"fieldtype": "Float",
-			"width": 110,
-		},
-		{
 			"label": _("Opening Qty"),  # sle.qty_after_transaction + abs(sle.actual_qty)
 			"fieldname": "opening_qty",
 			"fieldtype": "Float",
@@ -89,12 +69,6 @@ def get_columns() -> list[dict]:
 			"fieldname": "mortality_rate",
 			"fieldtype": "Percent",
 			"width": 120,
-		},
-		{
-			"label": _("Valuation Rate"),
-			"fieldname": "valuation_rate",
-			"fieldtype": "Currency",
-			"width": 130,
 		},
 		{
 			"label": _("Total Cost"),
@@ -171,75 +145,4 @@ def get_data(filters: dict | None = None) -> list[dict]:
 		as_dict=True,
 	)
 
-	if not stock_entries:
-		return []
-
-	stock_entry_names = [entry.stock_entry for entry in stock_entries]
-	detail_conditions = ["sed.parent IN %(stock_entries)s"]
-	detail_params = {"stock_entries": stock_entry_names}
-
-	if filters and filters.get("warehouse"):
-		detail_conditions.append("sed.s_warehouse = %(warehouse)s")
-		detail_params["warehouse"] = filters.warehouse
-
-	if filters and filters.get("item_code"):
-		detail_conditions.append("sed.item_code = %(item_code)s")
-		detail_params["item_code"] = filters.item_code
-
-	details = frappe.db.sql(
-		f"""
-			SELECT
-				sed.parent AS stock_entry,
-				sed.idx,
-				sed.item_code,
-				sed.batch_no AS batch,
-				sed.s_warehouse,
-				sed.qty AS quantity,
-				sed.valuation_rate,
-				(sed.qty * sed.valuation_rate) AS total_cost
-			FROM `tabStock Entry Detail` sed
-			WHERE {" AND ".join(detail_conditions)}
-			ORDER BY sed.parent, sed.idx
-		""",
-		detail_params,
-		as_dict=True,
-	)
-
-	details_by_stock_entry = {}
-	for detail in details:
-		details_by_stock_entry.setdefault(detail.stock_entry, []).append(detail)
-
-	data = []
-	for stock_entry_index, stock_entry in enumerate(stock_entries, start=1):
-		parent_row_index = str(stock_entry_index)
-		data.append(
-			{
-				"posting_date": stock_entry.posting_date,
-				"stock_entry": stock_entry.stock_entry,
-				"batch": stock_entry.batch,
-				"opening_qty": stock_entry.opening_qty,
-				"closing_qty": stock_entry.closing_qty,
-				"dead_stock": stock_entry.dead_stock,
-				"mortality_rate": stock_entry.mortality_rate,
-				"total_cost": stock_entry.total_cost,
-				"indent": 0,
-				"is_group": 1,
-			}
-		)
-
-		for _idx, detail in enumerate(details_by_stock_entry.get(stock_entry.stock_entry, []), start=1):
-			data.append(
-				{
-					"parent_row_index": parent_row_index,
-					"stock_entry": detail.stock_entry,
-					"batch": detail.batch,
-					"item_code": detail.item_code,
-					"s_warehouse": detail.s_warehouse,
-					"quantity": detail.quantity,
-					"valuation_rate": detail.valuation_rate,
-					"total_cost": detail.total_cost,
-					"indent": 1,
-				}
-			)
-
-	return data
+	return stock_entries
