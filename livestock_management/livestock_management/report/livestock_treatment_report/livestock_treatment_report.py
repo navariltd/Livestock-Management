@@ -130,7 +130,6 @@ def get_conditions(filters: frappe._dict) -> tuple[list[str], dict]:
 	filter_map = {
 		"company": "se.company",
 		"stock_entry": "se.name",
-		"posting_date": "se.posting_date",
 		"batch": "se.lvm_batch",
 		"treatment_type": "se.lvm_treatment_type",
 		"warehouse": "sed.s_warehouse",
@@ -141,6 +140,14 @@ def get_conditions(filters: frappe._dict) -> tuple[list[str], dict]:
 		if filters.get(filter_name):
 			conditions.append(f"{database_field} = %({filter_name})s")
 			params[filter_name] = filters.get(filter_name)
+
+	if filters.get("from_date"):
+		conditions.append("se.posting_date >= %(from_date)s")
+		params["from_date"] = filters.get("from_date")
+
+	if filters.get("to_date"):
+		conditions.append("se.posting_date <= %(to_date)s")
+		params["to_date"] = filters.get("to_date")
 
 	return conditions, params
 
