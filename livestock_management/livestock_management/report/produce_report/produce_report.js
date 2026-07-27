@@ -16,6 +16,16 @@ frappe.query_reports["Produce Report"] = {
 			default: frappe.defaults.get_user_default("Company"),
 		},
 		{
+			fieldname: "from_date",
+			label: __("From Date"),
+			fieldtype: "Date",
+		},
+		{
+			fieldname: "to_date",
+			label: __("To Date"),
+			fieldtype: "Date",
+		},
+		{
 			fieldname: "stock_entry",
 			label: __("Stock Entry"),
 			fieldtype: "Link",
@@ -28,11 +38,6 @@ frappe.query_reports["Produce Report"] = {
 					},
 				};
 			},
-		},
-		{
-			fieldname: "posting_date",
-			label: __("Posting Date"),
-			fieldtype: "Date",
 		},
 		{
 			fieldname: "batch",

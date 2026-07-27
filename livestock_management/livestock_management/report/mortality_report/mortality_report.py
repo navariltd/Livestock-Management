@@ -91,9 +91,13 @@ def get_conditions(filters: frappe._dict) -> tuple[list[str], dict]:
 		conditions.append("se.name = %(stock_entry)s")
 		params["stock_entry"] = filters.stock_entry
 
-	if filters.get("posting_date"):
-		conditions.append("se.posting_date = %(posting_date)s")
-		params["posting_date"] = filters.posting_date
+	if filters.get("from_date"):
+		conditions.append("se.posting_date >= %(from_date)s")
+		params["from_date"] = filters.from_date
+
+	if filters.get("to_date"):
+		conditions.append("se.posting_date <= %(to_date)s")
+		params["to_date"] = filters.to_date
 
 	if filters.get("warehouse"):
 		conditions.append(
