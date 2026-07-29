@@ -105,7 +105,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Reports",
-   "link_count": 4,
+   "link_count": 5,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -122,13 +122,12 @@
   },
   {
    "hidden": 0,
-   "is_query_report": 0,
+   "is_query_report": 1,
    "label": "Mortality Report",
    "link_count": 0,
    "link_to": "Mortality Report",
    "link_type": "Report",
    "onboard": 0,
-   "report_ref_doctype": "Stock Entry",
    "type": "Link"
   },
   {
@@ -150,9 +149,19 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Livestock Treatment Report",
+   "link_count": 0,
+   "link_to": "Livestock Treatment Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-07-16 22:25:27.713199",
+ "modified": "2026-07-29 10:44:23.447180",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
