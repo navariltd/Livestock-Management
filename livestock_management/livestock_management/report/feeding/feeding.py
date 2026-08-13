@@ -88,8 +88,11 @@ def apply_filters(query, filters, stock_entry, stock_entry_detail):
 	if not filters:
 		return query
 
-	if filters.get("posting_date"):
-		query = query.where(stock_entry.posting_date == filters.get("posting_date"))
+	if filters.get("from_date"):
+		query = query.where(stock_entry.posting_date >= filters.get("from_date"))
+
+	if filters.get("to_date"):
+		query = query.where(stock_entry.posting_date <= filters.get("to_date"))
 
 	if filters.get("company"):
 		query = query.where(stock_entry.company == filters.get("company"))

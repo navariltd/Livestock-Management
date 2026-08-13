@@ -22,6 +22,12 @@ override_doctype_class = {
 	"Quality Inspection": "livestock_management.livestock_management.overrides.quality_inspection.CustomQualityInspection"
 }
 
+fixtures = [
+	{
+		"doctype": "Custom Field",
+		"filters": [["name", "in", ["Stock Entry-custom_source_material_issue"]]],
+	}
+]
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
 # 	{

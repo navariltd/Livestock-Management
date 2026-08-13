@@ -8,6 +8,8 @@ STOCK_ENTRY_DIFFERENCE_ACCOUNT_FIELDS = {
 	"Mortality": "mortality_stock_entry_difference_account",
 }
 
+CAPITALIZABLE_STOCK_ENTRY_TYPES = {"Feeding", "Treatment"}
+
 
 def before_save_livestock_entry(doc, method):
 	"""
@@ -27,10 +29,10 @@ def before_save_livestock_entry(doc, method):
 
 def on_submit_livestock_entry(doc, method):
 	"""
-	Handle Stock Entry submissions for Feeding and Treatment,
+	Handle qualifying livestock Stock Entry submissions,
 	creating repack entries for active batch capitalisation.
 	"""
-	if doc.purpose == "Material Issue" and doc.stock_entry_type in ["Feeding", "Treatment"]:
+	if doc.purpose == "Material Issue" and doc.stock_entry_type in CAPITALIZABLE_STOCK_ENTRY_TYPES:
 		if not doc.items:
 			return
 
@@ -43,13 +45,18 @@ def on_submit_livestock_entry(doc, method):
 
 def create_repack_entry(source_doc, item_row):
 	"""
-	Create and submit a Capitalisation(repack) Stock Entry for a qualifying feed or treatment batch.
+	Create and submit a Capitalisation (repack) Stock Entry for a qualifying livestock entry.
 	"""
 	repack_doc = frappe.new_doc("Stock Entry")
 	repack_doc.stock_entry_type = "Capitalisation"
 	repack_doc.purpose = "Material Transfer for Manufacture"
 	repack_doc.company = source_doc.company
+	repack_doc.lvm_source_material_issue = source_doc.name
+
+	# Explicitly copy posting details and ensure posting time can be manually set
+	repack_doc.set_posting_time = 1
 	repack_doc.posting_date = source_doc.posting_date
+	repack_doc.posting_time = source_doc.posting_time
 
 	# 1. Fetch Expense Account from the first item of the source document
 	first_item = source_doc.items[0]
