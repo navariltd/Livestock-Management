@@ -25,7 +25,7 @@ override_doctype_class = {
 fixtures = [
 	{
 		"doctype": "Custom Field",
-		"filters": [["name", "in", ["Stock Entry-custom_capitalization_entry"]]],
+		"filters": [["name", "in", ["Stock Entry-custom_source_material_issue"]]],
 	}
 ]
 # Each item in the list will be shown as an app in the apps page
