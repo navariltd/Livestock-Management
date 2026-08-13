@@ -8,6 +8,8 @@ STOCK_ENTRY_DIFFERENCE_ACCOUNT_FIELDS = {
 	"Mortality": "mortality_stock_entry_difference_account",
 }
 
+CAPITALIZABLE_STOCK_ENTRY_TYPES = {"Feeding", "Treatment"}
+
 
 def before_save_livestock_entry(doc, method):
 	"""
@@ -27,23 +29,28 @@ def before_save_livestock_entry(doc, method):
 
 def on_submit_livestock_entry(doc, method):
 	"""
-	Handle Stock Entry submissions for Feeding and Treatment,
+	Handle qualifying livestock Stock Entry submissions,
 	creating repack entries for active batch capitalisation.
 	"""
-	if doc.purpose == "Material Issue" and doc.stock_entry_type in ["Feeding", "Treatment"]:
+	if doc.purpose == "Material Issue" and doc.stock_entry_type in CAPITALIZABLE_STOCK_ENTRY_TYPES:
 		if not doc.items:
 			return
 
 		for item in doc.items:
 			batch = frappe.get_doc("Batch", doc.lvm_batch)
 			if batch.get("lvm_capitalisation_status") == "Active":
-				create_repack_entry(doc, item)
+				capitalization_entry = create_repack_entry(doc, item)
+				doc.db_set(
+					"lm_capitalization_entry",
+					capitalization_entry.name,
+					update_modified=False,
+				)
 				break
 
 
 def create_repack_entry(source_doc, item_row):
 	"""
-	Create and submit a Capitalisation(repack) Stock Entry for a qualifying feed or treatment batch.
+	Create and submit a Capitalisation (repack) Stock Entry for a qualifying livestock entry.
 	"""
 	repack_doc = frappe.new_doc("Stock Entry")
 	repack_doc.stock_entry_type = "Capitalisation"
@@ -108,3 +115,4 @@ def create_repack_entry(source_doc, item_row):
 
 	repack_doc.insert()
 	repack_doc.submit()
+	return repack_doc
