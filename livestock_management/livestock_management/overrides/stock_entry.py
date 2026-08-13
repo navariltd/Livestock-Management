@@ -49,7 +49,11 @@ def create_repack_entry(source_doc, item_row):
 	repack_doc.stock_entry_type = "Capitalisation"
 	repack_doc.purpose = "Material Transfer for Manufacture"
 	repack_doc.company = source_doc.company
+
+	# Explicitly copy posting details and ensure posting time can be manually set
+	repack_doc.set_posting_time = 1
 	repack_doc.posting_date = source_doc.posting_date
+	repack_doc.posting_time = source_doc.posting_time
 
 	# 1. Fetch Expense Account from the first item of the source document
 	first_item = source_doc.items[0]
