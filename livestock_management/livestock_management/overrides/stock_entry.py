@@ -39,12 +39,7 @@ def on_submit_livestock_entry(doc, method):
 		for item in doc.items:
 			batch = frappe.get_doc("Batch", doc.lvm_batch)
 			if batch.get("lvm_capitalisation_status") == "Active":
-				capitalization_entry = create_repack_entry(doc, item)
-				doc.db_set(
-					"lm_capitalization_entry",
-					capitalization_entry.name,
-					update_modified=False,
-				)
+				create_repack_entry(doc, item)
 				break
 
 
@@ -56,6 +51,7 @@ def create_repack_entry(source_doc, item_row):
 	repack_doc.stock_entry_type = "Capitalisation"
 	repack_doc.purpose = "Material Transfer for Manufacture"
 	repack_doc.company = source_doc.company
+	repack_doc.lvm_source_material_issue = source_doc.name
 
 	# Explicitly copy posting details and ensure posting time can be manually set
 	repack_doc.set_posting_time = 1
@@ -115,4 +111,3 @@ def create_repack_entry(source_doc, item_row):
 
 	repack_doc.insert()
 	repack_doc.submit()
-	return repack_doc
