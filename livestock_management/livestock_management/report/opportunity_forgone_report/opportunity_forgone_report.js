@@ -25,6 +25,13 @@ frappe.query_reports["Opportunity Forgone Report"] = {
 			default: frappe.datetime.get_today(),
 		},
 		{
+			fieldname: "selling_price_list",
+			label: __("Selling Price List"),
+			fieldtype: "Link",
+			options: "Price List",
+			reqd: 1,
+		},
+		{
 			fieldname: "repack_entry",
 			label: __("Repack Entry"),
 			fieldtype: "Link",
@@ -36,12 +43,6 @@ frappe.query_reports["Opportunity Forgone Report"] = {
 					},
 				};
 			},
-		},
-		{
-			fieldname: "selling_price_list",
-			label: __("Selling Price List"),
-			fieldtype: "Link",
-			options: "Price List",
 		},
 	],
 	onload: function (report) {

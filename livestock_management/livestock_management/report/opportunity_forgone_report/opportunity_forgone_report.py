@@ -3,6 +3,12 @@
 
 import frappe
 from frappe import _
+from frappe.query_builder import DocType
+from frappe.query_builder.functions import Coalesce
+
+stock_entry = DocType("Stock Entry")
+stock_entry_detail = DocType("Stock Entry Detail")
+item_price = DocType("Item Price")
 
 
 def execute(filters: dict | None = None):
@@ -118,103 +124,108 @@ def get_columns() -> list[dict]:
 
 
 def get_data(filters: frappe._dict) -> list[dict]:
-    conditions = [
-        "se.stock_entry_type = 'Capitalisation'",
-        "se.docstatus = 1",
-    ]
-    params = {"selling_price_list": None}
-
-    if filters.get("company"):
-        conditions.append("se.company = %(company)s")
-        params["company"] = filters.company
-    if filters.get("from_date"):
-        conditions.append("se.posting_date >= %(from_date)s")
-        params["from_date"] = filters.from_date
-    if filters.get("to_date"):
-        conditions.append("se.posting_date <= %(to_date)s")
-        params["to_date"] = filters.to_date
-    if filters.get("repack_entry"):
-        conditions.append("se.name = %(repack_entry)s")
-        params["repack_entry"] = filters.repack_entry
-
+    filters = frappe._dict(filters or {})
     price_list = filters.get("selling_price_list") or frappe.db.get_single_value(
         "Selling Settings", "selling_price_list"
     )
-    params["selling_price_list"] = price_list
 
-    entries = frappe.db.sql(
-        f"""
-			SELECT
-				se.name AS repack_entry,
-				se.posting_date,
-				se.posting_time,
-				sed.idx,
-				sed.item_code,
-				sed.s_warehouse,
-				sed.t_warehouse,
-				sed.qty,
-				sed.valuation_rate,
-				COALESCE(
-					(
-						SELECT ip.price_list_rate
-						FROM `tabItem Price` ip
-						WHERE ip.item_code = sed.item_code
-							AND ip.price_list = %(selling_price_list)s
-							AND ip.selling = 1
-							AND (ip.valid_from IS NULL OR ip.valid_from <= se.posting_date)
-							AND (ip.valid_upto IS NULL OR ip.valid_upto >= se.posting_date)
-						ORDER BY ip.valid_from DESC, ip.creation DESC
-						LIMIT 1
-					),
-					0
-				) AS selling_price
-			FROM `tabStock Entry` se
-			INNER JOIN `tabStock Entry Detail` sed ON sed.parent = se.name
-			WHERE {" AND ".join(conditions)}
-				AND (sed.s_warehouse IS NOT NULL OR sed.t_warehouse IS NOT NULL)
-			ORDER BY se.posting_date DESC, se.posting_time DESC, se.name DESC, sed.idx
-		""",
-        params,
-        as_dict=True,
+    price_query = (
+        frappe.qb.from_(item_price)
+        .select(item_price.price_list_rate)
+        .where(item_price.item_code == stock_entry_detail.item_code)
+        .where(item_price.price_list == price_list)
+        .where(item_price.selling == 1)
+        .where(
+            (item_price.valid_from.isnull())
+            | (item_price.valid_from <= stock_entry.posting_date)
+        )
+        .where(
+            (item_price.valid_upto.isnull())
+            | (item_price.valid_upto >= stock_entry.posting_date)
+        )
+        .orderby(item_price.valid_from, order=frappe.qb.desc)
+        .orderby(item_price.creation, order=frappe.qb.desc)
+        .limit(1)
     )
 
-    if not entries:
-        return []
+    query = (
+        frappe.qb.from_(stock_entry)
+        .inner_join(stock_entry_detail)
+        .on(stock_entry_detail.parent == stock_entry.name)
+        .select(
+            stock_entry.name.as_("repack_entry"),
+            stock_entry.posting_date,
+            stock_entry.posting_time,
+            stock_entry_detail.idx,
+            stock_entry_detail.item_code,
+            stock_entry_detail.s_warehouse,
+            stock_entry_detail.t_warehouse,
+            stock_entry_detail.qty,
+            stock_entry_detail.valuation_rate,
+            Coalesce(price_query, 0).as_("selling_price"),
+        )
+        .where(stock_entry.stock_entry_type == "Capitalisation")
+        .where(stock_entry.docstatus == 1)
+        .where(
+            (stock_entry_detail.s_warehouse.isnotnull())
+            | (stock_entry_detail.t_warehouse.isnotnull())
+        )
+        .orderby(stock_entry.posting_date, order=frappe.qb.desc)
+        .orderby(stock_entry.posting_time, order=frappe.qb.desc)
+        .orderby(stock_entry.name, order=frappe.qb.desc)
+        .orderby(stock_entry_detail.idx)
+    )
 
+    query = apply_filters(query, filters)
+    return build_tree_rows(query.run(as_dict=True))
+
+
+def apply_filters(query, filters: frappe._dict):
+    if filters.get("company"):
+        query = query.where(stock_entry.company == filters.company)
+    if filters.get("from_date"):
+        query = query.where(stock_entry.posting_date >= filters.from_date)
+    if filters.get("to_date"):
+        query = query.where(stock_entry.posting_date <= filters.to_date)
+    if filters.get("repack_entry"):
+        query = query.where(stock_entry.name == filters.repack_entry)
+
+    return query
+
+
+def build_tree_rows(details: list[dict]) -> list[dict]:
     entries_by_repack = {}
-    for entry in entries:
-        entries_by_repack.setdefault(entry.repack_entry, []).append(entry)
+    for detail in details:
+        entries_by_repack.setdefault(detail.repack_entry, []).append(detail)
 
     data = []
-    for entry_index, (repack_entry, details) in enumerate(
+    for entry_index, (repack_entry, entry_details) in enumerate(
         entries_by_repack.items(), start=1
     ):
+        parent_index = str(entry_index)
+        for detail in entry_details:
+            total_selling = detail.selling_price * detail.qty
+            total_valuation = detail.valuation_rate * detail.qty
+            detail.profit = total_selling - total_valuation
+
         source_profit = sum(
-            (detail.selling_price * detail.qty) - (detail.valuation_rate * detail.qty)
-            for detail in details
-            if detail.s_warehouse
+            detail.profit for detail in entry_details if detail.s_warehouse
         )
         destination_profit = sum(
-            (detail.selling_price * detail.qty) - (detail.valuation_rate * detail.qty)
-            for detail in details
-            if detail.t_warehouse
+            detail.profit for detail in entry_details if detail.t_warehouse
         )
-        parent_index = str(entry_index)
-
         data.append(
             {
                 "row_index": parent_index,
                 "repack_entry": repack_entry,
-                "posting_date": details[0].posting_date,
+                "posting_date": entry_details[0].posting_date,
                 "opportunity_forgone": source_profit - destination_profit,
                 "indent": 0,
                 "is_group": 1,
             }
         )
 
-        for detail_index, detail in enumerate(details, start=1):
-            total_selling = detail.selling_price * detail.qty
-            total_valuation = detail.valuation_rate * detail.qty
+        for detail_index, detail in enumerate(entry_details, start=1):
             data.append(
                 {
                     "row_index": f"{parent_index}.{detail_index}",
@@ -227,9 +238,9 @@ def get_data(filters: frappe._dict) -> list[dict]:
                     "qty": detail.qty,
                     "valuation_rate": detail.valuation_rate,
                     "selling_price": detail.selling_price,
-                    "total_valuation": total_valuation,
-                    "total_selling": total_selling,
-                    "profit": total_selling - total_valuation,
+                    "total_valuation": detail.qty * detail.valuation_rate,
+                    "total_selling": detail.qty * detail.selling_price,
+                    "profit": detail.profit,
                     "indent": 1,
                 }
             )
