@@ -9,6 +9,7 @@ frappe.query_reports["Opportunity Forgone Report"] = {
 			fieldtype: "Link",
 			options: "Company",
 			reqd: 1,
+			default: frappe.defaults.get_user_default("Company"),
 		},
 		{
 			fieldname: "from_date",
@@ -39,7 +40,7 @@ frappe.query_reports["Opportunity Forgone Report"] = {
 			get_query: function () {
 				return {
 					filters: {
-						stock_entry_type: "Capitalisation",
+						stock_entry_type: "Repack",
 					},
 				};
 			},

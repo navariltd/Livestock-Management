@@ -59,7 +59,7 @@ def get_columns() -> list[dict]:
         {
             "label": _("Repack Entry"),
             "fieldname": "repack_entry",
-            "fieldtype": "link",
+            "fieldtype": "Link",
             "options": "Stock Entry",
         },
         {
@@ -164,7 +164,7 @@ def get_data(filters: frappe._dict) -> list[dict]:
             stock_entry_detail.valuation_rate,
             Coalesce(price_query, 0).as_("selling_price"),
         )
-        .where(stock_entry.stock_entry_type == "Capitalisation")
+        .where(stock_entry.stock_entry_type == "Repack")
         .where(stock_entry.docstatus == 1)
         .where(
             (stock_entry_detail.s_warehouse.isnotnull())
