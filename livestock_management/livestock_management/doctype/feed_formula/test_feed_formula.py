@@ -13,9 +13,9 @@ IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 
 
 
-class IntegrationTestFeedingFormula(IntegrationTestCase):
+class IntegrationTestFeedFormula(IntegrationTestCase):
 	"""
-	Integration tests for FeedingFormula.
+	Integration tests for FeedFormula.
 	Use this class for testing interactions between multiple components.
 	"""
 
