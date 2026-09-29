@@ -125,7 +125,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Other Shortcuts",
-   "link_count": 4,
+   "link_count": 5,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -169,9 +169,19 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Weight Record",
+   "link_count": 0,
+   "link_to": "Weight Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-09-28 13:05:19.454652",
+ "modified": "2026-09-29 12:43:54.532386",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
