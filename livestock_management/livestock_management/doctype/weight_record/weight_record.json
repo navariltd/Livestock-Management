@@ -134,9 +134,8 @@
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
- "is_submittable": 1,
  "links": [],
- "modified": "2026-09-29 12:40:48.984139",
+ "modified": "2026-09-29 14:02:08.146811",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Weight Record",
@@ -153,7 +152,6 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
-   "submit": 1,
    "write": 1
   }
  ],

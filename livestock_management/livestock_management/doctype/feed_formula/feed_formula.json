@@ -89,7 +89,6 @@
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
- "is_submittable": 1,
  "links": [
   {
    "group": "Feeding Entries",
@@ -97,7 +96,7 @@
    "link_fieldname": "lvm_feed_formula"
   }
  ],
- "modified": "2026-09-28 12:58:36.513817",
+ "modified": "2026-09-29 14:11:59.968348",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Feed Formula",
@@ -114,7 +113,6 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
-   "submit": 1,
    "write": 1
   }
  ],

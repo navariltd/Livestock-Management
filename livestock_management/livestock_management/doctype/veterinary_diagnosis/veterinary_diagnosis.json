@@ -1,0 +1,150 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "creation": "2026-09-29 12:49:39.197555",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_d6am",
+  "amended_from",
+  "diagnosis_date",
+  "batch",
+  "item",
+  "serial_no",
+  "column_break_ppbh",
+  "treatment_type",
+  "disease",
+  "notes",
+  "section_break_vkji",
+  "symptoms",
+  "column_break_iewh",
+  "withdrawal_period_weeks",
+  "recommended_treatment",
+  "section_break_gpso",
+  "table_sduo"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_d6am",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Veterinary Diagnosis",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "diagnosis_date",
+   "fieldtype": "Date",
+   "label": "Diagnosis Date"
+  },
+  {
+   "fieldname": "batch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Batch",
+   "options": "Batch",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "batch.item",
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "serial_no",
+   "fieldtype": "Link",
+   "label": "Serial No",
+   "options": "Serial No"
+  },
+  {
+   "fieldname": "column_break_ppbh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "treatment_type",
+   "fieldtype": "Link",
+   "label": "Treatment Type",
+   "options": "Treatment Type"
+  },
+  {
+   "fieldname": "disease",
+   "fieldtype": "Data",
+   "label": "Disease"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Long Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "section_break_vkji",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "symptoms",
+   "fieldtype": "Text",
+   "label": "Symptoms"
+  },
+  {
+   "fieldname": "column_break_iewh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "withdrawal_period_weeks",
+   "fieldtype": "Int",
+   "label": "Withdrawal Period (weeks)"
+  },
+  {
+   "fieldname": "recommended_treatment",
+   "fieldtype": "Text",
+   "label": "Recommended Treatment"
+  },
+  {
+   "fieldname": "section_break_gpso",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "table_sduo",
+   "fieldtype": "Table",
+   "options": "Treatment Plan"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-09-29 14:53:16.576658",
+ "modified_by": "Administrator",
+ "module": "Livestock Management",
+ "name": "Veterinary Diagnosis",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
