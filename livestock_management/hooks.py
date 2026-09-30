@@ -11,22 +11,43 @@ app_license = "mit"
 required_apps = ["frappe/erpnext", "frappe/hrms"]
 
 doc_events = {
-	"Batch": {"before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save"},
-	"Stock Entry": {
-		"before_save": "livestock_management.livestock_management.overrides.stock_entry.before_save_livestock_entry",
-		"on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_livestock_entry",
-	},
+    "Batch": {
+        "before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save"
+    },
+    "Stock Entry": {
+        "before_save": "livestock_management.livestock_management.overrides.stock_entry.before_save_livestock_entry",
+        "on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_livestock_entry",
+    },
 }
 
 override_doctype_class = {
-	"Quality Inspection": "livestock_management.livestock_management.overrides.quality_inspection.CustomQualityInspection"
+    "Quality Inspection": "livestock_management.livestock_management.overrides.quality_inspection.CustomQualityInspection"
 }
 
 fixtures = [
-	{
-		"doctype": "Custom Field",
-		"filters": [["name", "in", ["Stock Entry-custom_source_material_issue", "Stock Entry-custom_feed_formula"]]],
-	}
+    {
+        "doctype": "Custom Field",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Stock Entry-custom_source_material_issue",
+                    "Stock Entry-custom_feed_formula",
+                    "Serial No-custom_children",
+                    "Serial No-custom_section_break_ydifg",
+                    "Serial No-custom_conception_rate_",
+                    "Serial No-custom_number_of_services",
+                    "Serial No-custom_pregnancy_diagnosis",
+                    "Serial No-custom_column_break_uzywp",
+                    "Serial No-custom_section_break_tusxy",
+                    "Serial No-custom_number_of_children",
+                    "Serial No-custom_is_pregnant",
+                    "Serial No-custom_sex"
+                ],
+            ]
+        ],
+    }
 ]
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
