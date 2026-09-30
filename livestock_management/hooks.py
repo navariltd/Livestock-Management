@@ -44,6 +44,7 @@ fixtures = [
                     "Serial No-custom_number_of_children",
                     "Serial No-custom_is_pregnant",
                     "Serial No-custom_sex",
+                    "Stock Entry-custom_offspring_record"
                 ],
             ]
         ],
