@@ -2,6 +2,7 @@
  "actions": [],
  "allow_bulk_edit": 1,
  "allow_rename": 1,
+ "autoname": "VD-.{diagnosis_date}.-.{batch}.-.####",
  "creation": "2026-09-29 12:49:39.197555",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -12,8 +13,10 @@
   "batch",
   "item",
   "serial_no",
+  "to_capitalize",
   "column_break_ppbh",
   "treatment_type",
+  "status",
   "disease",
   "notes",
   "section_break_vkji",
@@ -116,16 +119,30 @@
    "fieldname": "table_sduo",
    "fieldtype": "Table",
    "options": "Treatment Plan"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nCompleted\nCancelled"
+  },
+  {
+   "default": "0",
+   "fieldname": "to_capitalize",
+   "fieldtype": "Check",
+   "label": "To Capitalize"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-09-29 14:53:16.576658",
+ "modified": "2026-09-30 10:39:21.046793",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Veterinary Diagnosis",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -146,5 +163,19 @@
  "rows_threshold_for_grid_search": 20,
  "sort_field": "creation",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Yellow",
+   "title": "Pending"
+  },
+  {
+   "color": "Green",
+   "title": "Completed"
+  },
+  {
+   "color": "Red",
+   "title": "Cancelled"
+  }
+ ],
+ "track_changes": 1
 }
