@@ -124,6 +124,7 @@
    "fieldname": "dam",
    "fieldtype": "Link",
    "label": "Dam",
+   "link_filters": "[[\"Serial No\",\"custom_sex\",\"=\",\"Female\"]]",
    "options": "Serial No",
    "reqd": 1
   }
@@ -132,7 +133,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-09-30 13:08:50.211178",
+ "modified": "2026-10-01 01:17:35.156829",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Breeding Record",
