@@ -5,46 +5,55 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "batch",
-  "serial_no",
-  "shift",
-  "operator"
+  "start_date",
+  "end_date",
+  "administration_route",
+  "dose",
+  "item"
  ],
  "fields": [
   {
-   "fieldname": "batch",
-   "fieldtype": "Link",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Batch",
-   "options": "Batch"
+   "label": "Start Date",
+   "reqd": 1
   },
   {
-   "fieldname": "serial_no",
-   "fieldtype": "Link",
+   "fieldname": "end_date",
+   "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Serial No",
-   "options": "Serial No"
+   "label": "End Date",
+   "reqd": 1
   },
   {
-   "fieldname": "shift",
-   "fieldtype": "Link",
+   "fieldname": "administration_route",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Shift",
-   "options": "Shift Type"
+   "label": "Administration Route",
+   "reqd": 1
   },
   {
-   "fieldname": "operator",
+   "fieldname": "dose",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Dose",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Operator",
-   "options": "Employee"
+   "label": "Item",
+   "options": "Item",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-09-29 14:52:48.935867",
+ "modified": "2026-09-30 10:59:53.400214",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Treatment Plan",

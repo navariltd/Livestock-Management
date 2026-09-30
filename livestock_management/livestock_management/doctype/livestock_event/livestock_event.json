@@ -2,6 +2,7 @@
  "actions": [],
  "allow_bulk_edit": 1,
  "allow_rename": 1,
+ "autoname": "LE-.{husbandry}.-.{batch}.-.####",
  "creation": "2026-09-29 15:46:41.253582",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -65,10 +66,11 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-29 15:49:17.492535",
+ "modified": "2026-09-30 11:37:12.567864",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock Event",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

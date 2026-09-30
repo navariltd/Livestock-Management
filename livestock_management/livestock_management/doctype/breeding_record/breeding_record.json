@@ -1,0 +1,151 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "creation": "2026-09-30 11:39:05.645580",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_sjmw",
+  "amended_from",
+  "service_date",
+  "service_number",
+  "pregnancy_check_date",
+  "column_break_zwfs",
+  "breeding_method",
+  "technician",
+  "sire",
+  "semen_batch",
+  "section_break_qbue",
+  "stock_consumed",
+  "column_break_rvnb",
+  "notes",
+  "section_break_yqyj",
+  "items"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_sjmw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Breeding Record",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "service_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Service Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_zwfs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "breeding_method",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Breeding Method",
+   "options": "AI\nNatural Service",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.breeding_method==='Natural Service';",
+   "fieldname": "sire",
+   "fieldtype": "Link",
+   "label": "Sire",
+   "options": "Serial No"
+  },
+  {
+   "fieldname": "service_number",
+   "fieldtype": "Data",
+   "label": "Service Number"
+  },
+  {
+   "fieldname": "pregnancy_check_date",
+   "fieldtype": "Date",
+   "label": "Pregnancy Check Date"
+  },
+  {
+   "depends_on": "eval:doc.breeding_method==='AI';",
+   "description": "The one who performed the AI",
+   "fieldname": "technician",
+   "fieldtype": "Data",
+   "label": "Technician",
+   "mandatory_depends_on": "eval:doc.breeding_method==='AI';"
+  },
+  {
+   "fieldname": "semen_batch",
+   "fieldtype": "Link",
+   "label": "Semen Batch",
+   "options": "Batch"
+  },
+  {
+   "fieldname": "section_break_qbue",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "stock_consumed",
+   "fieldtype": "Check",
+   "label": "Stock Consumed?"
+  },
+  {
+   "fieldname": "column_break_rvnb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "section_break_yqyj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.stock_consumed==1;",
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Breeding Record Stock Item"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-09-30 12:12:19.132531",
+ "modified_by": "Administrator",
+ "module": "Livestock Management",
+ "name": "Breeding Record",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
