@@ -43,11 +43,33 @@ fixtures = [
                     "Serial No-custom_section_break_tusxy",
                     "Serial No-custom_number_of_children",
                     "Serial No-custom_is_pregnant",
-                    "Serial No-custom_sex"
+                    "Serial No-custom_sex",
                 ],
             ]
         ],
-    }
+    },
+    {
+        "doctype": "Husbandry Practice",
+        "filters": [
+            ["name", "in", ["Pregnancy Check"]],
+        ],
+    },
+    {
+        "doctype": "Stock Entry Type",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Treatment",
+                    "Feeding",
+                    "Capitalisation",
+                    "Mortality",
+                    "Produce Collection",
+                ],
+            ]
+        ],
+    },
 ]
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
@@ -125,7 +147,7 @@ doctype_js = {"Stock Entry": "public/js/stock_entry.js"}
 # ------------
 
 # before_install = "livestock_management.install.before_install"
-after_install = "livestock_management.install.after_install"
+# after_install = "livestock_management.install.after_install"
 
 # Uninstallation
 # ------------

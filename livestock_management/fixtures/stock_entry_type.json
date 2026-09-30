@@ -1,0 +1,52 @@
+[
+ {
+  "add_to_transit": 0,
+  "custom_disabled": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "is_standard": 0,
+  "modified": "2026-06-19 11:56:46.527305",
+  "name": "Mortality",
+  "purpose": "Material Issue"
+ },
+ {
+  "add_to_transit": 0,
+  "custom_disabled": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "is_standard": 0,
+  "modified": "2026-06-19 11:57:05.866335",
+  "name": "Treatment",
+  "purpose": "Material Issue"
+ },
+ {
+  "add_to_transit": 0,
+  "custom_disabled": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "is_standard": 0,
+  "modified": "2026-06-25 10:02:56.538395",
+  "name": "Capitalisation",
+  "purpose": "Repack"
+ },
+ {
+  "add_to_transit": 0,
+  "custom_disabled": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "is_standard": 0,
+  "modified": "2026-09-30 11:28:54.228854",
+  "name": "Produce Collection",
+  "purpose": "Material Receipt"
+ },
+ {
+  "add_to_transit": 0,
+  "custom_disabled": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "is_standard": 0,
+  "modified": "2026-06-16 11:06:09.093782",
+  "name": "Feeding",
+  "purpose": "Material Issue"
+ }
+]
