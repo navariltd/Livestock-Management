@@ -2,6 +2,7 @@
  "actions": [],
  "allow_bulk_edit": 1,
  "allow_rename": 1,
+ "autoname": "OR-.{dam}.-.####",
  "creation": "2026-09-30 12:57:56.069137",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -89,7 +90,8 @@
   {
    "fieldname": "sex",
    "fieldtype": "Select",
-   "label": "Sex"
+   "label": "Sex",
+   "options": "Male\nFemale"
   },
   {
    "fieldname": "weight_in_kgs",
@@ -129,7 +131,7 @@
   {
    "fieldname": "warehouse",
    "fieldtype": "Link",
-   "label": "Warehouse",
+   "label": "Target Warehouse",
    "options": "Warehouse"
   }
  ],
@@ -137,10 +139,11 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-09-30 14:18:53.890636",
+ "modified": "2026-09-30 15:05:29.538065",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Offspring Record",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
