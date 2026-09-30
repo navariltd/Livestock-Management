@@ -2,6 +2,7 @@
  "actions": [],
  "allow_bulk_edit": 1,
  "allow_rename": 1,
+ "autoname": "BR-.{dam}.-.{service_date}.-.###",
  "creation": "2026-09-30 11:39:05.645580",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -9,6 +10,7 @@
   "section_break_sjmw",
   "amended_from",
   "service_date",
+  "dam",
   "service_number",
   "pregnancy_check_date",
   "column_break_zwfs",
@@ -117,16 +119,24 @@
    "fieldtype": "Table",
    "label": "Items",
    "options": "Breeding Record Stock Item"
+  },
+  {
+   "fieldname": "dam",
+   "fieldtype": "Link",
+   "label": "Dam",
+   "options": "Serial No",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-09-30 12:12:19.132531",
+ "modified": "2026-09-30 13:08:50.211178",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Breeding Record",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
