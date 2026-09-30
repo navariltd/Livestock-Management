@@ -13,7 +13,11 @@
   "serial_no",
   "column_break_lygm",
   "performed_by",
-  "notes"
+  "notes",
+  "section_break_dliv",
+  "is_pregnant",
+  "column_break_adqa",
+  "expected_calving"
  ],
  "fields": [
   {
@@ -61,12 +65,32 @@
    "fieldname": "notes",
    "fieldtype": "Small Text",
    "label": "Notes"
+  },
+  {
+   "depends_on": "eval:doc.husbandry===\"Pregnancy Check\";",
+   "fieldname": "section_break_dliv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_pregnant",
+   "fieldtype": "Check",
+   "label": "Is Pregnant"
+  },
+  {
+   "fieldname": "column_break_adqa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expected_calving",
+   "fieldtype": "Date",
+   "label": "Expected Calving"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-30 11:37:12.567864",
+ "modified": "2026-09-30 12:55:54.144019",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock Event",
