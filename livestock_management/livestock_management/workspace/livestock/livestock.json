@@ -1,7 +1,7 @@
 {
  "app": "livestock_management",
  "charts": [],
- "content": "[{\"id\":\"t_EiNBvcom\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">Livestock Management</span>\",\"col\":12}},{\"id\":\"Lr-TL5XdJL\",\"type\":\"paragraph\",\"data\":{\"text\":\"Click on \\n\\t\\t\\t\\n\\t\\t\\t\\n\\t\\t to edit\",\"col\":12}},{\"id\":\"iaJ5qqsDPA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Feeding Entries\",\"col\":4}},{\"id\":\"F4yTVI1ufV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mortality Entries\",\"col\":4}},{\"id\":\"xojEH9X94D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Capitalization Entries\",\"col\":4}},{\"id\":\"ozYBXzeC8-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Treatment Entries\",\"col\":4}},{\"id\":\"jVsQpV0cBU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Production Entries\",\"col\":4}},{\"id\":\"oQvaHWFUnX\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Livestock Management Settings\",\"col\":4}},{\"id\":\"Q1QZgA3b_h\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"mfIeeHKm-z\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"jz0ukC9wHD\",\"type\":\"card\",\"data\":{\"card_name\":\"Quality Inspection\",\"col\":4}},{\"id\":\"9QhB2fOlTl\",\"type\":\"card\",\"data\":{\"card_name\":\"Other Shortcuts\",\"col\":4}}]",
+ "content": "[{\"id\":\"t_EiNBvcom\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">Livestock Management</span>\",\"col\":12}},{\"id\":\"Lr-TL5XdJL\",\"type\":\"paragraph\",\"data\":{\"text\":\"Click on \\n\\t\\t\\t\\n\\t\\t\\t\\n\\t\\t to edit\",\"col\":12}},{\"id\":\"iaJ5qqsDPA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Feeding Entries\",\"col\":4}},{\"id\":\"F4yTVI1ufV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mortality Entries\",\"col\":4}},{\"id\":\"xojEH9X94D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Capitalization Entries\",\"col\":4}},{\"id\":\"ozYBXzeC8-\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Treatment Entries\",\"col\":4}},{\"id\":\"jVsQpV0cBU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Production Entries\",\"col\":4}},{\"id\":\"oQvaHWFUnX\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Livestock Management Settings\",\"col\":4}},{\"id\":\"Q1QZgA3b_h\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"9QhB2fOlTl\",\"type\":\"card\",\"data\":{\"card_name\":\"Formula and Records\",\"col\":4}},{\"id\":\"mfIeeHKm-z\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"jz0ukC9wHD\",\"type\":\"card\",\"data\":{\"card_name\":\"Quality Inspection\",\"col\":4}}]",
  "creation": "2026-07-12 23:17:00.898040",
  "custom_blocks": [],
  "docstatus": 0,
@@ -124,41 +124,11 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Other Shortcuts",
-   "link_count": 5,
+   "label": "Formula and Records",
+   "link_count": 7,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Batch",
-   "link_count": 0,
-   "link_to": "Batch",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Project",
-   "link_count": 0,
-   "link_to": "Project",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sales Invoice",
-   "link_count": 0,
-   "link_to": "Sales Invoice",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
   },
   {
    "hidden": 0,
@@ -179,9 +149,59 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Offspring Record",
+   "link_count": 0,
+   "link_to": "Offspring Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Breeding Record",
+   "link_count": 0,
+   "link_to": "Breeding Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Project",
+   "link_count": 0,
+   "link_to": "Project",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Batch",
+   "link_count": 0,
+   "link_to": "Batch",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Invoice",
+   "link_count": 0,
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-09-29 12:43:54.532386",
+ "modified": "2026-10-01 00:56:14.524644",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
