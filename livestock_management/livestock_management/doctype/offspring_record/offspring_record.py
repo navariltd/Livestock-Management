@@ -48,6 +48,7 @@ class OffspringRecord(Document):
         stock_entry.purpose = "Material Receipt"
         stock_entry.company = self.company
         stock_entry.posting_date = self.posting_date
+        stock_entry.lvm_offspring_record = self.name
 
         resolved_batches = []
         for offspring in self.table_zutm:
