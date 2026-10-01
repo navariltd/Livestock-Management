@@ -119,45 +119,24 @@ def get_columns() -> list[dict]:
 	]
 
 
-def get_conditions(filters: frappe._dict) -> tuple[list[str], dict]:
-	conditions = [
-		"se.docstatus = 1",
-		"se.stock_entry_type = 'Treatment'",
-		"sed.s_warehouse IS NOT NULL",
-	]
-	params = {}
-
-	filter_map = {
-		"company": "se.company",
-		"stock_entry": "se.name",
-		"batch": "se.lvm_batch",
-		"treatment_type": "se.lvm_treatment_type",
-		"warehouse": "sed.s_warehouse",
-		"item_code": "sed.item_code",
-	}
-
-	for filter_name, database_field in filter_map.items():
-		if filters.get(filter_name):
-			conditions.append(f"{database_field} = %({filter_name})s")
-			params[filter_name] = filters.get(filter_name)
-
-	if filters.get("from_date"):
-		conditions.append("se.posting_date >= %(from_date)s")
-		params["from_date"] = filters.get("from_date")
-
-	if filters.get("to_date"):
-		conditions.append("se.posting_date <= %(to_date)s")
-		params["to_date"] = filters.get("to_date")
-
-	return conditions, params
-
-
 def get_data(filters: dict | None = None) -> list[dict]:
 	filters = frappe._dict(filters or {})
-	conditions, params = get_conditions(filters)
+	params = {
+		key: filters.get(key) or None
+		for key in [
+			"company",
+			"stock_entry",
+			"batch",
+			"treatment_type",
+			"warehouse",
+			"item_code",
+			"from_date",
+			"to_date",
+		]
+	}
 
 	details = frappe.db.sql(
-		f"""
+		"""
 			SELECT
 				se.posting_date,
 				se.posting_time,
@@ -180,7 +159,15 @@ def get_data(filters: dict | None = None) -> list[dict]:
 				ON sed.parent = se.name
 			LEFT JOIN `tabBatch` b
 				ON b.name = se.lvm_batch
-			WHERE {" AND ".join(conditions)}
+			WHERE se.docstatus = 1 AND se.stock_entry_type = 'Treatment' AND sed.s_warehouse IS NOT NULL
+				AND (%(company)s IS NULL OR se.company = %(company)s)
+				AND (%(stock_entry)s IS NULL OR se.name = %(stock_entry)s)
+				AND (%(batch)s IS NULL OR se.lvm_batch = %(batch)s)
+				AND (%(treatment_type)s IS NULL OR se.lvm_treatment_type = %(treatment_type)s)
+				AND (%(warehouse)s IS NULL OR sed.s_warehouse = %(warehouse)s)
+				AND (%(item_code)s IS NULL OR sed.item_code = %(item_code)s)
+				AND (%(from_date)s IS NULL OR se.posting_date >= %(from_date)s)
+				AND (%(to_date)s IS NULL OR se.posting_date <= %(to_date)s)
 			ORDER BY
 				se.posting_date DESC,
 				se.posting_time DESC,

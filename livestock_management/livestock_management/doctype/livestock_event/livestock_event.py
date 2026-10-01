@@ -18,9 +18,7 @@ class LivestockEvent(Document):
 
 		# Stable lock order when an event moves between animals.
 		for serial_no in sorted({previous_serial, current_serial} - {None}):
-			update_reproduction_counts(
-				serial_no, diagnoses=1 if serial_no == current_serial else -1
-			)
+			update_reproduction_counts(serial_no, diagnoses=1 if serial_no == current_serial else -1)
 
 	def on_trash(self):
 		serial_no = pregnancy_check_serial(self)

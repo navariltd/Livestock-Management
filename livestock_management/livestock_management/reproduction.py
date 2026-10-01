@@ -32,11 +32,6 @@ def update_reproduction_counts(serial_no, *, services=0, diagnoses=0):
 
 
 def pregnancy_check_serial(doc):
-	if (
-		doc
-		and doc.husbandry == "Pregnancy Check"
-		and doc.serial_no
-		and cint(doc.is_pregnant)
-	):
+	if doc and doc.husbandry == "Pregnancy Check" and doc.serial_no and cint(doc.is_pregnant):
 		return doc.serial_no
 	return None

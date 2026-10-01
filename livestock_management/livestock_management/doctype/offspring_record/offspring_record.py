@@ -3,136 +3,134 @@
 
 import frappe
 from erpnext.stock.doctype.batch.batch import make_batch
+from frappe import _
 from frappe.model.document import Document
 
 
 class OffspringRecord(Document):
-    def validate(self):
-        for row in self.table_zutm:
-            item = frappe.get_cached_value(
-                "Item",
-                row.item,
-                ["has_serial_no", "serial_no_series", "is_stock_item", "has_batch_no", "create_new_batch"],
-                as_dict=True,
-            )
+	def validate(self):
+		for row in self.table_zutm:
+			item = frappe.get_cached_value(
+				"Item",
+				row.item,
+				["has_serial_no", "serial_no_series", "is_stock_item", "has_batch_no", "create_new_batch"],
+				as_dict=True,
+			)
 
-            row.has_serial_no = item.has_serial_no
-            row.has_batch_no = item.has_batch_no
+			row.has_serial_no = item.has_serial_no
+			row.has_batch_no = item.has_batch_no
 
-            if item.has_batch_no:
-                if row.batch_no:
-                    batch = frappe.get_cached_doc("Batch", row.batch_no)
-                    if batch.item != row.item or batch.disabled:
-                        frappe.throw(
-                            f"Row {row.idx}: Select an enabled Batch belonging to Item {row.item}."
-                        )
-                elif not item.create_new_batch:
-                    frappe.throw(
-                        f"Row {row.idx}: Select a Batch for Item {row.item}, "
-                        "or enable Automatically Create New Batch on the Item."
-                    )
-            else:
-                row.batch_no = None
+			if item.has_batch_no:
+				if row.batch_no:
+					batch = frappe.get_cached_doc("Batch", row.batch_no)
+					if batch.item != row.item or batch.disabled:
+						frappe.throw(f"Row {row.idx}: Select an enabled Batch belonging to Item {row.item}.")
+				elif not item.create_new_batch:
+					frappe.throw(
+						f"Row {row.idx}: Select a Batch for Item {row.item}, "
+						"or enable Automatically Create New Batch on the Item."
+					)
+			else:
+				row.batch_no = None
 
-            if item.has_serial_no and not (
-                item.serial_no_series or row.requested_serial_no
-            ):
-                frappe.throw(
-                    f"Row {row.idx}: Enter a serial number for item {row.item}, "
-                    "or configure a Serial No Series on the Item."
-                )
+			if item.has_serial_no and not (item.serial_no_series or row.requested_serial_no):
+				frappe.throw(
+					f"Row {row.idx}: Enter a serial number for item {row.item}, "
+					"or configure a Serial No Series on the Item."
+				)
 
-    def on_submit(self):
-        stock_entry = frappe.new_doc("Stock Entry")
-        stock_entry.stock_entry_type = "Material Receipt"
-        stock_entry.purpose = "Material Receipt"
-        stock_entry.company = self.company
-        stock_entry.posting_date = self.posting_date
-        stock_entry.lvm_offspring_record = self.name
+	def on_submit(self):
+		stock_entry = frappe.new_doc("Stock Entry")
+		stock_entry.stock_entry_type = "Material Receipt"
+		stock_entry.purpose = "Material Receipt"
+		stock_entry.company = self.company
+		stock_entry.posting_date = self.posting_date
+		stock_entry.lvm_offspring_record = self.name
 
-        resolved_batches = []
-        for offspring in self.table_zutm:
-            has_batch_no = frappe.get_cached_value(
-                "Item", offspring.item, "has_batch_no"
-            )
-            batch_no = offspring.batch_no if has_batch_no else None
-            if has_batch_no and not batch_no:
-                batch_no = make_batch(
-                    frappe._dict(
-                        {
-                            "item": offspring.item,
-                            "reference_doctype": self.doctype,
-                            "reference_name": self.name,
-                        }
-                    )
-                )
+		resolved_batches = []
+		for offspring in self.table_zutm:
+			has_batch_no = frappe.get_cached_value("Item", offspring.item, "has_batch_no")
+			batch_no = offspring.batch_no if has_batch_no else None
+			if has_batch_no and not batch_no:
+				batch_no = make_batch(
+					frappe._dict(
+						{
+							"item": offspring.item,
+							"reference_doctype": self.doctype,
+							"reference_name": self.name,
+						}
+					)
+				)
 
-            resolved_batches.append((offspring, batch_no))
-            stock_entry.append("items", {
-                "item_code": offspring.item,
-                "qty": 1,
-                "t_warehouse": self.warehouse,
-                "use_serial_batch_fields": 1,
-                "serial_no": offspring.requested_serial_no,
-                "batch_no": batch_no,
-            })
+			resolved_batches.append((offspring, batch_no))
+			stock_entry.append(
+				"items",
+				{
+					"item_code": offspring.item,
+					"qty": 1,
+					"t_warehouse": self.warehouse,
+					"use_serial_batch_fields": 1,
+					"serial_no": offspring.requested_serial_no,
+					"batch_no": batch_no,
+				},
+			)
 
-        stock_entry.insert()
-        stock_entry.submit()
-        for offspring, batch_no in resolved_batches:
-            if offspring.batch_no != batch_no:
-                offspring.db_set("batch_no", batch_no)
+		stock_entry.insert()
+		stock_entry.submit()
+		for offspring, batch_no in resolved_batches:
+			if offspring.batch_no != batch_no:
+				offspring.db_set("batch_no", batch_no)
 
-        self.set_offspring_serial_numbers(stock_entry)
-        self.update_dam_children()
+		self.set_offspring_serial_numbers(stock_entry)
+		self.update_dam_children()
 
-    def set_offspring_serial_numbers(self, stock_entry):
-        """Read the actual received serials, including those generated by ERPNext."""
-        stock_entry.reload()
-        for offspring, detail in zip(self.table_zutm, stock_entry.items, strict=True):
-            if not offspring.has_serial_no:
-                continue
+	def set_offspring_serial_numbers(self, stock_entry):
+		"""Read the actual received serials, including those generated by ERPNext."""
+		stock_entry.reload()
+		for offspring, detail in zip(self.table_zutm, stock_entry.items, strict=True):
+			if not offspring.has_serial_no:
+				continue
 
-            if detail.serial_and_batch_bundle:
-                serial_numbers = frappe.get_all(
-                    "Serial and Batch Entry",
-                    filters={"parent": detail.serial_and_batch_bundle},
-                    pluck="serial_no",
-                )
-                serial_numbers = [serial for serial in serial_numbers if serial]
-            else:
-                serial_numbers = (detail.serial_no or "").splitlines()
-                serial_numbers = [serial.strip() for serial in serial_numbers if serial.strip()]
+			if detail.serial_and_batch_bundle:
+				serial_numbers = frappe.get_all(
+					"Serial and Batch Entry",
+					filters={"parent": detail.serial_and_batch_bundle},
+					pluck="serial_no",
+				)
+				serial_numbers = [serial for serial in serial_numbers if serial]
+			else:
+				serial_numbers = (detail.serial_no or "").splitlines()
+				serial_numbers = [serial.strip() for serial in serial_numbers if serial.strip()]
 
-            if len(serial_numbers) != 1:
-                frappe.throw(
-                    f"Row {offspring.idx}: Expected exactly one received Serial No for the offspring."
-                )
+			if len(serial_numbers) != 1:
+				frappe.throw(
+					f"Row {offspring.idx}: Expected exactly one received Serial No for the offspring."
+				)
 
-            offspring.db_set("serial_no", serial_numbers[0])
+			offspring.db_set("serial_no", serial_numbers[0])
 
-    def update_dam_children(self):
-        if not self.dam:
-            return
+	def update_dam_children(self):
+		if not self.dam:
+			return
 
-        children = {row.serial_no for row in self.table_zutm if row.serial_no}
-        if not children:
-            return
-        if self.dam in children:
-            frappe.throw("The dam cannot be recorded as her own child.")
+		children = {row.serial_no for row in self.table_zutm if row.serial_no}
+		if not children:
+			return
+		if self.dam in children:
+			frappe.throw(_("The dam cannot be recorded as her own child."))
 
-        # Serialize additions to the same dam so concurrent births preserve both lists.
-        frappe.db.get_value("Serial No", self.dam, "name", for_update=True)
-        dam = frappe.get_doc("Serial No", self.dam)
-        existing_children = {row.serial_no for row in dam.get("custom_children", [])}
-        for row in self.table_zutm:
-            if row.serial_no and row.serial_no not in existing_children:
-                dam.append(
-                    "custom_children",
-                    {"date": self.date_of_birth, "serial_no": row.serial_no},
-                )
-                existing_children.add(row.serial_no)
+		# Serialize additions to the same dam so concurrent births preserve both lists.
+		frappe.db.get_value("Serial No", self.dam, "name", for_update=True)
+		dam = frappe.get_doc("Serial No", self.dam)
+		existing_children = {row.serial_no for row in dam.get("custom_children", [])}
+		for row in self.table_zutm:
+			if row.serial_no and row.serial_no not in existing_children:
+				dam.append(
+					"custom_children",
+					{"date": self.date_of_birth, "serial_no": row.serial_no},
+				)
+				existing_children.add(row.serial_no)
 
-        dam.custom_number_of_children = len(dam.get("custom_children", []))
-        # This is a derived update authorized by submission of the Offspring Record.
-        dam.save(ignore_permissions=True)
+		dam.custom_number_of_children = len(dam.get("custom_children", []))
+		# This is a derived update authorized by submission of the Offspring Record.
+		dam.save(ignore_permissions=True)
