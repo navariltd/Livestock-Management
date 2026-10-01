@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from frappe.utils import add_days, getdate
 
 
@@ -17,4 +18,4 @@ def before_batch_save(doc, method):
 			doc.lvm_capitalisation_end_date = add_days(start_date, days)
 			doc.lvm_age_in_weeks = days // 7
 		except (ValueError, TypeError):
-			frappe.msgprint("Invalid date or capitalization days format.")
+			frappe.msgprint(_("Invalid date or capitalization days format."))

@@ -13,16 +13,17 @@ An integrated livestock management solution built for ERPNext, designed to bridg
 - **Item Enhancements**: Configurable capitalization days and automatic validation for capitalization-related fields.
 - **Operational Reporting**: Seamless integration with standard ERPNext modules including Inventory, Manufacturing, Projects, and Accounting.
 
-## Upcoming Features
-
-The following capabilities are defined in the product proposal but are not yet fully implemented:
-
 - **Feeding Programs**: Feeding Formula records with age ranges, expected intake, expected FCR, and formula-based population of feeding entries.
 - **Complete Weight Tracking**: Weight records for animals or batches with sample and population sizes, previous weight, weight gain, and FCR calculations. Scheduled weight-capture tasks also need their generation and completion workflow.
 - **Veterinary Workflow**: Veterinary Diagnosis and treatment-plan records covering disease, symptoms, prescriptions, administration details, withdrawal periods, and automatic medical stock issues followed by capitalization where applicable.
 - **Livestock Events and Issues**: Reusable husbandry events for non-stock activities, plus issue reporting through ERPNext Helpdesk.
 - **Reproduction Management**: Serial-number sex and reproductive status, breeding records, pregnancy diagnosis, expected calving, offspring records, newborn stock receipts, parent and sibling links, and pedigree history.
 - **Serial-Number Livestock Support**: End-to-end support for individually identified livestock such as cattle and sheep, alongside batch-based poultry tracking.
+
+## Upcoming Features
+
+The following capabilities are defined in the product proposal but are not yet fully implemented:
+
 - **Capitalization and Valuation Automation**: Automatic closure of batch capitalization when the end date is reached, ongoing age-in-days updates, scheduled background updates, fair-value adjustment through stock reconciliation, and reproduction accounting configuration.
 
 ## Installation

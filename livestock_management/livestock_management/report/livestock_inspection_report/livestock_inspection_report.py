@@ -5,8 +5,6 @@ import frappe
 from frappe import _
 from frappe.utils import date_diff, nowdate
 
-READING_FIELDS = tuple(f"reading_{index}" for index in range(1, 11))
-
 
 def execute(filters: dict | None = None):
 	filters = frappe._dict(filters or {})
@@ -91,94 +89,84 @@ def get_columns() -> list[dict]:
 	]
 
 
-def get_conditions(filters: frappe._dict) -> tuple[list[str], dict]:
-	conditions = ["qi.docstatus < 2"]
-	params = {}
-
-	if filters.get("company"):
-		conditions.append("qi.company = %(company)s")
-		params["company"] = filters.get("company")
-
-	if filters.get("quality_inspection"):
-		conditions.append("qi.name = %(quality_inspection)s")
-		params["quality_inspection"] = filters.get("quality_inspection")
-
-	if filters.get("from_date"):
-		conditions.append("qi.report_date >= %(from_date)s")
-		params["from_date"] = filters.get("from_date")
-
-	if filters.get("to_date"):
-		conditions.append("qi.report_date <= %(to_date)s")
-		params["to_date"] = filters.get("to_date")
-
-	if filters.get("batch"):
-		conditions.append("qi.batch_no = %(batch)s")
-		params["batch"] = filters.get("batch")
-
-	if filters.get("quality_inspection_template"):
-		conditions.append("qi.quality_inspection_template = %(quality_inspection_template)s")
-		params["quality_inspection_template"] = filters.get("quality_inspection_template")
-
-	if filters.get("parameter"):
-		conditions.append("qir.specification = %(parameter)s")
-		params["parameter"] = filters.get("parameter")
-
-	return conditions, params
-
-
 def get_data(filters: dict | None = None) -> list[dict]:
 	filters = frappe._dict(filters or {})
-	conditions, params = get_conditions(filters)
-	reading_sum = " + ".join(f"COALESCE(qir.{field}, 0)" for field in READING_FIELDS)
-	reading_count = " + ".join(f"CASE WHEN qir.{field} IS NULL THEN 0 ELSE 1 END" for field in READING_FIELDS)
-	value_based_reading = """
-		(
-			COALESCE(qir.numeric, 0) = 0
-			OR (
-				COALESCE(qir.min_value, 0) = 0
-				AND COALESCE(qir.max_value, 0) = 0
-			)
-		)
-	"""
-	standard_reading = f"""
-		CASE
-			WHEN {value_based_reading}
-			THEN CAST(NULLIF(qir.value, '') AS DECIMAL(21, 9))
-			ELSE (COALESCE(qir.min_value, 0) + COALESCE(qir.max_value, 0)) / 2
-		END
-	"""
-	actual_reading = f"""
-		CASE
-			WHEN {value_based_reading}
-			THEN CAST(NULLIF(qir.reading_value, '') AS DECIMAL(21, 9))
-			WHEN ({reading_count}) = 0 THEN NULL
-			ELSE ({reading_sum}) / ({reading_count})
-		END
-	"""
-
+	params = {
+		key: filters.get(key) or None
+		for key in [
+			"company",
+			"quality_inspection",
+			"from_date",
+			"to_date",
+			"batch",
+			"quality_inspection_template",
+			"parameter",
+		]
+	}
 	data = frappe.db.sql(
-		f"""
-			SELECT
-				qi.name AS quality_inspection,
-				qi.report_date AS inspection_date,
-				qi.batch_no AS batch,
-				b.manufacturing_date,
-				qi.sample_size,
-				qi.quality_inspection_template,
-				qir.specification AS parameter,
-				({standard_reading}) AS standard_reading,
-				({actual_reading}) AS actual_reading,
-				CASE
-					WHEN ({actual_reading}) IS NULL THEN NULL
-					ELSE ({actual_reading}) - ({standard_reading})
-				END AS variance
-			FROM `tabQuality Inspection` qi
-			INNER JOIN `tabQuality Inspection Reading` qir
-				ON qir.parent = qi.name
-			LEFT JOIN `tabBatch` b
-				ON b.name = qi.batch_no
-			WHERE {" AND ".join(conditions)}
-			ORDER BY qi.report_date DESC, qi.name DESC, qir.idx
+		"""
+			WITH readings AS (
+				SELECT
+					qi.name AS quality_inspection,
+					qi.report_date AS inspection_date,
+					qi.batch_no AS batch,
+					b.manufacturing_date,
+					qi.sample_size,
+					qi.quality_inspection_template,
+					qir.idx,
+					qir.specification AS parameter,
+					qir.value, qir.reading_value, qir.min_value, qir.max_value,
+					(COALESCE(qir.numeric, 0) = 0 OR (
+						COALESCE(qir.min_value, 0) = 0 AND COALESCE(qir.max_value, 0) = 0
+					)) AS value_based,
+					(COALESCE(qir.reading_1, 0)
+						+ COALESCE(qir.reading_2, 0)
+						+ COALESCE(qir.reading_3, 0)
+						+ COALESCE(qir.reading_4, 0)
+						+ COALESCE(qir.reading_5, 0)
+						+ COALESCE(qir.reading_6, 0)
+						+ COALESCE(qir.reading_7, 0)
+						+ COALESCE(qir.reading_8, 0)
+						+ COALESCE(qir.reading_9, 0)
+						+ COALESCE(qir.reading_10, 0)) AS reading_sum,
+					(CASE WHEN qir.reading_1 IS NULL THEN 0 ELSE 1 END
+						+ CASE WHEN qir.reading_2 IS NULL THEN 0 ELSE 1 END
+						+ CASE WHEN qir.reading_3 IS NULL THEN 0 ELSE 1 END
+						+ CASE WHEN qir.reading_4 IS NULL THEN 0 ELSE 1 END
+						+ CASE WHEN qir.reading_5 IS NULL THEN 0 ELSE 1 END
+						+ CASE WHEN qir.reading_6 IS NULL THEN 0 ELSE 1 END
+						+ CASE WHEN qir.reading_7 IS NULL THEN 0 ELSE 1 END
+						+ CASE WHEN qir.reading_8 IS NULL THEN 0 ELSE 1 END
+						+ CASE WHEN qir.reading_9 IS NULL THEN 0 ELSE 1 END
+						+ CASE WHEN qir.reading_10 IS NULL THEN 0 ELSE 1 END) AS reading_count
+				FROM `tabQuality Inspection` qi
+				INNER JOIN `tabQuality Inspection Reading` qir ON qir.parent = qi.name
+				LEFT JOIN `tabBatch` b ON b.name = qi.batch_no
+				WHERE qi.docstatus < 2
+					AND (%(company)s IS NULL OR qi.company = %(company)s)
+					AND (%(quality_inspection)s IS NULL OR qi.name = %(quality_inspection)s)
+					AND (%(from_date)s IS NULL OR qi.report_date >= %(from_date)s)
+					AND (%(to_date)s IS NULL OR qi.report_date <= %(to_date)s)
+					AND (%(batch)s IS NULL OR qi.batch_no = %(batch)s)
+					AND (%(quality_inspection_template)s IS NULL
+						OR qi.quality_inspection_template = %(quality_inspection_template)s)
+					AND (%(parameter)s IS NULL OR qir.specification = %(parameter)s)
+			), calculated AS (
+				SELECT readings.*,
+					CASE WHEN value_based THEN CAST(NULLIF(value, '') AS DECIMAL(21, 9))
+						ELSE (COALESCE(min_value, 0) + COALESCE(max_value, 0)) / 2
+					END AS standard_reading,
+					CASE WHEN value_based THEN CAST(NULLIF(reading_value, '') AS DECIMAL(21, 9))
+						ELSE reading_sum / NULLIF(reading_count, 0)
+					END AS actual_reading
+				FROM readings
+			)
+			SELECT quality_inspection, inspection_date, batch, manufacturing_date,
+				sample_size, quality_inspection_template, parameter,
+				standard_reading, actual_reading,
+				actual_reading - standard_reading AS variance
+			FROM calculated
+			ORDER BY inspection_date DESC, quality_inspection DESC, idx
 		""",
 		params,
 		as_dict=True,

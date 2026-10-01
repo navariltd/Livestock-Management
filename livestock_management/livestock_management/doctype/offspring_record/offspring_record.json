@@ -1,0 +1,173 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "allow_rename": 1,
+ "autoname": "OR-.{dam}.-.####",
+ "creation": "2026-09-30 12:57:56.069137",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_5sve",
+  "amended_from",
+  "company",
+  "warehouse",
+  "posting_date",
+  "column_break_eucd",
+  "date_of_birth",
+  "breeding_record",
+  "dam",
+  "sire",
+  "section_break_hoey",
+  "sex",
+  "weight_in_kgs",
+  "column_break_kzhb",
+  "birth_type",
+  "number_of_calves",
+  "section_break_esao",
+  "table_zutm"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_5sve",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Offspring Record",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date of Birth",
+   "reqd": 1
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_eucd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "breeding_record",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Breeding Record",
+   "options": "Breeding Record",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "breeding_record.dam",
+   "fieldname": "dam",
+   "fieldtype": "Link",
+   "label": "Dam",
+   "options": "Serial No",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "breeding_record.sire",
+   "fieldname": "sire",
+   "fieldtype": "Link",
+   "label": "Sire",
+   "options": "Serial No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_hoey",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sex",
+   "fieldtype": "Select",
+   "label": "Sex",
+   "options": "Male\nFemale"
+  },
+  {
+   "fieldname": "weight_in_kgs",
+   "fieldtype": "Float",
+   "label": "Weight in Kgs"
+  },
+  {
+   "fieldname": "column_break_kzhb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "birth_type",
+   "fieldtype": "Select",
+   "label": "Birth Type",
+   "options": "Single\nTwins\nMultiple"
+  },
+  {
+   "fieldname": "number_of_calves",
+   "fieldtype": "Int",
+   "label": "Number of Calves"
+  },
+  {
+   "fieldname": "section_break_esao",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "table_zutm",
+   "fieldtype": "Table",
+   "options": "Offspring"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Target Warehouse",
+   "options": "Warehouse"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "link_doctype": "Stock Entry",
+   "link_fieldname": "lvm_offspring_record"
+  }
+ ],
+ "modified": "2026-09-30 18:11:08.261201",
+ "modified_by": "Administrator",
+ "module": "Livestock Management",
+ "name": "Offspring Record",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

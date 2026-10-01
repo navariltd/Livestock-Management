@@ -79,49 +79,17 @@ def get_columns() -> list[dict]:
 	]
 
 
-def get_conditions(filters: frappe._dict) -> tuple[list[str], dict]:
-	conditions = ["se.stock_entry_type = 'Mortality'", "se.docstatus = 1"]
-	params = {}
-
-	if filters.get("company"):
-		conditions.append("se.company = %(company)s")
-		params["company"] = filters.company
-
-	if filters.get("stock_entry"):
-		conditions.append("se.name = %(stock_entry)s")
-		params["stock_entry"] = filters.stock_entry
-
-	if filters.get("from_date"):
-		conditions.append("se.posting_date >= %(from_date)s")
-		params["from_date"] = filters.from_date
-
-	if filters.get("to_date"):
-		conditions.append("se.posting_date <= %(to_date)s")
-		params["to_date"] = filters.to_date
-
-	if filters.get("warehouse"):
-		conditions.append(
-			"""EXISTS (
-				SELECT 1
-				FROM `tabStock Entry Detail` sed_filter
-				WHERE sed_filter.parent = se.name
-					AND sed_filter.s_warehouse = %(warehouse)s
-			)"""
-		)
-		params["warehouse"] = filters.warehouse
-
-	return conditions, params
-
-
 def get_data(filters: dict | None = None) -> list[dict]:
 	"""Return data for the mortality report."""
 
 	filters = frappe._dict(filters or {})
-	conditions, params = get_conditions(filters)
-	where_clause = " AND ".join(conditions)
+	params = {
+		key: filters.get(key) or None
+		for key in ["company", "stock_entry", "from_date", "to_date", "warehouse"]
+	}
 
 	stock_entries = frappe.db.sql(
-		f"""
+		"""
 			SELECT
 				se.posting_date,
 				se.posting_time,
@@ -141,7 +109,12 @@ def get_data(filters: dict | None = None) -> list[dict]:
 			FROM `tabStock Entry` se
 			INNER JOIN `tabStock Ledger Entry` sle
 				ON sle.voucher_no = se.name
-			WHERE {where_clause}
+			WHERE se.stock_entry_type = 'Mortality' AND se.docstatus = 1
+				AND (%(company)s IS NULL OR se.company = %(company)s)
+				AND (%(stock_entry)s IS NULL OR se.name = %(stock_entry)s)
+				AND (%(from_date)s IS NULL OR se.posting_date >= %(from_date)s)
+				AND (%(to_date)s IS NULL OR se.posting_date <= %(to_date)s)
+				AND (%(warehouse)s IS NULL OR EXISTS (SELECT 1 FROM `tabStock Entry Detail` sed_filter WHERE sed_filter.parent = se.name AND sed_filter.s_warehouse = %(warehouse)s))
 			GROUP BY se.name, se.posting_date, se.posting_time, se.lvm_batch
 			ORDER BY se.posting_date DESC, se.posting_time DESC, se.name DESC
 		""",

@@ -1,7 +1,4 @@
-from erpnext.stock.doctype.quality_inspection.quality_inspection import QualityInspection
-
-
-class CustomQualityInspection(QualityInspection):
+class CustomQualityInspection:
 	def validate(self):
 		# Temporarily set fields to avoid mandatory error
 		if not self.inspection_type:
