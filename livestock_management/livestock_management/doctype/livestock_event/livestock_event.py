@@ -38,7 +38,7 @@ class LivestockEvent(Document):
 
 
 @frappe.whitelist()
-def get_events(start, end, filters=None):
+def get_events(start: str, end: str, filters: str | list | None = None) -> list[frappe._dict]:
 	"""Return overlapping dated events using the current user's read permissions."""
 	filters = frappe.parse_json(filters) if filters else []
 	if not isinstance(filters, list):

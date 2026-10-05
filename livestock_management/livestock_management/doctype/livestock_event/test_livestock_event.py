@@ -58,14 +58,14 @@ class TestLivestockEventCalendar(TestCase):
 
 	def test_calendar_preserves_filters_and_checks_date_overlap(self):
 		user_filters = [["Livestock Event", "serial_no", "=", "COW-1"]]
-		with patch.object(frappe, "get_list", return_value=[{"name": "LE-1", "all_day": 1}]) as query:
+		with patch.object(frappe, "get_list", return_value=[{"name": "LE-1"}]) as query:
 			result = get_events("2026-10-01", "2026-11-01", user_filters)
-		self.assertEqual(result, [{"name": "LE-1", "all_day": 1}])
+		self.assertEqual(result, [{"name": "LE-1"}])
 		self.assertEqual(len(user_filters), 1)
 		self.assertEqual(query.call_args.args, ("Livestock Event",))
 		args = query.call_args.kwargs
 		self.assertNotIn("ignore_permissions", args)
-		self.assertIn("all_day", args["fields"])
+		self.assertEqual(args["fields"], ["name", "husbandry", "starts_on", "ends_on"])
 		self.assertEqual(args["limit_page_length"], 0)
 		self.assertEqual(
 			args["filters"],
