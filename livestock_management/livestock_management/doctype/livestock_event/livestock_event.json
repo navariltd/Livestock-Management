@@ -13,6 +13,7 @@
   "serial_no",
   "column_break_lygm",
   "performed_by",
+  "status",
   "notes",
   "schedule_section",
   "starts_on",
@@ -111,12 +112,19 @@
   {
    "fieldname": "column_break_dzpc",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "Open",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Open\nCompleted\nClosed\nCancelled"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-05 10:54:36.914250",
+ "modified": "2026-10-05 10:57:41.995309",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock Event",
@@ -140,5 +148,22 @@
  "rows_threshold_for_grid_search": 20,
  "sort_field": "creation",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Blue",
+   "title": "Open"
+  },
+  {
+   "color": "Orange",
+   "title": "Closed"
+  },
+  {
+   "color": "Red",
+   "title": "Cancelled"
+  },
+  {
+   "color": "Green",
+   "title": "Completed"
+  }
+ ]
 }
