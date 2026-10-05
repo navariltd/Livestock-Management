@@ -14,12 +14,34 @@
   "column_break_lygm",
   "performed_by",
   "notes",
+  "schedule_section",
+  "starts_on",
+  "column_break_dzpc",
+  "ends_on",
   "section_break_dliv",
   "is_pregnant",
   "column_break_adqa",
   "expected_calving"
  ],
  "fields": [
+  {
+   "fieldname": "schedule_section",
+   "fieldtype": "Section Break",
+   "label": "Schedule"
+  },
+  {
+   "fieldname": "starts_on",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Starts On",
+   "reqd": 1
+  },
+  {
+   "fieldname": "ends_on",
+   "fieldtype": "Datetime",
+   "label": "Ends On",
+   "reqd": 1
+  },
   {
    "fieldname": "husbandry",
    "fieldtype": "Link",
@@ -85,12 +107,16 @@
    "fieldname": "expected_calving",
    "fieldtype": "Date",
    "label": "Expected Calving"
+  },
+  {
+   "fieldname": "column_break_dzpc",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-30 12:55:54.144019",
+ "modified": "2026-10-05 10:54:36.914250",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock Event",
