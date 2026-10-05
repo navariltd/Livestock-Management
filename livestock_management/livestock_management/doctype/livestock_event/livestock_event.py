@@ -51,7 +51,7 @@ def get_events(start, end, filters=None):
 	]
 	return frappe.get_list(
 		"Livestock Event",
-		fields=["name", "husbandry", "starts_on", "ends_on", "all_day"],
+		fields=["name", "husbandry", "starts_on", "ends_on"],
 		filters=filters,
 		order_by="starts_on asc",
 		limit_page_length=0,
