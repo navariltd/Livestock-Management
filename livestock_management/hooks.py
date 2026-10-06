@@ -67,6 +67,7 @@ fixtures = [
 					"Capitalisation",
 					"Mortality",
 					"Produce Collection",
+					"Medical",
 				],
 			]
 		],
