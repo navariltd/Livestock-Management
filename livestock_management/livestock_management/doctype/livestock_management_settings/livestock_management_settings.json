@@ -32,17 +32,18 @@
    "options": "Account"
   },
   {
+   "description": "Also used for Medical stock issues created from Veterinary Diagnosis.",
    "fieldname": "treatment_stock_entry_difference_account",
    "fieldtype": "Link",
    "label": "Treatment Stock Entry Difference Account",
-   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
+   "link_filters": "[[\"Account\",\"root_type\",\"=\",\"Expense\"],[\"Account\",\"is_group\",\"=\",0]]",
    "options": "Account"
   },
   {
    "fieldname": "capitalisation_stock_entry_difference_account",
    "fieldtype": "Link",
    "label": "Capitalisation Stock Entry Difference Account",
-   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expense Account\"]]",
+   "link_filters": "[[\"Account\",\"root_type\",\"=\",\"Expense\"],[\"Account\",\"is_group\",\"=\",0]]",
    "options": "Account"
   },
   {

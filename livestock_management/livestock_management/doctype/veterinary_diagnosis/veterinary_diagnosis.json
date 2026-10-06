@@ -9,11 +9,15 @@
  "field_order": [
   "section_break_d6am",
   "amended_from",
+  "company",
+  "company_currency",
   "diagnosis_date",
+  "posting_date",
   "batch",
   "item",
   "serial_no",
   "to_capitalize",
+  "capitalisation_warehouse",
   "column_break_ppbh",
   "treatment_type",
   "status",
@@ -29,7 +33,11 @@
   "section_break_gpso",
   "treatment_plans",
   "section_break_vubi",
-  "purchase_invoices"
+  "purchase_invoices",
+  "stock_entries_section",
+  "medical_stock_entry",
+  "capitalisation_stock_entry",
+  "total_medical_cost"
  ],
  "fields": [
   {
@@ -50,6 +58,13 @@
    "fieldname": "diagnosis_date",
    "fieldtype": "Date",
    "label": "Diagnosis Date"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Stock Posting Date",
+   "reqd": 1
   },
   {
    "fieldname": "batch",
@@ -132,6 +147,14 @@
    "label": "To Capitalize"
   },
   {
+   "depends_on": "eval:doc.to_capitalize",
+   "description": "Defaults to the Batch Location or Serial No's current warehouse. For a Batch, only stock in this warehouse is revalued.",
+   "fieldname": "capitalisation_warehouse",
+   "fieldtype": "Link",
+   "label": "Capitalisation Warehouse",
+   "options": "Warehouse"
+  },
+  {
    "fieldname": "start_date",
    "fieldtype": "Date",
    "label": "Start Date",
@@ -150,20 +173,66 @@
    "fieldname": "purchase_invoices",
    "fieldtype": "Table",
    "label": "Purchase Invoices",
-   "options": "Asset Repair Purchase Invoice"
+   "options": "Vet Diagnosis Purchase Invoices"
   },
   {
    "fieldname": "treatment_plans",
    "fieldtype": "Table",
    "label": "Treatment Plans",
    "options": "Treatment Plan"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "company.default_currency",
+   "fieldname": "company_currency",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Company Currency",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "stock_entries_section",
+   "fieldtype": "Section Break",
+   "label": "Medical Stock Transactions"
+  },
+  {
+   "fieldname": "medical_stock_entry",
+   "fieldtype": "Link",
+   "label": "Medical Stock Entry",
+   "no_copy": 1,
+   "options": "Stock Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "capitalisation_stock_entry",
+   "fieldtype": "Link",
+   "label": "Capitalisation Stock Entry",
+   "no_copy": 1,
+   "options": "Stock Entry",
+   "read_only": 1
+  },
+  {
+   "description": "Actual issued medicine valuation plus allocated non-stock invoice costs, in company currency.",
+   "fieldname": "total_medical_cost",
+   "fieldtype": "Currency",
+   "label": "Total Medical Cost",
+   "no_copy": 1,
+   "options": "company_currency",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-10-06 11:44:50.874526",
+ "modified": "2026-10-06 13:14:54.240938",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Veterinary Diagnosis",
@@ -171,6 +240,7 @@
  "owner": "Administrator",
  "permissions": [
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,

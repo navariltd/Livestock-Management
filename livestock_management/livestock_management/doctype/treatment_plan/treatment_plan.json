@@ -9,7 +9,14 @@
   "end_date",
   "administration_route",
   "dose",
-  "item"
+  "item",
+  "qty",
+  "stock_uom",
+  "warehouse",
+  "has_batch_no",
+  "batch_no",
+  "has_serial_no",
+  "serial_no"
  ],
  "fields": [
   {
@@ -45,6 +52,60 @@
    "label": "Item",
    "options": "Item",
    "reqd": 1
+  },
+  {
+   "description": "Total quantity consumed, expressed in the Item's Stock UOM. Dose is clinical information only.",
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity Consumed",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "item.stock_uom",
+   "fieldname": "stock_uom",
+   "fieldtype": "Link",
+   "label": "Stock UOM",
+   "options": "UOM",
+   "read_only": 1
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Source Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "item.has_batch_no",
+   "fieldname": "has_batch_no",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.has_batch_no",
+   "fieldname": "batch_no",
+   "fieldtype": "Link",
+   "label": "Medicine Batch",
+   "mandatory_depends_on": "eval:doc.has_batch_no",
+   "options": "Batch"
+  },
+  {
+   "fetch_from": "item.has_serial_no",
+   "fieldname": "has_serial_no",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.has_serial_no",
+   "description": "One existing serial number per line.",
+   "fieldname": "serial_no",
+   "fieldtype": "Small Text",
+   "label": "Medicine Serial Numbers",
+   "mandatory_depends_on": "eval:doc.has_serial_no"
   }
  ],
  "grid_page_length": 50,
