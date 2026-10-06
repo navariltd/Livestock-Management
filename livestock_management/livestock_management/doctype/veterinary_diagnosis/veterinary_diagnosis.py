@@ -19,3 +19,10 @@ class VeterinaryDiagnosis(Document):
 		"""Auto-set the end date to the current date if status is 'Completed' and end date is not provided."""
 		if self.status == "Completed" and not self.end_date:
 			self.end_date = frappe.utils.nowdate()
+
+		# Set the start and end dates on the treatment_plans table rows based on self.start_date and self.end_date
+		for treatment_plan in self.treatment_plans:
+			if not treatment_plan.start_date and self.start_date:
+				treatment_plan.start_date = self.start_date
+			if not treatment_plan.end_date and self.end_date:
+				treatment_plan.end_date = self.end_date
