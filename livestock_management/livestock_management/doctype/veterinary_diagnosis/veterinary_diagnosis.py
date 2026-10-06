@@ -14,3 +14,8 @@ class VeterinaryDiagnosis(Document):
 					"Cannot submit a diagnosis with status 'Pending'. Please update the status before submitting."
 				)
 			)
+
+	def validate(self):
+		"""Auto-set the end date to the current date if status is 'Completed' and end date is not provided."""
+		if self.status == "Completed" and not self.end_date:
+			self.end_date = frappe.utils.nowdate()

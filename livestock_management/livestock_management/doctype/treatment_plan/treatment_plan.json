@@ -16,15 +16,13 @@
    "fieldname": "start_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Start Date",
-   "reqd": 1
+   "label": "Start Date"
   },
   {
    "fieldname": "end_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "End Date",
-   "reqd": 1
+   "label": "End Date"
   },
   {
    "fieldname": "administration_route",
@@ -53,7 +51,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-09-30 10:59:53.400214",
+ "modified": "2026-10-06 11:39:31.976502",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Treatment Plan",

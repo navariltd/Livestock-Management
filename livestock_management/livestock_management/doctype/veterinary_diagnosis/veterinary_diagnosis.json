@@ -20,12 +20,16 @@
   "disease",
   "notes",
   "section_break_vkji",
+  "start_date",
+  "end_date",
   "symptoms",
   "column_break_iewh",
   "withdrawal_period_weeks",
   "recommended_treatment",
   "section_break_gpso",
-  "table_sduo"
+  "treatment_plans",
+  "section_break_vubi",
+  "purchase_invoices"
  ],
  "fields": [
   {
@@ -52,8 +56,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Batch",
-   "options": "Batch",
-   "reqd": 1
+   "options": "Batch"
   },
   {
    "fetch_from": "batch.item",
@@ -116,11 +119,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "table_sduo",
-   "fieldtype": "Table",
-   "options": "Treatment Plan"
-  },
-  {
    "default": "Pending",
    "fieldname": "status",
    "fieldtype": "Select",
@@ -132,13 +130,40 @@
    "fieldname": "to_capitalize",
    "fieldtype": "Check",
    "label": "To Capitalize"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "section_break_vubi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "purchase_invoices",
+   "fieldtype": "Table",
+   "label": "Purchase Invoices",
+   "options": "Asset Repair Purchase Invoice"
+  },
+  {
+   "fieldname": "treatment_plans",
+   "fieldtype": "Table",
+   "label": "Treatment Plans",
+   "options": "Treatment Plan"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-09-30 10:39:21.046793",
+ "modified": "2026-10-06 11:44:50.874526",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Veterinary Diagnosis",
