@@ -48,5 +48,15 @@
   "modified": "2026-06-16 11:06:09.093782",
   "name": "Feeding",
   "purpose": "Material Issue"
+ },
+ {
+  "add_to_transit": 0,
+  "custom_disabled": 0,
+  "docstatus": 0,
+  "doctype": "Stock Entry Type",
+  "is_standard": 0,
+  "modified": "2026-10-06 13:18:14.462502",
+  "name": "Medical",
+  "purpose": "Material Issue"
  }
 ]

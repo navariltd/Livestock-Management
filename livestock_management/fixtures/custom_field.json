@@ -1,5 +1,19 @@
 [
  {
+  "doctype": "Custom Field",
+  "dt": "Stock Entry",
+  "fieldname": "lvm_veterinary_diagnosis",
+  "fieldtype": "Link",
+  "insert_after": "lvm_batch",
+  "label": "Veterinary Diagnosis",
+  "module": "Livestock Management",
+  "name": "Stock Entry-lvm_veterinary_diagnosis",
+  "no_copy": 1,
+  "options": "Veterinary Diagnosis",
+  "read_only": 1,
+  "search_index": 1
+ },
+ {
   "alignment": "",
   "allow_bulk_edit": 0,
   "allow_in_quick_entry": 0,

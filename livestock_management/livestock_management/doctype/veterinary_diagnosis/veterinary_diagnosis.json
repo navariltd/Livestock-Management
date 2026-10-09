@@ -9,23 +9,35 @@
  "field_order": [
   "section_break_d6am",
   "amended_from",
+  "company",
+  "company_currency",
   "diagnosis_date",
+  "posting_date",
   "batch",
   "item",
   "serial_no",
   "to_capitalize",
+  "capitalisation_warehouse",
   "column_break_ppbh",
   "treatment_type",
   "status",
   "disease",
   "notes",
   "section_break_vkji",
+  "start_date",
+  "end_date",
   "symptoms",
   "column_break_iewh",
   "withdrawal_period_weeks",
   "recommended_treatment",
   "section_break_gpso",
-  "table_sduo"
+  "treatment_plans",
+  "section_break_vubi",
+  "purchase_invoices",
+  "stock_entries_section",
+  "medical_stock_entry",
+  "capitalisation_stock_entry",
+  "total_medical_cost"
  ],
  "fields": [
   {
@@ -48,12 +60,18 @@
    "label": "Diagnosis Date"
   },
   {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Stock Posting Date",
+   "reqd": 1
+  },
+  {
    "fieldname": "batch",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Batch",
-   "options": "Batch",
-   "reqd": 1
+   "options": "Batch"
   },
   {
    "fetch_from": "batch.item",
@@ -116,11 +134,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "table_sduo",
-   "fieldtype": "Table",
-   "options": "Treatment Plan"
-  },
-  {
    "default": "Pending",
    "fieldname": "status",
    "fieldtype": "Select",
@@ -132,13 +145,94 @@
    "fieldname": "to_capitalize",
    "fieldtype": "Check",
    "label": "To Capitalize"
+  },
+  {
+   "depends_on": "eval:doc.to_capitalize",
+   "description": "Defaults to the Batch Location or Serial No's current warehouse. For a Batch, only stock in this warehouse is revalued.",
+   "fieldname": "capitalisation_warehouse",
+   "fieldtype": "Link",
+   "label": "Capitalisation Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "section_break_vubi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "purchase_invoices",
+   "fieldtype": "Table",
+   "label": "Purchase Invoices",
+   "options": "Vet Diagnosis Purchase Invoices"
+  },
+  {
+   "fieldname": "treatment_plans",
+   "fieldtype": "Table",
+   "label": "Treatment Plans",
+   "options": "Treatment Plan"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "company.default_currency",
+   "fieldname": "company_currency",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Company Currency",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "stock_entries_section",
+   "fieldtype": "Section Break",
+   "label": "Medical Stock Transactions"
+  },
+  {
+   "fieldname": "medical_stock_entry",
+   "fieldtype": "Link",
+   "label": "Medical Stock Entry",
+   "no_copy": 1,
+   "options": "Stock Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "capitalisation_stock_entry",
+   "fieldtype": "Link",
+   "label": "Capitalisation Stock Entry",
+   "no_copy": 1,
+   "options": "Stock Entry",
+   "read_only": 1
+  },
+  {
+   "description": "Actual issued medicine valuation plus allocated non-stock invoice costs, in company currency.",
+   "fieldname": "total_medical_cost",
+   "fieldtype": "Currency",
+   "label": "Total Medical Cost",
+   "no_copy": 1,
+   "options": "company_currency",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-09-30 10:39:21.046793",
+ "modified": "2026-10-06 13:14:54.240938",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Veterinary Diagnosis",
@@ -146,6 +240,7 @@
  "owner": "Administrator",
  "permissions": [
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
