@@ -1,0 +1,26 @@
+{
+ "app": "livestock_management",
+ "doctype": "Sidebar",
+ "header_icon": null,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "doctype": "Sidebar Item",
+   "idx": 1,
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Livestock",
+   "link_to": "Livestock",
+   "link_type": "Workspace",
+   "parentfield": "items",
+   "parenttype": "Sidebar",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ],
+ "module": "Livestock Management",
+ "name": "Livestock",
+ "standard": 1,
+ "title": "Livestock"
+}

@@ -75,15 +75,14 @@ fixtures = [
 	},
 ]
 # Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "livestock_management",
-# 		"logo": "/assets/livestock_management/logo.png",
-# 		"title": "Livestock Management",
-# 		"route": "/livestock_management",
-# 		"has_permission": "livestock_management.api.permission.has_app_permission"
-# 	}
-# ]
+add_to_apps_screen = [
+	{
+		"name": "livestock_management",
+		"logo": "/assets/livestock_management/images/rooster.png",
+		"title": "Livestock Management",
+		"route": "/desk/livestock",
+	}
+]
 
 # Includes in <head>
 # ------------------
