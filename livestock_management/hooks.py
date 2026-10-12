@@ -46,6 +46,8 @@ fixtures = [
 					"Serial No-custom_sex",
 					"Stock Entry-custom_offspring_record",
 					"Stock Entry-lvm_veterinary_diagnosis",
+					"Batch-custom_age_in_days",
+					"Batch-custom_age_weeks",
 				],
 			]
 		],
@@ -106,7 +108,10 @@ add_to_apps_screen = [
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Stock Entry": "public/js/stock_entry.js"}
+doctype_js = {
+	"Stock Entry": "public/js/stock_entry.js",
+	"Batch": "public/js/batch.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}

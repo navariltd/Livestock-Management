@@ -19,11 +19,6 @@ An integrated livestock management solution built for ERPNext, designed to bridg
 - **Livestock Events and Issues**: Reusable husbandry events for non-stock activities, plus issue reporting through ERPNext Helpdesk.
 - **Reproduction Management**: Serial-number sex and reproductive status, breeding records, pregnancy diagnosis, expected calving, offspring records, newborn stock receipts, parent and sibling links, and pedigree history.
 - **Serial-Number Livestock Support**: End-to-end support for individually identified livestock such as cattle and sheep, alongside batch-based poultry tracking.
-
-## Upcoming Features
-
-The following capabilities are defined in the product proposal but are not yet fully implemented:
-
 - **Capitalization and Valuation Automation**: Automatic closure of batch capitalization when the end date is reached, ongoing age-in-days updates, scheduled background updates, fair-value adjustment through stock reconciliation, and reproduction accounting configuration.
 
 ## Installation
