@@ -1,0 +1,24 @@
+{
+ "app": "livestock_management",
+ "creation": "2026-10-12 01:07:50.356690",
+ "docstatus": 0,
+ "doctype": "Dock",
+ "idx": 0,
+ "items": [
+  {
+   "added": 1,
+   "hidden": 0,
+   "icon": "file-check",
+   "link_to": "Livestock",
+   "link_type": "Sidebar",
+   "title": "Livestock Management"
+  }
+ ],
+ "modified": "2026-10-12 01:16:17.140828",
+ "modified_by": "Administrator",
+ "mount_on": "livestock_management",
+ "name": "livestock_management",
+ "owner": "Administrator",
+ "standard": 1,
+ "user": ""
+}
