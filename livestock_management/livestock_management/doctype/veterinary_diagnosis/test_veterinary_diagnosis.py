@@ -136,10 +136,11 @@ class TestVeterinaryDiagnosisStock(TestCase):
 		with (
 			patch.object(frappe, "new_doc", return_value=entry),
 			patch.object(frappe, "get_cached_doc", return_value=self.item),
-			patch.object(frappe.db, "get_single_value", return_value="Treatment Expense"),
+			patch.object(frappe.db, "get_value", return_value="Treatment Expense") as get_account,
 			patch.object(self.doc, "validate_expense_account") as validate_account,
 		):
 			self.assertIs(self.doc.create_medical_entry(), entry)
+		get_account.assert_called_once_with("Company", "Farm", "lvm_treatment_stock_entry_difference_account")
 		validate_account.assert_called_once_with("Treatment Expense")
 		self.assertEqual((entry.stock_entry_type, entry.purpose), ("Medical", "Material Issue"))
 		self.assertEqual(entry.lvm_veterinary_diagnosis, "VD-1")
@@ -496,3 +497,38 @@ class TestLivestockCapitalisation(TestCase):
 			)
 		)
 		self.assertEqual({row["expense_account"]: row["amount"] for row in costs}, {"A": 60, "B": 30})
+
+
+class TestStockEntryDifferenceAccounts(TestCase):
+	def test_accounts_follow_entry_company_and_type(self):
+		fields = {
+			"Feeding": "lvm_feeding_stock_entry_difference_account",
+			"Treatment": "lvm_treatment_stock_entry_difference_account",
+			"Medical": "lvm_treatment_stock_entry_difference_account",
+			"Capitalisation": "lvm_capitalisation_stock_entry_difference_account",
+			"Egg Production": "lvm_egg_production_stock_entry_difference_account",
+			"Mortality": "lvm_mortality_stock_entry_difference_account",
+		}
+		for company in ("Farm", "Other Farm"):
+			for entry_type, field in fields.items():
+				with (
+					self.subTest(company=company, entry_type=entry_type),
+					patch.object(frappe, "db", Mock()) as db,
+				):
+					db.get_value.return_value = company + " Expense"
+					doc = Row(company=company, stock_entry_type=entry_type, items=[Row(), Row()])
+					stock_entry.before_save_livestock_entry(doc, None)
+					db.get_value.assert_called_once_with("Company", company, field)
+					self.assertTrue(all(row.expense_account == company + " Expense" for row in doc.items))
+
+	def test_unconfigured_or_unrelated_entries_keep_existing_account(self):
+		for entry_type in ("Feeding", "Material Transfer"):
+			with self.subTest(entry_type=entry_type), patch.object(frappe, "db", Mock()) as db:
+				db.get_value.return_value = None
+				doc = Row(
+					company="Farm", stock_entry_type=entry_type, items=[Row(expense_account="Existing")]
+				)
+				stock_entry.before_save_livestock_entry(doc, None)
+				self.assertEqual(doc.items[0].expense_account, "Existing")
+				if entry_type == "Material Transfer":
+					db.get_value.assert_not_called()

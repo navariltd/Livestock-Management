@@ -22,9 +22,14 @@ An integrated livestock management solution built for ERPNext, designed to bridg
 
 ## Upcoming Features
 
-The following capabilities are defined in the product proposal but are not yet fully implemented:
+The following planned features will reuse standard Frappe and ERPNext capabilities wherever possible:
 
-- **Capitalization and Valuation Automation**: Automatic closure of batch capitalization when the end date is reached, ongoing age-in-days updates, scheduled background updates, fair-value adjustment through stock reconciliation, and reproduction accounting configuration.
+- **Flock/Batch Performance Dashboard**: Track live population, survival, weight, feed consumption, FCR, and egg yield against age-based targets using standard reports, Number Cards, and Dashboard Charts.
+- **Daily Farm Entry Screen**: Record feeding, mortality, weighing, produce collection, and observations through one screen that creates existing operational documents and respects standard permissions and approval workflows.
+- **Performance Alerts**: Detect unusual mortality, poor growth, and overdue weighing or treatment, with standard Notifications, assignments, and ToDos supporting follow-up.
+- **Batch Lifecycle Traceability**: Follow livestock from receipt or birth through husbandry, treatment, transfers, grading, batch splits/merges, and sale using ERPNext stock transactions and linked lifecycle reports.
+
+See [Upcoming Features: Implementation Approach](upcoming_features.md) for prerequisites, implementation details, and acceptance checks.
 
 ## Installation
 
