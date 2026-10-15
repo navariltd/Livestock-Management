@@ -25,7 +25,10 @@ class VeterinaryDiagnosis(Document):
 		self.validate_purchase_invoice_costs()
 		if self.to_capitalize:
 			get_capitalisation_target(
-				self.company, self.get("batch"), self.get("serial_no"), self.get("capitalisation_warehouse")
+				self.company,
+				self.get("batch"),
+				self.get("serial_no"),
+				self.get("capitalisation_warehouse"),
 			)
 
 	def validate(self):
@@ -70,7 +73,7 @@ class VeterinaryDiagnosis(Document):
 	def validate_expense_account(self, account_name):
 		if not account_name:
 			frappe.throw(
-				_("Set the Treatment Stock Entry Difference Account in Livestock Management Settings.")
+				_("Set the Treatment Stock Entry Difference Account for Company {0}.").format(self.company)
 			)
 		account = frappe.get_doc("Account", account_name)
 		currency = frappe.get_cached_value("Company", self.company, "default_currency")
@@ -155,7 +158,11 @@ class VeterinaryDiagnosis(Document):
 	def get_generated_entry(self, entry_type):
 		name = frappe.db.get_value(
 			"Stock Entry",
-			{"lvm_veterinary_diagnosis": self.name, "stock_entry_type": entry_type, "docstatus": ["!=", 2]},
+			{
+				"lvm_veterinary_diagnosis": self.name,
+				"stock_entry_type": entry_type,
+				"docstatus": ["!=", 2],
+			},
 			"name",
 		)
 		if not name:
@@ -202,9 +209,8 @@ class VeterinaryDiagnosis(Document):
 			self.db_set("capitalisation_stock_entry", repack.name, update_modified=False)
 
 	def create_medical_entry(self):
-		account = frappe.db.get_single_value(
-			"Livestock Management Settings", "treatment_stock_entry_difference_account"
-		)
+		# Use company-specific account to avoid cross-company accounting issues in multi-company setups.
+		account = frappe.db.get_value("Company", self.company, "lvm_treatment_stock_entry_difference_account")
 		self.validate_expense_account(account)
 		entry = frappe.new_doc("Stock Entry")
 		entry.stock_entry_type = "Medical"
