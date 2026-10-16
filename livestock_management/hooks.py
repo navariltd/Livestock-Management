@@ -11,6 +11,7 @@ app_license = "mit"
 required_apps = ["frappe/erpnext", "frappe/hrms"]
 
 doc_events = {
+	"Item": {"validate": "livestock_management.livestock_management.overrides.item.validate"},
 	"Batch": {"before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save"},
 	"Stock Entry": {
 		"before_save": "livestock_management.livestock_management.overrides.stock_entry.before_save_livestock_entry",
