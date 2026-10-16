@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\": \"t_EiNBvcom\", \"type\": \"header\", \"data\": {\"text\": \"\\u003cspan class=\\\"h2\\\"\\u003eLivestock Management\\u003c/span\\u003e\", \"col\": 12}}, {\"id\": \"nhjVspyHmH\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"Lr-TL5XdJL\", \"type\": \"paragraph\", \"data\": {\"text\": \"Click on \\n\\t\\t\\t\\n\\t\\t\\t\\n\\t\\t to edit\", \"col\": 12}}, {\"id\": \"iaJ5qqsDPA\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Feeding Entries\", \"col\": 4}}, {\"id\": \"F4yTVI1ufV\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Mortality Entries\", \"col\": 4}}, {\"id\": \"xojEH9X94D\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Capitalization Entries\", \"col\": 4}}, {\"id\": \"ozYBXzeC8-\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Treatment Entries\", \"col\": 4}}, {\"id\": \"jVsQpV0cBU\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Production Entries\", \"col\": 4}}, {\"id\": \"oQvaHWFUnX\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Livestock Management Settings\", \"col\": 4}}, {\"id\": \"Q1QZgA3b_h\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"-nfzAs4Rfz\", \"type\": \"card\", \"data\": {\"card_name\": \"Formula and Records\", \"col\": 3}}, {\"id\": \"9QhB2fOlTl\", \"type\": \"card\", \"data\": {\"card_name\": \"Other Shortcuts\", \"col\": 3}}, {\"id\": \"jz0ukC9wHD\", \"type\": \"card\", \"data\": {\"card_name\": \"Quality Inspection\", \"col\": 3}}, {\"id\": \"mfIeeHKm-z\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 3}}]",
+ "content": "[{\"id\": \"t_EiNBvcom\", \"type\": \"header\", \"data\": {\"text\": \"\\u003cspan class=\\\"h2\\\"\\u003eLivestock Management\\u003c/span\\u003e\", \"col\": 12}}, {\"id\": \"nhjVspyHmH\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"iaJ5qqsDPA\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Feeding Entries\", \"col\": 4}}, {\"id\": \"F4yTVI1ufV\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Mortality Entries\", \"col\": 4}}, {\"id\": \"xojEH9X94D\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Capitalization Entries\", \"col\": 4}}, {\"id\": \"Kh7HWPyuTZ\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Medical Entries\", \"col\": 4}}, {\"id\": \"ozYBXzeC8-\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Treatment Entries\", \"col\": 4}}, {\"id\": \"jVsQpV0cBU\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Production Entries\", \"col\": 4}}, {\"id\": \"Q1QZgA3b_h\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"-nfzAs4Rfz\", \"type\": \"card\", \"data\": {\"card_name\": \"Formula and Records\", \"col\": 3}}, {\"id\": \"9QhB2fOlTl\", \"type\": \"card\", \"data\": {\"card_name\": \"Other Shortcuts\", \"col\": 3}}, {\"id\": \"jz0ukC9wHD\", \"type\": \"card\", \"data\": {\"card_name\": \"Quality Inspection\", \"col\": 3}}, {\"id\": \"mfIeeHKm-z\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 3}}]",
  "creation": "2026-07-12 23:17:00.898040",
  "custom_blocks": [],
  "docstatus": 0,
@@ -133,65 +133,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Other Shortcuts",
-   "link_count": 5,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Project",
-   "link_count": 0,
-   "link_to": "Project",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Batch",
-   "link_count": 0,
-   "link_to": "Batch",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Serial No",
-   "link_count": 0,
-   "link_to": "Serial No",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sales Invoice",
-   "link_count": 0,
-   "link_to": "Sales Invoice",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Veterinary Diagnosis",
-   "link_count": 0,
-   "link_to": "Veterinary Diagnosis",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Reports",
    "link_count": 6,
    "link_type": "DocType",
@@ -257,9 +198,78 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Other Shortcuts",
+   "link_count": 6,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Batch",
+   "link_count": 0,
+   "link_to": "Batch",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Item",
+   "link_count": 0,
+   "link_to": "Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Project",
+   "link_count": 0,
+   "link_to": "Project",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Serial No",
+   "link_count": 0,
+   "link_to": "Serial No",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Invoice",
+   "link_count": 0,
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Veterinary Diagnosis",
+   "link_count": 0,
+   "link_to": "Veterinary Diagnosis",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-10-15 13:03:51.937404",
+ "modified": "2026-10-16 10:09:20.307330",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
@@ -270,6 +280,14 @@
  "roles": [],
  "sequence_id": 0.0,
  "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Medical Entries",
+   "link_to": "Stock Entry",
+   "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Medical\"]]",
+   "type": "DocType"
+  },
   {
    "color": "Grey",
    "doc_view": "List",
@@ -300,13 +318,6 @@
    "label": "Mortality Entries",
    "link_to": "Stock Entry",
    "stats_filter": "[[\"Stock Entry\",\"stock_entry_type\",\"=\",\"Mortality\"]]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Livestock Management Settings",
-   "link_to": "Livestock Management Settings",
    "type": "DocType"
   },
   {
