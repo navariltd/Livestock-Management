@@ -125,7 +125,7 @@ def existing_operation(doctype, operation_id, fingerprint):
 
 
 @frappe.whitelist(methods=["POST"])
-def save_activity(payload):
+def save_activity(payload: str | dict):
 	"""Create, never submit. Each call is an independent Frappe request transaction."""
 	payload = frappe.parse_json(payload) if isinstance(payload, str) else payload
 	validate_keys(payload, {"activity", "operation_id", "context", "values"})
@@ -326,7 +326,7 @@ def add_stock_rows(doc, activity, rows, context):
 
 
 @frappe.whitelist()
-def get_recent_activities(company, batch):
+def get_recent_activities(company: str, batch: str):
 	"""Small, bounded history. No cross-document query bypasses source permissions."""
 	checked_doc("Company", company)
 	checked_doc("Batch", batch)
