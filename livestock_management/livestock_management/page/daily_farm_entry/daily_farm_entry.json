@@ -1,0 +1,13 @@
+{
+  "doctype": "Page",
+  "module": "Livestock Management",
+  "name": "daily-farm-entry",
+  "page_name": "daily-farm-entry",
+  "standard": "Yes",
+  "title": "Daily Farm Entry",
+  "roles": [
+    { "role": "Stock User" },
+    { "role": "Stock Manager" },
+    { "role": "System Manager" }
+  ]
+}
