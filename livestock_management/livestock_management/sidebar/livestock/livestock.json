@@ -13,7 +13,7 @@
    "indent": 0,
    "is_default_module": 0,
    "keep_closed": 0,
-   "label": "Livestock",
+   "label": "Workspace",
    "link_to": "Livestock",
    "link_type": "Workspace",
    "open_in_new_tab": 0,
@@ -37,7 +37,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -46,13 +46,14 @@
    "label": "Entries",
    "link_to": "Stock Entry",
    "link_type": "DocType",
+   "navigate_to_tab": "",
    "open_in_new_tab": 1,
    "show_arrow": 0,
    "type": "Link"
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -67,7 +68,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -96,7 +97,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -126,7 +127,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -141,7 +142,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -166,11 +167,11 @@
    "link_type": "DocType",
    "open_in_new_tab": 1,
    "show_arrow": 0,
-   "type": "Link"
+   "type": "Section Break"
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -185,7 +186,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -200,7 +201,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -215,7 +216,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -245,7 +246,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -260,7 +261,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -275,7 +276,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -290,7 +291,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -305,7 +306,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -320,7 +321,7 @@
   },
   {
    "added": 0,
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "hidden": 0,
    "indent": 0,
@@ -334,7 +335,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-10-21 13:54:07.911371",
+ "modified": "2026-10-21 14:07:17.024371",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
