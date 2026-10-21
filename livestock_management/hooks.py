@@ -103,7 +103,7 @@ fixtures = [
 add_to_apps_screen = [
 	{
 		"name": "livestock_management",
-		"logo": "/assets/livestock_management/images/rooster.png",
+		"logo": "/assets/livestock_management/images/livestock_management_logo.png",
 		"title": "Livestock Management",
 		"route": "/desk/livestock",
 	}
