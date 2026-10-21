@@ -9,6 +9,7 @@ STOCK_ENTRY_DIFFERENCE_ACCOUNT_FIELDS = {
 	"Medical": "lvm_treatment_stock_entry_difference_account",
 	"Capitalisation": "lvm_capitalisation_stock_entry_difference_account",
 	"Egg Production": "lvm_egg_production_stock_entry_difference_account",
+	"Produce Collection": "lvm_egg_production_stock_entry_difference_account",
 	"Mortality": "lvm_mortality_stock_entry_difference_account",
 }
 
@@ -120,7 +121,12 @@ def create_repack_entry(source_doc, item_row=None, *, serial_no=None, warehouse=
 
 	item_row is retained for compatibility; its medicine valuation must not value the livestock.
 	"""
-	target = get_capitalisation_target(source_doc.company, source_doc.get("lvm_batch"), serial_no, warehouse)
+	target = get_capitalisation_target(
+		source_doc.company,
+		source_doc.get("lvm_batch"),
+		serial_no,
+		warehouse or source_doc.get("lvm_livestock_house"),
+	)
 	if target.qty is None:
 		target.qty = flt(
 			get_batch_qty(

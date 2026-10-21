@@ -1,5 +1,13 @@
 [
  {
+  "description": "General farm observations recorded during daily operations.",
+  "docstatus": 0,
+  "doctype": "Husbandry Practice",
+  "husbandry_name": "Observation",
+  "modified": "2026-10-21 12:01:44.008548",
+  "name": "Observation"
+ },
+ {
   "description": "Checking if an animal is pregnant.",
   "docstatus": 0,
   "doctype": "Husbandry Practice",

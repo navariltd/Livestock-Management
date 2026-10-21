@@ -57,6 +57,20 @@ fixtures = [
 					"Company-custom_feeding_stock_entry_difference_account",
 					"Company-custom_default_stock_entry_difference_accounts",
 					"Company-custom_lvm_settings",
+					"Livestock Event-lvm_farm_entry_id",
+					"Livestock Event-lvm_farm_entry_hash",
+					"Livestock Event-lvm_livestock_house",
+					"Livestock Event-lvm_company",
+					"Livestock Event-lvm_project",
+					"Stock Entry-lvm_farm_entry_id",
+					"Stock Entry-lvm_farm_entry_hash",
+					"Stock Entry-lvm_livestock_house",
+					"Weight Record-lvm_farm_entry_id",
+					"Weight Record-lvm_farm_entry_hash",
+					"Weight Record-lvm_livestock_house",
+					"Weight Record-lvm_weight_uom",
+					"Weight Record-lvm_company",
+					"Weight Record-lvm_project",
 				],
 			]
 		],
@@ -64,7 +78,7 @@ fixtures = [
 	{
 		"doctype": "Husbandry Practice",
 		"filters": [
-			["name", "in", ["Pregnancy Check"]],
+			["name", "in", ["Pregnancy Check", "Observation"]],
 		],
 	},
 	{
@@ -89,7 +103,7 @@ fixtures = [
 add_to_apps_screen = [
 	{
 		"name": "livestock_management",
-		"logo": "/assets/livestock_management/images/rooster.png",
+		"logo": "/assets/livestock_management/images/livestock_management_logo.png",
 		"title": "Livestock Management",
 		"route": "/desk/livestock",
 	}

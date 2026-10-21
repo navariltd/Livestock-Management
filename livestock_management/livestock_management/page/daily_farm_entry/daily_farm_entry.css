@@ -1,0 +1,37 @@
+.daily-farm-entry {
+	padding: 20px;
+}
+.daily-farm-entry .farm-context {
+	padding: 16px;
+	background: var(--fg-color);
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+}
+.daily-farm-entry .farm-activities {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 16px;
+	margin: 20px 0;
+}
+.daily-farm-entry .farm-activity {
+	background: var(--fg-color);
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	padding: 18px;
+}
+.daily-farm-entry .farm-activity p {
+	min-height: 40px;
+}
+.daily-farm-entry .farm-activity button {
+	min-height: 40px;
+}
+.daily-farm-entry .farm-saved {
+	padding: 10px 0;
+	border-bottom: 1px solid var(--border-color);
+	overflow-wrap: anywhere;
+}
+@media (max-width: 767px) {
+	.daily-farm-entry {
+		padding: 12px 4px;
+	}
+}
