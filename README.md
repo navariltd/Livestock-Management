@@ -41,6 +41,12 @@ bench get-app $URL_OF_THIS_REPO --branch version-16
 bench install-app livestock_management
 ```
 
+## Daily Farm Entry
+
+Open **Livestock → Daily Farm Entry** (Desk route: `/desk/daily-farm-entry`) to record feeding, mortality, weighing, produce collection, and observations using shared flock details. Run `bench --site <site-name> migrate` after updating to install the Page and its fields, then reload Desk.
+
+Stock activities create drafts for review and submission in standard forms. Weight Records and Livestock Events save immediately. The first version supports batch-tracked livestock, stock-UOM quantities, and average weights in Kg; existing document permissions and workflows still apply. See [feature.md](feature.md) for the implementation approach and current limits.
+
 ## Veterinary Diagnosis stock transactions
 
 After updating the app, run `bench --site <site-name> migrate` to install the new fields and Stock Entry reference fixture.
