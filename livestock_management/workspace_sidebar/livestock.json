@@ -15,6 +15,14 @@
    "link_type": "Workspace",
    "show_arrow": 0,
    "type": "Link"
+  },
+  {
+   "label": "Daily Farm Entry",
+   "link_to": "daily-farm-entry",
+   "link_type": "Page",
+   "type": "Link",
+   "indent": 0,
+   "child": 0
   }
  ],
  "modified": "2026-07-12 23:19:21.762194",
