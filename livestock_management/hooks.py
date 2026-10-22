@@ -1,5 +1,5 @@
 app_name = "livestock_management"
-app_title = "Livestock Management"
+app_title = "Vuna Livestock"
 app_publisher = "Navari Limited"
 app_description = "An integrated livestock management solution built for ERPNext, designed to bridge the gap between daily farm operations and financial accounting."
 app_email = "solutions@navari.co.ke"
@@ -105,7 +105,7 @@ add_to_apps_screen = [
 	{
 		"name": "livestock_management",
 		"logo": "/assets/livestock_management/images/livestock_management_logo.png",
-		"title": "Livestock Management",
+		"title": "Vuna Livestock",
 		"route": "/desk/livestock",
 	}
 ]

@@ -1,4 +1,4 @@
-# Livestock Management
+# Vuna LivestockManagement
 
 An integrated livestock management solution built for ERPNext, designed to bridge the gap between daily farm operations and financial accounting. This application enables poultry farms to manage routine operational activities while ensuring compliance with International Accounting Standard 41 (IAS 41) - Agriculture by linking farm activities directly to the valuation of biological assets.
 
