@@ -1,4 +1,4 @@
-# Livestock Management
+# Vuna Livestock
 
 An integrated livestock management solution built for ERPNext, designed to bridge the gap between daily farm operations and financial accounting. This application enables poultry farms to manage routine operational activities while ensuring compliance with International Accounting Standard 41 (IAS 41) - Agriculture by linking farm activities directly to the valuation of biological assets.
 
@@ -12,6 +12,7 @@ An integrated livestock management solution built for ERPNext, designed to bridg
 - **Batch & Flock Identity Enhancement**: Advanced batch management including capitalization start/end dates, capitalization status (Active/Closed), and age calculation based on manufacturing date.
 - **Item Enhancements**: Configurable capitalization days and automatic validation for capitalization-related fields.
 - **Operational Reporting**: Seamless integration with standard ERPNext modules including Inventory, Manufacturing, Projects, and Accounting.
+- **Flock/Batch Performance Dashboard**: A batch performance report, Survival Percentage, Feed Consumed, and Internal FCR Number Cards, plus Daily Population and Mortality Trend Dashboard Charts summarise flock performance using stock transactions and weight records, with filters and permission checks.
 - **Daily Farm Entry Screen**: A Frappe Desk Page for batch-based feeding, mortality, weighing, produce collection, and observations using shared flock details. It creates draft Stock Entries for standard review and submission, saves Weight Records and Livestock Events immediately, and provides duplicate-save protection and recent activity links while respecting existing permissions and workflows.
 
 - **Feeding Programs**: Feeding Formula records with age ranges, expected intake, expected FCR, and formula-based population of feeding entries.
@@ -25,9 +26,16 @@ An integrated livestock management solution built for ERPNext, designed to bridg
 
 The following planned features will reuse standard Frappe and ERPNext capabilities wherever possible:
 
-- **Flock/Batch Performance Dashboard**: Track live population, survival, weight, feed consumption, FCR, and egg yield against age-based targets using standard reports, Number Cards, and Dashboard Charts.
+- **Age-Based Performance Targets**: Extend flock/batch reporting with comparisons against age-based growth, feed consumption, FCR, and egg-yield targets.
 - **Performance Alerts**: Detect unusual mortality, poor growth, and overdue weighing or treatment, with standard Notifications, assignments, and ToDos supporting follow-up.
 - **Batch Lifecycle Traceability**: Follow livestock from receipt or birth through husbandry, treatment, transfers, grading, batch splits/merges, and sale using ERPNext stock transactions and linked lifecycle reports.
+
+
+## Survival Percentage card
+
+The custom Survival Percentage card defaults to the current month through today and the user's default Company. It includes only permitted batches marked **Is Livestock Item**, with Items counted in Nos or Unit. Optional Company, Item, Batch, house, and date filters narrow the scope.
+
+Period survival is `100 × (opening population + animals entering the scope − deaths) / (opening population + animals entering the scope)`. It combines animal counts rather than averaging batch percentages. Sales and explicitly separate Culling-type issues are departures, not deaths. All issues posted under the Mortality type count as deaths; culling recorded under that same type cannot be distinguished automatically. Internal transfers and valuation-only Repacks net out across the selected scope. Transfers into a selected house count as entrants to that house. The card shows **Unavailable** for a missing denominator, stock corrections, incomplete batch transformations, unreadable/unclassified stock issues, or invalid negative balances. Its percentage is an operational period rate, not a lifetime cohort survival estimate. Automatic percentage-change statistics are disabled because they are a different metric.
 
 
 ## Installation

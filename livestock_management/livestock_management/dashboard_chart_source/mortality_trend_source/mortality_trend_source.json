@@ -1,0 +1,13 @@
+{
+ "creation": "2026-10-22 16:55:58.577941",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart Source",
+ "idx": 0,
+ "modified": "2026-10-22 16:55:58.577941",
+ "modified_by": "Administrator",
+ "module": "Livestock Management",
+ "name": "Mortality Trend Source",
+ "owner": "Administrator",
+ "source_name": "Mortality Trend Source",
+ "timeseries": 1
+}
