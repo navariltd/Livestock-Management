@@ -49,6 +49,7 @@ fixtures = [
 					"Stock Entry-lvm_veterinary_diagnosis",
 					"Batch-custom_age_in_days",
 					"Batch-custom_age_weeks",
+					"Batch-custom_is_livestock_item",
 					"Company-custom_mortality_stock_entry_difference_account",
 					"Company-custom_treatment_stock_entry_difference_account",
 					"Company-custom_column_break_eeihj",
