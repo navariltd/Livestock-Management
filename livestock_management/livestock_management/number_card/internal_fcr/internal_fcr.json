@@ -1,10 +1,10 @@
 {
  "aggregate_function_based_on": "",
  "creation": "2026-10-22 15:20:15.263310",
- "currency": "KES",
+ "currency": "",
  "docstatus": 0,
  "doctype": "Number Card",
- "document_type": "Feed Formula",
+ "document_type": "Weight Record",
  "dynamic_filters_json": "[]",
  "filters_json": "[]",
  "function": "Count",
@@ -12,7 +12,8 @@
  "is_public": 0,
  "is_standard": 1,
  "label": "Internal FCR",
- "modified": "2026-10-22 15:20:15.263310",
+ "method": "livestock_management.livestock_management.number_card.internal_fcr.internal_fcr.get",
+ "modified": "2026-10-22 15:36:40.389417",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Internal FCR",
@@ -22,5 +23,5 @@
  "show_full_number": 0,
  "show_percentage_stats": 1,
  "stats_time_interval": "Daily",
- "type": "Document Type"
+ "type": "Custom"
 }

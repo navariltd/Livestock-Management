@@ -105,7 +105,7 @@ def get(filters: str | dict | list | None = None):
 	return response(value, scope, reason)
 
 
-def sum_feed_kg(rows):
+def sum_feed_kg(rows, precision: int | None = 3):
 	"""transfer_qty is already expressed in stock UOM: do not convert the entered qty twice."""
 	total = 0.0
 	factors = {}
@@ -122,7 +122,7 @@ def sum_feed_kg(rows):
 		if not isfinite(quantity):
 			return None, "A feeding entry has an invalid stock quantity."
 		total += quantity
-	return round(total, 3), None
+	return (round(total, precision) if precision is not None else total), None
 
 
 def response(value, scope, reason):

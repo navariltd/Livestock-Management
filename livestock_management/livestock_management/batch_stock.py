@@ -78,6 +78,7 @@ def get_batch_movements(filters, batch_names):
 						qty=flt(part.qty),
 						voucher_type=d.voucher_type,
 						voucher_no=d.voucher_no,
+						warehouse=d.warehouse,
 					)
 				)
 	return movements
