@@ -12,7 +12,8 @@
  "is_public": 0,
  "is_standard": 1,
  "label": "Survival Percentage",
- "modified": "2026-10-22 11:44:03.251669",
+ "method": "livestock_management.livestock_management.number_card.survival_percentage.survival_percentage.get",
+ "modified": "2026-10-22 12:10:40.917725",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Survival Percentage",
@@ -22,5 +23,5 @@
  "show_full_number": 0,
  "show_percentage_stats": 1,
  "stats_time_interval": "Daily",
- "type": "Document Type"
+ "type": "Custom"
 }
