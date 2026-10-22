@@ -120,7 +120,7 @@ def get_data(filters, item):
 			fields=[
 				"parent",
 				"item_code",
-				"stock_qty",
+				"transfer_qty as stock_qty",
 				"stock_uom",
 				"s_warehouse",
 				"t_warehouse",
