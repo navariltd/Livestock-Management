@@ -24,7 +24,7 @@ def get(
 	time_interval: str | None = None,
 	heatmap_year: str | int | None = None,
 	refresh: int | str | None = None,
-):
+) -> dict[str, Any]:
 	# Deliberately avoid cache_source: its chart-name cache is shared across users/filters.
 	# Re-evaluate current permissions on every request, including Refresh.
 	settings = None
@@ -41,8 +41,7 @@ def get(
 	elif isinstance(parsed_filters, dict):
 		chart_filters = dict(parsed_filters)
 	else:
-		frappe.throw(_("Invalid chart filters."))
-		return
+		raise frappe.ValidationError(_("Invalid chart filters."))
 	chart_filters["company"] = chart_filters.get("company") or frappe.defaults.get_user_default("Company")
 	if not chart_filters["company"]:
 		frappe.throw(_("Set a default Company or select Company in the chart filters."))
