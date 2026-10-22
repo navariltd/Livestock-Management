@@ -16,6 +16,7 @@ def update_reproduction_counts(serial_no, *, services=0, diagnoses=0):
 	)
 	if counts is None:
 		frappe.throw(f"Serial No {serial_no} does not exist.")
+		return
 
 	service_count = max(0, cint(counts.custom_number_of_services) + services)
 	diagnosis_count = max(0, cint(counts.custom_pregnancy_diagnosis) + diagnoses)
@@ -25,7 +26,7 @@ def update_reproduction_counts(serial_no, *, services=0, diagnoses=0):
 		{
 			"custom_number_of_services": service_count,
 			"custom_pregnancy_diagnosis": diagnosis_count,
-			"custom_conception_rate_": diagnosis_count / service_count if service_count else 0,
+			"custom_conception_rate_": (diagnosis_count / service_count if service_count else 0),
 		},
 	)
 	frappe.clear_document_cache("Serial No", serial_no)
