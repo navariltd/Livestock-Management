@@ -16,24 +16,24 @@ def get_batch_movements(filters, batch_names):
 	frappe.has_permission("Stock Ledger Entry", "read", throw=True)
 	# Ledger permissions alone need not include Warehouse User Permissions.
 	warehouses = frappe.get_list(
-		"Warehouse", filters={"company": filters.company, "is_group": 0}, pluck="name", limit_page_length=0
+		"Warehouse", filters={"company": filters["company"], "is_group": 0}, pluck="name", limit_page_length=0
 	)
 	if filters.get("warehouse"):
-		if filters.warehouse not in warehouses:
+		if filters["warehouse"] not in warehouses:
 			frappe.throw(_("You cannot access the selected Warehouse."), frappe.PermissionError)
-		warehouses = [filters.warehouse]
+		warehouses = [filters["warehouse"]]
 	if not warehouses:
 		return {}
 	ledger_filters = {
-		"company": filters.company,
-		"posting_date": ["<=", filters.to_date],
+		"company": filters["company"],
+		"posting_date": ["<=", filters["to_date"]],
 		"is_cancelled": 0,
 		"docstatus": ["<", 2],
 	}
 	if filters.get("item_code"):
-		ledger_filters["item_code"] = filters.item_code
+		ledger_filters["item_code"] = filters["item_code"]
 	elif filters.get("item_codes"):
-		ledger_filters["item_code"] = ["in", filters.item_codes]
+		ledger_filters["item_code"] = ["in", filters["item_codes"]]
 	ledger_filters["warehouse"] = ["in", warehouses]
 	ledger = frappe.get_list(
 		"Stock Ledger Entry",

@@ -13,6 +13,7 @@ from livestock_management.livestock_management.dashboard_chart_source.daily_popu
 class TestDailyPopulation(TestCase):
 	def setUp(self):
 		for mock in (
+			patch.object(frappe, "in_test", True),
 			patch.object(source, "_", side_effect=lambda text: text),
 			patch.object(batch_stock, "_", side_effect=lambda text: text),
 			patch.object(frappe, "throw", side_effect=frappe.ValidationError),
@@ -68,6 +69,7 @@ class TestDailyPopulation(TestCase):
 		with patch.object(source, "get_batch_movements") as stock:
 			for args in [
 				dict(filters={}),
+				dict(filters=["invalid"]),
 				dict(
 					filters={"company": "Farm", "item_code": "Bird"},
 					from_date="2026-10-02",
@@ -127,7 +129,7 @@ class TestDailyPopulation(TestCase):
 		):
 			result = source.get(filters=[], from_date="2026-10-01", to_date="2026-10-02")
 			self.assertEqual(result["datasets"][0]["values"], [120, 120])
-			self.assertEqual(stock.call_args.args[0].company, "Farm")
+			self.assertEqual(stock.call_args.args[0]["company"], "Farm")
 			self.assertEqual(
 				query.call_args.kwargs["filters"],
 				{"lvm_is_livestock_item": 1, "item": ["in", ["Bird", "Cow"]]},
@@ -157,7 +159,7 @@ class TestDailyPopulation(TestCase):
 			patch.object(frappe, "get_list", side_effect=[["House"], []]) as query,
 		):
 			batch_stock.get_batch_movements(
-				frappe._dict(company="Farm", item_codes=["Bird", "Cow"], to_date=date(2026, 10, 2)),
+				dict(company="Farm", item_codes=["Bird", "Cow"], to_date=date(2026, 10, 2)),
 				["FLOCK", "HERD"],
 			)
 			self.assertEqual(query.call_args.kwargs["filters"]["item_code"], ["in", ["Bird", "Cow"]])
@@ -211,3 +213,14 @@ class TestDailyPopulation(TestCase):
 		):
 			self.assertEqual(batch_stock.get_batch_movements(frappe._dict(company="Farm"), ["FLOCK"]), {})
 			self.assertEqual(get_list.call_count, 1)
+
+	def test_plain_dictionary_reaches_stock_reader_after_scope_validation(self):
+		with (
+			patch.object(frappe, "get_doc", return_value=Mock()) as document,
+			patch.object(frappe, "get_list", side_effect=[["Bird"], ["FLOCK"]]),
+			patch.object(source, "get_batch_movements", return_value={}) as stock,
+		):
+			result = source.get(filters={"company": "Farm"}, from_date="2026-10-01", to_date="2026-10-02")
+			document.assert_called_once_with("Company", "Farm")
+			self.assertIsInstance(stock.call_args.args[0], dict)
+			self.assertEqual(result["datasets"][0]["values"], [0, 0])

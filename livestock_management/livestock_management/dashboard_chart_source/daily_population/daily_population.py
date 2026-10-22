@@ -17,7 +17,7 @@ def get(
 	chart_name: str | None = None,
 	chart: str | dict | None = None,
 	no_cache: int | str | None = None,
-	filters: str | dict | None = None,
+	filters: str | dict | list | None = None,
 	from_date: str | None = None,
 	to_date: str | None = None,
 	timespan: str | None = None,
@@ -97,23 +97,23 @@ def get(
 
 
 def validate_scope(filters):
-	frappe.get_doc("Company", filters.company).check_permission("read")
+	frappe.get_doc("Company", filters["company"]).check_permission("read")
 	if not frappe.get_meta("Batch").has_field("lvm_is_livestock_item"):
 		frappe.throw(_("Run site migration to install the Batch livestock classification field."))
 	if filters.get("item_code"):
-		validate_item(filters.item_code)
+		validate_item(filters["item_code"])
 	if filters.get("batch"):
-		batch = frappe.get_doc("Batch", filters.batch)
+		batch = frappe.get_doc("Batch", filters["batch"])
 		batch.check_permission("read")
 		if not batch.get("lvm_is_livestock_item"):
 			frappe.throw(_("Select a Batch marked Is Livestock Item."))
-		if filters.get("item_code") and batch.item != filters.item_code:
+		if filters.get("item_code") and batch.item != filters["item_code"]:
 			frappe.throw(_("Batch must belong to the selected Livestock Item."))
 		validate_item(batch.item)
 	if filters.get("warehouse"):
-		warehouse = frappe.get_doc("Warehouse", filters.warehouse)
+		warehouse = frappe.get_doc("Warehouse", filters["warehouse"])
 		warehouse.check_permission("read")
-		if warehouse.company != filters.company or warehouse.is_group:
+		if warehouse.company != filters["company"] or warehouse.is_group:
 			frappe.throw(_("Select a non-group Warehouse belonging to the selected Company."))
 
 
