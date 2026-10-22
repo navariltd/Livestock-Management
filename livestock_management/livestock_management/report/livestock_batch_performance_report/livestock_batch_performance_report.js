@@ -55,11 +55,5 @@ frappe.query_reports["Livestock Batch Performance report"] = {
 				filters: { company: frappe.query_report.get_filter_value("company"), is_group: 0 },
 			}),
 		},
-		{
-			fieldname: "weights_are_kg",
-			label: __("Confirm weights are average Kg per animal (for FCR)"),
-			fieldtype: "Check",
-			default: 0,
-		},
 	],
 };
