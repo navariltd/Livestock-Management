@@ -7,6 +7,8 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, date_diff, flt, get_datetime, getdate
 
+from livestock_management.livestock_management.batch_stock import get_batch_movements
+
 PRODUCE_TYPES = {"Produce Collection", "Production", "Egg Production"}
 
 
@@ -87,61 +89,7 @@ def get_data(filters, item):
 	if not batches:
 		return []
 	batch_names = [b.name for b in batches]
-	# Permission-filtered ledger rows; bundle children are read only for these rows.
-	ledger_filters = {
-		"company": filters.company,
-		"item_code": filters.item_code,
-		"posting_date": ["<=", filters.to_date],
-		"is_cancelled": 0,
-		"docstatus": ["<", 2],
-	}
-	if filters.warehouse:
-		ledger_filters["warehouse"] = filters.warehouse
-	ledger = frappe.get_list(
-		"Stock Ledger Entry",
-		filters=ledger_filters,
-		fields=[
-			"name",
-			"posting_date",
-			"posting_time",
-			"actual_qty",
-			"batch_no",
-			"serial_and_batch_bundle",
-			"voucher_type",
-			"voucher_no",
-			"warehouse",
-		],
-		limit_page_length=0,
-	)
-	bundles = {d.serial_and_batch_bundle for d in ledger if d.serial_and_batch_bundle}
-	bundle_rows = defaultdict(list)
-	if bundles:
-		for d in frappe.get_all(
-			"Serial and Batch Entry",
-			filters={"parent": ["in", list(bundles)]},
-			fields=["parent", "batch_no", "qty"],
-			limit_page_length=0,
-		):
-			bundle_rows[d.parent].append(d)
-	movements = defaultdict(list)
-	for d in ledger:
-		# Bundle quantities already carry the inward/outward sign. Do not also count legacy fields.
-		parts = (
-			bundle_rows[d.serial_and_batch_bundle]
-			if d.serial_and_batch_bundle
-			else [frappe._dict(batch_no=d.batch_no, qty=d.actual_qty)]
-		)
-		for part in parts:
-			if part.batch_no in batch_names:
-				movements[part.batch_no].append(
-					frappe._dict(
-						date=getdate(d.posting_date),
-						timestamp=get_datetime(f"{d.posting_date} {d.posting_time}"),
-						qty=flt(part.qty),
-						voucher_type=d.voucher_type,
-						voucher_no=d.voucher_no,
-					)
-				)
+	movements = get_batch_movements(filters, batch_names)
 	entries = frappe.get_list(
 		"Stock Entry",
 		filters={"company": filters.company, "docstatus": 1},
@@ -197,7 +145,7 @@ def get_data(filters, item):
 			weights[d.batch].append(d)
 	rows = []
 	for batch in batches:
-		moves = movements[batch.name]
+		moves = movements.get(batch.name, [])
 		if not moves:
 			continue
 		rows.append(

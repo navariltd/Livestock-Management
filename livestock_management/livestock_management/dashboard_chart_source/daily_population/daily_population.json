@@ -1,0 +1,7 @@
+{
+  "doctype": "Dashboard Chart Source",
+  "module": "Livestock Management",
+  "name": "Daily Population",
+  "source_name": "Daily Population",
+  "timeseries": 1
+}
