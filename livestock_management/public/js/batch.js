@@ -1,4 +1,7 @@
 frappe.ui.form.on("Batch", {
+	setup(frm) {
+		frm.set_query("lvm_performance_profile", () => ({ filters: { docstatus: 1 } }));
+	},
 	refresh(frm) {
 		update_batch_age(frm);
 	},

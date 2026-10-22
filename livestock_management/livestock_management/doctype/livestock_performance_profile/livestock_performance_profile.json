@@ -1,0 +1,86 @@
+{
+ "doctype": "DocType",
+ "name": "Livestock Performance Profile",
+ "module": "Livestock Management",
+ "engine": "InnoDB",
+ "field_order": [
+  "profile_name",
+  "all_female_laying_flock",
+  "targets",
+  "egg_items",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "profile_name",
+   "label": "Profile Name",
+   "fieldtype": "Data",
+   "reqd": 1
+  },
+  {
+   "fieldname": "all_female_laying_flock",
+   "label": "All-Female Laying Flock",
+   "fieldtype": "Check"
+  },
+  {
+   "fieldname": "targets",
+   "label": "Daily Age Targets",
+   "fieldtype": "Table",
+   "options": "Livestock Performance Target",
+   "reqd": 1
+  },
+  {
+   "fieldname": "egg_items",
+   "label": "Egg Items (All Categories Laid)",
+   "fieldtype": "Table",
+   "options": "Livestock Performance Egg Item",
+   "depends_on": "eval:doc.all_female_laying_flock"
+  },
+  {
+   "fieldname": "amended_from",
+   "label": "Amended From",
+   "fieldtype": "Link",
+   "options": "Livestock Performance Profile",
+   "read_only": 1,
+   "no_copy": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "Stock Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1,
+   "report": 1,
+   "export": 1,
+   "import": 1
+  },
+  {
+   "role": "Stock User",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1,
+   "report": 1,
+   "export": 1,
+   "import": 1
+  }
+ ],
+ "is_submittable": 1,
+ "allow_import": 1,
+ "track_changes": 1,
+ "autoname": "LPP-.#####",
+ "title_field": "profile_name",
+ "search_fields": "profile_name"
+}

@@ -12,7 +12,10 @@ required_apps = ["frappe/erpnext", "frappe/hrms"]
 
 doc_events = {
 	"Item": {"validate": "livestock_management.livestock_management.overrides.item.validate"},
-	"Batch": {"before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save"},
+	"Batch": {
+		"before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save",
+		"validate": "livestock_management.livestock_management.overrides.batch.validate_performance_profile",
+	},
 	"Stock Entry": {
 		"before_save": "livestock_management.livestock_management.overrides.stock_entry.before_save_livestock_entry",
 		"on_submit": "livestock_management.livestock_management.overrides.stock_entry.on_submit_livestock_entry",
@@ -50,6 +53,8 @@ fixtures = [
 					"Batch-custom_age_in_days",
 					"Batch-custom_age_weeks",
 					"Batch-custom_is_livestock_item",
+					"Batch-lvm_performance_profile",
+					"Batch-lvm_hatch_date",
 					"Company-custom_mortality_stock_entry_difference_account",
 					"Company-custom_treatment_stock_entry_difference_account",
 					"Company-custom_column_break_eeihj",
