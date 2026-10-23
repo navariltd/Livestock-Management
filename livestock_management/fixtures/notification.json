@@ -1,0 +1,22 @@
+[
+ {
+  "doctype": "Notification",
+  "name": "Livestock Performance Follow-up",
+  "subject": "Livestock performance follow-up: {{ doc.lvm_alert_type }}",
+  "enabled": 1,
+  "is_standard": 0,
+  "document_type": "ToDo",
+  "event": "New",
+  "channel": "System Notification",
+  "condition_type": "Python",
+  "condition": "doc.lvm_alert_scope_key and doc.lvm_alert_condition == \"Active\"",
+  "message": "{{ doc.description }}",
+  "recipients": [
+   {
+    "receiver_by_document_field": "lvm_alert_recipient_email"
+   }
+  ],
+  "module": "Livestock Management",
+  "notification_type": "Alert"
+ }
+]

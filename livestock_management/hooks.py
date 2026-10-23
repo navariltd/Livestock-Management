@@ -11,6 +11,10 @@ app_license = "mit"
 required_apps = ["frappe/erpnext", "frappe/hrms"]
 
 doc_events = {
+	"ToDo": {
+		"validate": "livestock_management.livestock_management.performance_alerts.todos.validate_metadata",
+		"on_trash": "livestock_management.livestock_management.performance_alerts.todos.prevent_history_deletion",
+	},
 	"Item": {"validate": "livestock_management.livestock_management.overrides.item.validate"},
 	"Batch": {
 		"before_save": "livestock_management.livestock_management.overrides.batch.before_batch_save",
@@ -115,6 +119,10 @@ fixtures = [
 				],
 			]
 		],
+	},
+	{
+		"doctype": "Notification",
+		"filters": [["name", "=", "Livestock Performance Follow-up"]],
 	},
 ]
 # Each item in the list will be shown as an app in the apps page
@@ -364,3 +372,8 @@ doctype_js = {
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
+
+
+scheduler_events = {
+	"daily": ["livestock_management.livestock_management.performance_alerts.scheduler.run_daily"]
+}
