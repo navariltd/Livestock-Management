@@ -8,5 +8,6 @@ These guides cover feature setup, usage, calculation rules, and operational limi
 | [Survival Percentage card](survival_percentage.md)                 | Period survival calculation, population scope, mortality classification, and unavailable results.          |
 | [Veterinary Diagnosis stock transactions](veterinary_diagnosis.md) | Treatment account setup, medical stock issues, cost capitalisation, invoice allocations, and cancellation. |
 | [Batch lifecycle traceability](batch_lifecycle_traceability.md)    | Event sources, related batches, inferred lineage, permissions, and historical limitations.                 |
+| [Performance alerts](performance_alerts.md)                        | Daily detection rules, standard Notifications and ToDos, acknowledgement, and Company-controlled recovery. |
 
 Keep detailed feature documentation in a dedicated Markdown file here. Add new guides to this index and keep the project README focused on the app overview and getting started.

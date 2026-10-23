@@ -6,18 +6,14 @@ An integrated livestock management app for ERPNext that connects daily farm oper
 
 - **Daily Farm Operations**: Record feeding, mortality, weighing, egg and other produce collection, and observations through one Desk screen, with existing permissions and approval workflows.
 - **Batch and Animal Management**: Track flock identity, age, capitalisation periods, and individually identified livestock using batches and serial numbers.
-- **Feeding and Weight Tracking**: Maintain age-based feed formulas, expected intake and FCR, weight samples, population sizes, and recorded weight gains.
+- **Feeding and Weight Tracking**: Maintain age-based feed formulas, expected intake and Feed Conversion Ratios (FCR), weight samples, population sizes, and recorded weight gains.
 - **Veterinary Care and Husbandry**: Manage diagnoses, symptoms, treatment plans, prescriptions, withdrawal periods, husbandry events, and livestock issues.
 - **Reproduction Management**: Record breeding, pregnancy checks, expected calving, offspring, newborn stock receipts, and pedigree relationships.
 - **Cost Capitalisation**: Add qualifying feed and treatment costs to livestock valuation through Repack entries, supporting biological asset accounting under IAS 41.
-- **Performance Dashboard**: Review batch reports, live population, survival, feed consumption, interval FCR, and daily population and mortality trends.
-- **Age-Based Performance Targets**: Compare recorded weight, feed, FCR, and hen-day egg yield against submitted daily-age profiles.
+- **Performance Dashboard**: Review batch reports, live population, survival, feed consumption, interval Feed Conversion Ratio, and daily population and mortality trends.
+- **Age-Based Performance Targets**: Compare recorded weight, feed, Feed Conversion Ratios, and hen-day egg yield against submitted daily-age profiles.
 - **Batch Lifecycle Traceability**: Follow stock movements and linked activities, with conservative split and merge relationships inferred from Repack entries.
-
-## Upcoming Features
-
-- **Performance Alerts**: Detect unusual mortality, poor growth, and overdue weighing or treatment, using standard Notifications, assignments, and ToDos for follow-up.
-
+- **Performance Alerts**: Detect mortality, below-target weight, and overdue weighing or treatment follow-up with daily rules, standard Notifications and ToDos, and Company-controlled recovery. See the [guide](docs/performance_alerts.md).
 
 ## Installation
 
