@@ -4,6 +4,16 @@ frappe.ui.form.on("Batch", {
 	},
 	refresh(frm) {
 		update_batch_age(frm);
+		if (!frm.is_new() && frappe.model.can_read("Stock Ledger Entry")) {
+			frm.add_custom_button(__("Lifecycle Traceability"), () => {
+				frappe.set_route("query-report", "Batch Lifecycle Traceability", {
+					batch: frm.doc.name,
+					company: frappe.defaults.get_user_default("Company"),
+					to_date: frappe.datetime.get_today(),
+					include_related_batches: 1,
+				});
+			});
+		}
 	},
 
 	manufacturing_date(frm) {

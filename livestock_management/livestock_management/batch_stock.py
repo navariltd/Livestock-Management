@@ -51,6 +51,11 @@ def get_batch_movements(filters, batch_names):
 		],
 		limit_page_length=0,
 	)
+	return expand_batch_ledger(ledger, batch_names)
+
+
+def expand_batch_ledger(ledger, batch_names):
+	"""Expand only permission-scoped ledger rows; bundles replace legacy batch fields."""
 	bundles = {d.serial_and_batch_bundle for d in ledger if d.serial_and_batch_bundle}
 	bundle_rows = defaultdict(list)
 	if bundles:
