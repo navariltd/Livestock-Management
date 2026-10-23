@@ -64,23 +64,3 @@ The app installs **Livestock Performance Follow-up**, a standard Frappe Notifica
 New ToDos notify once; routine updates, acknowledgement, and recovery send no additional alert messages. Notifications respect standard user notification settings. A recurrence that creates a new ToDo sends a new notification; reusing an already-open task does not.
 
 Email is optional. To add it, create an additional Email Notification for ToDo using the same condition and `lvm_alert_recipient_email` recipient field, and configure an outgoing Email Account. Keep the app-provided System Notification intact; migrations synchronise its fixture.
-
-## Deployment and verification
-
-```bash
-bench --site YOUR_SITE migrate
-bench --site YOUR_SITE clear-cache
-```
-
-Reload Desk. Migration installs the Rule DocType, Company setting, ToDo metadata, Notification fixture, navigation, and daily scheduler hook. It creates no enabled rules and no sample clinical thresholds. No existing business records are rewritten.
-
-To run configured rules without waiting for the daily schedule:
-
-```bash
-bench --site YOUR_SITE execute \
-  livestock_management.livestock_management.performance_alerts.scheduler.run_daily
-```
-
-This is a real evaluation: enabled rules can create ToDos and send their configured Notifications. The job serialises concurrent runs and commits each rule independently. ToDos retain standard assignment behaviour and version history.
-
-On a test site, verify each alert against known stock, target, and due-date evidence. Confirm that rerunning creates no duplicate; manual closure stays acknowledged; Unknown does not resolve; and both Company auto-close settings behave as expected. Suppress notification delivery and roll back temporary records during developer validation. See also [performance targets](performance_targets.md), [survival percentage](survival_percentage.md), and the [documentation index](README.md).
