@@ -1,0 +1,134 @@
+{
+ "actions": [],
+ "autoname": "LPAR-.#####",
+ "creation": "2026-10-23 15:13:22.868259",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "rule_name",
+  "enabled",
+  "company",
+  "alert_type",
+  "warehouse",
+  "responsible_user",
+  "column_break_ojrb",
+  "item_code",
+  "mortality_percent",
+  "weight_shortfall_percent",
+  "max_gap_days",
+  "minimum_deaths"
+ ],
+ "fields": [
+  {
+   "fieldname": "rule_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Rule Name",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "alert_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Alert Type",
+   "options": "Mortality\nBelow-target Weight\nOverdue Weighing\nOverdue Treatment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "responsible_user",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Responsible User",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "label": "Livestock Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "House / Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "depends_on": "eval:doc.alert_type==\"Mortality\"",
+   "fieldname": "mortality_percent",
+   "fieldtype": "Percent",
+   "label": "Daily Mortality Threshold (%)"
+  },
+  {
+   "depends_on": "eval:doc.alert_type==\"Mortality\"",
+   "fieldname": "minimum_deaths",
+   "fieldtype": "Int",
+   "label": "Minimum Deaths"
+  },
+  {
+   "depends_on": "eval:doc.alert_type==\"Below-target Weight\"",
+   "fieldname": "weight_shortfall_percent",
+   "fieldtype": "Percent",
+   "label": "Weight Shortfall Threshold (%)"
+  },
+  {
+   "depends_on": "eval:doc.alert_type==\"Overdue Weighing\"",
+   "fieldname": "max_gap_days",
+   "fieldtype": "Int",
+   "label": "Maximum Weighing Gap (Days)"
+  },
+  {
+   "fieldname": "column_break_ojrb",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-23 15:38:01.219066",
+ "modified_by": "Administrator",
+ "module": "Livestock Management",
+ "name": "Livestock Performance Alert Rule",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "rule_name,company,alert_type",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "rule_name",
+ "track_changes": 1
+}
