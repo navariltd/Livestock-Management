@@ -1,6 +1,6 @@
 # Vuna Livestock
 
-An ERPNext app for managing poultry flocks and individually identified livestock. It connects daily farm operations, biological asset valuation, and financial accounting through standard Frappe and ERPNext documents.
+An integrated livestock management app for ERPNext that connects daily farm operations with financial accounting and biological asset valuation, supporting International Accounting Standard 41 (IAS 41)
 
 ## Key Features
 
