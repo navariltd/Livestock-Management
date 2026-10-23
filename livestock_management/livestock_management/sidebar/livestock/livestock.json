@@ -112,6 +112,21 @@
   },
   {
    "added": 0,
+   "child": 1,
+   "collapsible": 1,
+   "hidden": 0,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Performance Profile",
+   "link_to": "Livestock Performance Profile",
+   "link_type": "DocType",
+   "open_in_new_tab": 1,
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "added": 0,
    "child": 0,
    "collapsible": 1,
    "hidden": 0,
@@ -335,7 +350,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-10-21 14:07:17.024371",
+ "modified": "2026-10-23 03:31:43.668165",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
