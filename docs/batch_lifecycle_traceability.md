@@ -47,9 +47,3 @@ Eligible Items are batch-tracked stock Items counted in Nos or Unit. Historical 
 Operational activities need an explicit Company and an accessible historical warehouse. A diagnosis may use its explicit capitalisation warehouse or its readable linked medicine issue's explicit house. The current Batch location is never used to guess historical locations. Legacy activities without sufficient scope are omitted and the report explains this limitation. Missing origin links leave a receipt classified as Receipt rather than Birth.
 
 The report is a permission-dependent view, not proof of a complete chain of custody. Historical transactions with missing links or stock posted outside ERPNext cannot be reconstructed automatically. Customer links show permitted parties; revenue, non-stock invoices, planned work, drafts, and cancelled activities are outside this release.
-
-## Deployment and verification
-
-Run `bench --site YOUR_SITE migrate` followed by `bench --site YOUR_SITE clear-cache`, then reload Desk. No business-data migration is needed.
-
-For a manual check, compare a batch's incoming/outgoing rows with its stock ledger. Verify that a receipt of 100 animals shows 100 in, a saved weight changes no animal quantity, and feeding changes no animal quantity. On a split of 100 animals into batches of 60 and 40, both output batches should be related to the source. A same-batch capitalisation Repack should add no descendants. Restrict From Date or Warehouse and confirm that related batches remain discoverable even when the connecting transaction is outside the displayed filter.
