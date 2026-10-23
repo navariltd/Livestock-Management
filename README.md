@@ -13,6 +13,7 @@ An integrated livestock management solution built for ERPNext, designed to bridg
 - **Item Enhancements**: Configurable capitalization days and automatic validation for capitalization-related fields.
 - **Operational Reporting**: Seamless integration with standard ERPNext modules including Inventory, Manufacturing, Projects, and Accounting.
 - **Flock/Batch Performance Dashboard**: A batch performance report, Survival Percentage, Feed Consumed, and Internal FCR Number Cards, plus Daily Population and Mortality Trend Dashboard Charts summarise flock performance using stock transactions and weight records, with filters and permission checks.
+- **Age-Based Performance Targets**: Assign submitted daily-age profiles to batches and compare weight, feed consumption, interval FCR, and hen-day egg yield against targets in the batch performance report. See the [setup guide](docs/performance_targets.md).
 - **Daily Farm Entry Screen**: A Frappe Desk Page for batch-based feeding, mortality, weighing, produce collection, and observations using shared flock details. It creates draft Stock Entries for standard review and submission, saves Weight Records and Livestock Events immediately, and provides duplicate-save protection and recent activity links while respecting existing permissions and workflows.
 
 - **Feeding Programs**: Feeding Formula records with age ranges, expected intake, expected FCR, and formula-based population of feeding entries.
@@ -26,7 +27,6 @@ An integrated livestock management solution built for ERPNext, designed to bridg
 
 The following planned features will reuse standard Frappe and ERPNext capabilities wherever possible:
 
-- **Age-Based Performance Targets**: Extend flock/batch reporting with comparisons against age-based growth, feed consumption, FCR, and egg-yield targets.
 - **Performance Alerts**: Detect unusual mortality, poor growth, and overdue weighing or treatment, with standard Notifications, assignments, and ToDos supporting follow-up.
 - **Batch Lifecycle Traceability**: Follow livestock from receipt or birth through husbandry, treatment, transfers, grading, batch splits/merges, and sale using ERPNext stock transactions and linked lifecycle reports.
 
