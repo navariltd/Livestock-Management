@@ -74,20 +74,10 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Other Shortcuts",
-   "link_count": 7,
+   "link_count": 6,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Performance Alert Rules",
-   "link_count": 0,
-   "link_to": "Livestock Performance Alert Rule",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
   },
   {
    "hidden": 0,
@@ -145,85 +135,6 @@
    "label": "Veterinary Diagnosis",
    "link_count": 0,
    "link_to": "Veterinary Diagnosis",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Formula and Records",
-   "link_count": 7,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Weight Record",
-   "link_count": 0,
-   "link_to": "Weight Record",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Offspring Record",
-   "link_count": 0,
-   "link_to": "Offspring Record",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Breeding Record",
-   "link_count": 0,
-   "link_to": "Breeding Record",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Feed Formula",
-   "link_count": 0,
-   "link_to": "Feed Formula",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Performance profile",
-   "link_count": 0,
-   "link_to": "Livestock Performance Profile",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Livestock Event",
-   "link_count": 0,
-   "link_to": "Livestock Event",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Husbandry Practice",
-   "link_count": 0,
-   "link_to": "Husbandry Practice",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -306,9 +217,98 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Formula and Records",
+   "link_count": 8,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Weight Record",
+   "link_count": 0,
+   "link_to": "Weight Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Offspring Record",
+   "link_count": 0,
+   "link_to": "Offspring Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Breeding Record",
+   "link_count": 0,
+   "link_to": "Breeding Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Feed Formula",
+   "link_count": 0,
+   "link_to": "Feed Formula",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Performance profile",
+   "link_count": 0,
+   "link_to": "Livestock Performance Profile",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Livestock Event",
+   "link_count": 0,
+   "link_to": "Livestock Event",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Husbandry Practice",
+   "link_count": 0,
+   "link_to": "Husbandry Practice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Livestock Performance Alert Rule",
+   "link_count": 0,
+   "link_to": "Livestock Performance Alert Rule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2026-10-23 11:24:07.086769",
+ "modified": "2026-10-23 15:59:59.217781",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
