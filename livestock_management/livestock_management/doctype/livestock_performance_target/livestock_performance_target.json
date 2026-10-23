@@ -1,0 +1,53 @@
+{
+ "doctype": "DocType",
+ "name": "Livestock Performance Target",
+ "module": "Livestock Management",
+ "engine": "InnoDB",
+ "field_order": [
+  "age_days",
+  "weight_kg",
+  "feed_g",
+  "fcr",
+  "egg_yield_percent"
+ ],
+ "fields": [
+  {
+   "fieldname": "age_days",
+   "label": "Age (Days)",
+   "fieldtype": "Int",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "weight_kg",
+   "label": "Average Weight (kg/animal)",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target."
+  },
+  {
+   "fieldname": "feed_g",
+   "label": "Daily Feed Intake (g/animal/day)",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target."
+  },
+  {
+   "fieldname": "fcr",
+   "label": "Interval FCR (kg/kg)",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target."
+  },
+  {
+   "fieldname": "egg_yield_percent",
+   "label": "Hen-Day Egg Yield (%)",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target."
+  }
+ ],
+ "permissions": [],
+ "istable": 1,
+ "editable_grid": 1
+}

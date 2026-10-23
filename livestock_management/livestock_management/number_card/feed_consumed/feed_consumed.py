@@ -7,9 +7,7 @@ import frappe
 from frappe import _
 from frappe.utils import flt, get_first_day, getdate, nowdate
 
-from livestock_management.livestock_management.report.livestock_batch_performance_report.livestock_batch_performance_report import (
-	to_kg,
-)
+from livestock_management.livestock_management.stock_units import to_kg
 
 
 @frappe.whitelist()

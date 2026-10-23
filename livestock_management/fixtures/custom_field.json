@@ -2416,5 +2416,26 @@
   "translatable": 0,
   "unique": 0,
   "width": null
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Batch",
+  "name": "Batch-lvm_performance_profile",
+  "fieldname": "lvm_performance_profile",
+  "label": "Performance Profile",
+  "fieldtype": "Link",
+  "options": "Livestock Performance Profile",
+  "insert_after": "manufacturing_date",
+  "description": "Submitted age-based performance profile. Reassignment changes historical comparisons."
+ },
+ {
+  "doctype": "Custom Field",
+  "dt": "Batch",
+  "name": "Batch-lvm_hatch_date",
+  "fieldname": "lvm_hatch_date",
+  "label": "Hatch/Birth Date",
+  "fieldtype": "Date",
+  "insert_after": "lvm_performance_profile",
+  "description": "Biological age zero; independent of the manufacturing date."
  }
 ]
