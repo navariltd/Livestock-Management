@@ -87,9 +87,11 @@ def validate_filters(filters):
 def get_columns():
 	fields = [
 		("timestamp", "Event Time", "Datetime", None),
-		("event_type", "Event Type", "Data", None),
 		("batch", "Batch", "Link", "Batch"),
 		("item_code", "Livestock Item", "Link", "Item"),
+		("event_type", "Event Type", "Data", None),
+		("source_doctype", "Document Type", "Link", "DocType"),
+		("source_name", "Source Document", "Dynamic Link", "source_doctype"),
 		("status", "Status", "Data", None),
 		("source_warehouse", "Source Warehouse", "Link", "Warehouse"),
 		("target_warehouse", "Destination Warehouse", "Link", "Warehouse"),
@@ -97,8 +99,6 @@ def get_columns():
 		("qty_in", "Animals In", "Float", None),
 		("qty_out", "Animals Out", "Float", None),
 		("stock_uom", "Population UOM", "Link", "UOM"),
-		("source_doctype", "Document Type", "Link", "DocType"),
-		("source_name", "Source Document", "Dynamic Link", "source_doctype"),
 		("reference_doctype", "Linked Document Type", "Link", "DocType"),
 		("reference_name", "Linked Document", "Dynamic Link", "reference_doctype"),
 		("customer", "Customer", "Link", "Customer"),
