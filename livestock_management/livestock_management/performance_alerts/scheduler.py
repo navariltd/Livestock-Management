@@ -5,7 +5,7 @@ from collections import Counter
 import frappe
 from frappe.utils import getdate, nowdate
 
-from livestock_management.livestock_management.performance_alerts.data import as_user, evaluate_rule
+from livestock_management.livestock_management.performance_alerts.data import evaluate_rule
 from livestock_management.livestock_management.performance_alerts.todos import (
 	apply_evaluation,
 	mark_unavailable,
@@ -37,37 +37,39 @@ def process_rule(rule, today):
 
 
 def run_daily():
+	# Frappe scheduled jobs already run as Administrator; never elevate a caller.
+	if frappe.session.user != "Administrator":
+		raise frappe.PermissionError("Performance alert scheduling requires Administrator.")
 	lock = frappe.cache.lock("livestock-performance-alerts", timeout=3600)
 	if not lock.acquire(blocking=False):
 		return {"locked": True}
 	counts = Counter()
 	try:
-		with as_user("Administrator"):
-			today = getdate(nowdate())
-			for name in frappe.get_all(
-				"Livestock Performance Alert Rule", filters={"enabled": 1}, pluck="name", limit_page_length=0
-			):
+		today = getdate(nowdate())
+		for name in frappe.get_all(
+			"Livestock Performance Alert Rule", filters={"enabled": 1}, pluck="name", limit_page_length=0
+		):
+			try:
+				rule = frappe.get_doc("Livestock Performance Alert Rule", name)
+				# Skip a rule disabled since the initial list was read.
+				if not rule.enabled:
+					continue
+				counts.update(process_rule(rule, today))
+				frappe.db.commit()
+			except Exception:
+				frappe.db.rollback()
+				failure = frappe.get_traceback()
 				try:
-					rule = frappe.get_doc("Livestock Performance Alert Rule", name)
-					# Skip a rule disabled since the initial list was read.
-					if not rule.enabled:
-						continue
-					counts.update(process_rule(rule, today))
-					frappe.db.commit()
+					mark_unavailable(name)
 				except Exception:
 					frappe.db.rollback()
-					failure = frappe.get_traceback()
-					try:
-						mark_unavailable(name)
-					except Exception:
-						frappe.db.rollback()
-						failure += "\nUnable to mark existing tasks Unknown:\n" + frappe.get_traceback()
-					frappe.log_error(
-						title="Performance alert rule failed",
-						message=f"Rule {name}\n{failure}",
-					)
-					frappe.db.commit()
-					counts["failed_rules"] += 1
+					failure += "\nUnable to mark existing tasks Unknown:\n" + frappe.get_traceback()
+				frappe.log_error(
+					title="Performance alert rule failed",
+					message=f"Rule {name}\n{failure}",
+				)
+				frappe.db.commit()
+				counts["failed_rules"] += 1
 	finally:
 		lock.release()
 	return dict(counts)

@@ -1,4 +1,3 @@
-from contextlib import nullcontext
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
@@ -12,9 +11,7 @@ from livestock_management.livestock_management.performance_alerts import data
 
 class TestInputPermissions(TestCase):
 	def test_complete_ids_required_not_partial_aggregates(self):
-		context = nullcontext()
 		with (
-			patch.object(data, "as_user", return_value=context),
 			patch.object(frappe, "has_permission", return_value=True),
 			patch.object(frappe, "get_list", return_value=["ONE"]),
 		):
@@ -25,21 +22,37 @@ class TestInputPermissions(TestCase):
 
 	def test_missing_doctype_permission_is_unknown_input(self):
 		with (
-			patch.object(data, "as_user", side_effect=lambda user: nullcontext()),
 			patch.object(frappe, "has_permission", return_value=False),
 			patch.object(frappe, "get_list") as query,
 		):
 			self.assertFalse(data.inputs_accessible("farmer@example.com", {"Company": {"C"}}))
 			query.assert_not_called()
 
-	def test_user_context_restored_on_exception(self):
+	def test_recipient_permissions_used_without_changing_session(self):
 		with (
 			patch.object(frappe, "session", frappe._dict(user="Administrator")),
-			patch.object(frappe, "set_user") as change,
+			patch.object(frappe, "has_permission", return_value=True) as permission,
+			patch.object(frappe, "get_list", return_value=["C"]) as query,
 		):
-			with self.assertRaises(RuntimeError), data.as_user("farmer@example.com"):
-				raise RuntimeError("failure")
-			self.assertEqual(change.call_args_list[-1].args, ("Administrator",))
+			self.assertTrue(data.inputs_accessible("farmer@example.com", {"Company": {"C"}}))
+			permission.assert_called_once_with("Company", "read", user="farmer@example.com")
+			query.assert_called_once_with(
+				"Company",
+				filters={"name": ["in", ["C"]]},
+				pluck="name",
+				limit_page_length=0,
+				user="farmer@example.com",
+			)
+			self.assertEqual(frappe.session.user, "Administrator")
+
+	def test_permission_failure_leaves_session_unchanged(self):
+		with (
+			patch.object(frappe, "session", frappe._dict(user="Administrator")),
+			patch.object(frappe, "has_permission", return_value=True),
+			patch.object(frappe, "get_list", side_effect=frappe.PermissionError),
+		):
+			self.assertFalse(data.inputs_accessible("farmer@example.com", {"Company": {"C"}}))
+			self.assertEqual(frappe.session.user, "Administrator")
 
 	def test_baseline_scopes_company_item_house_and_flagged_batches(self):
 		rule = frappe._dict(company="C", item_code="Bird", warehouse="House")

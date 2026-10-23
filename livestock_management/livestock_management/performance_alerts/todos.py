@@ -98,17 +98,15 @@ def apply_evaluation(rule, result, auto_close, today):
 				url = escape_html(get_url_to_form(result.source_doctype, result.source_name))
 				description += f'<br><a href="{url}">Open evidence document</a>'
 			doc = frappe.get_doc(
-				dict(
-					doctype="ToDo",
-					status="Open",
-					priority="High",
-					date=today,
-					allocated_to=rule.responsible_user,
-					assigned_by=frappe.session.user,
-					reference_type=reference_type,
-					reference_name=reference_name,
-					description=description,
-				)
+				doctype="ToDo",
+				status="Open",
+				priority="High",
+				date=today,
+				allocated_to=rule.responsible_user,
+				assigned_by=frappe.session.user,
+				reference_type=reference_type,
+				reference_name=reference_name,
+				description=description,
 			)
 		else:
 			doc = frappe.get_doc("ToDo", chosen.name)

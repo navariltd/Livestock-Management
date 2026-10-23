@@ -1,7 +1,6 @@
 """Complete baseline inputs, checked against the responsible user's permission-filtered view."""
 
 from collections import defaultdict
-from contextlib import contextmanager
 
 import frappe
 from frappe.utils import add_days, getdate
@@ -15,32 +14,25 @@ from livestock_management.livestock_management.performance_alerts.evaluation imp
 )
 
 
-@contextmanager
-def as_user(user):
-	previous = frappe.session.user
-	try:
-		frappe.set_user(user)
-		yield
-	finally:
-		frappe.set_user(previous)
-
-
 def inputs_accessible(user, required):
-	"""Compare full required IDs, not filtered aggregates that could silently undercount."""
+	"""Check complete required IDs as the recipient without changing the caller session."""
 	try:
-		with as_user(user):
-			for doctype, names in required.items():
-				if not names:
-					continue
-				if not frappe.has_permission(doctype, "read"):
-					return False
-				allowed = set(
-					frappe.get_list(
-						doctype, filters={"name": ["in", sorted(names)]}, pluck="name", limit_page_length=0
-					)
+		for doctype, names in required.items():
+			if not names:
+				continue
+			if not frappe.has_permission(doctype, "read", user=user):
+				return False
+			allowed = set(
+				frappe.get_list(
+					doctype,
+					filters={"name": ["in", sorted(names)]},
+					pluck="name",
+					limit_page_length=0,
+					user=user,
 				)
-				if allowed != set(names):
-					return False
+			)
+			if allowed != set(names):
+				return False
 		return True
 	except frappe.PermissionError:
 		return False

@@ -42,9 +42,9 @@ class TestToDoEpisodes(TestCase):
 		)
 		created = []
 
-		def get_doc(*args):
-			if len(args) == 1:
-				new = MemoryToDo(args[0])
+		def get_doc(*args, **kwargs):
+			if kwargs:
+				new = MemoryToDo(kwargs)
 				created.append(new)
 				return new
 			return doc

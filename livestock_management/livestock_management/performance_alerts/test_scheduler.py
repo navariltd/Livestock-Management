@@ -1,4 +1,3 @@
-from contextlib import nullcontext
 from unittest import TestCase
 from unittest.mock import Mock, patch
 
@@ -8,12 +7,23 @@ from livestock_management.livestock_management.performance_alerts import schedul
 
 
 class TestDailyScheduler(TestCase):
+	def test_non_administrator_cannot_run_scheduler(self):
+		with (
+			patch.object(frappe, "session", frappe._dict(user="farmer@example.com")),
+			patch.object(frappe, "get_all") as query,
+		):
+			with self.assertRaises(frappe.PermissionError):
+				scheduler.run_daily()
+			query.assert_not_called()
+			self.assertEqual(frappe.session.user, "farmer@example.com")
+
 	def test_concurrent_run_returns_without_processing(self):
 		lock = Mock()
 		lock.acquire.return_value = False
 		with (
 			patch.object(frappe, "cache", Mock(lock=Mock(return_value=lock))),
 			patch.object(scheduler, "process_rule") as processor,
+			patch.object(frappe, "session", frappe._dict(user="Administrator")),
 		):
 			self.assertEqual(scheduler.run_daily(), {"locked": True})
 			processor.assert_not_called()
@@ -30,7 +40,7 @@ class TestDailyScheduler(TestCase):
 
 		with (
 			patch.object(frappe, "cache", Mock(lock=Mock(return_value=lock))),
-			patch.object(scheduler, "as_user", side_effect=lambda user: nullcontext()),
+			patch.object(frappe, "session", frappe._dict(user="Administrator")),
 			patch.object(scheduler, "nowdate", return_value="2026-10-23"),
 			patch.object(frappe, "get_all", return_value=["BAD", "GOOD", "OFF"]),
 			patch.object(
