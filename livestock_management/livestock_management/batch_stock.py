@@ -78,6 +78,7 @@ def expand_batch_ledger(ledger, batch_names):
 			if part.batch_no in batch_names:
 				movements[part.batch_no].append(
 					frappe._dict(
+						ledger_name=d.name,
 						date=getdate(d.posting_date),
 						timestamp=get_datetime(f"{d.posting_date} {d.posting_time}"),
 						qty=flt(part.qty),
