@@ -43,6 +43,21 @@
    "indent": 0,
    "is_default_module": 0,
    "keep_closed": 0,
+   "label": "ToDo's",
+   "link_to": "ToDo",
+   "link_type": "DocType",
+   "open_in_new_tab": 1,
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "added": 0,
+   "child": 1,
+   "collapsible": 1,
+   "hidden": 0,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
    "label": "Entries",
    "link_to": "Stock Entry",
    "link_type": "DocType",
@@ -380,7 +395,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-10-23 16:00:38.214464",
+ "modified": "2026-10-23 17:23:59.820894",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock",
