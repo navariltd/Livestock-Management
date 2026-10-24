@@ -16,7 +16,7 @@ class TestBatchPerformance(TestCase):
 		self.addCleanup(self.translation.stop)
 		self.filters = frappe._dict(from_date=date(2026, 10, 1), to_date=date(2026, 10, 10))
 		self.batch = frappe._dict(
-			name="FLOCK", manufacturing_date=date(2026, 8, 1), lvm_hatch_date=date(2026, 9, 1)
+			name="FLOCK", item="BIRD", manufacturing_date=date(2026, 8, 1), lvm_hatch_date=date(2026, 9, 1)
 		)
 		self.item = frappe._dict(name="BIRD", stock_uom="Nos")
 
@@ -272,3 +272,114 @@ class TestBatchPerformance(TestCase):
 			self.assertEqual(calls["Stock Entry"]["filters"]["docstatus"], 1)
 			self.assertEqual(calls["Weight Record"]["filters"]["lvm_company"], "COMPANY")
 			self.assertEqual(calls["Weight Record"]["filters"]["docstatus"], ["<", 2])
+
+
+class TestItemHierarchy(TestCase):
+	def setUp(self):
+		self.filters = frappe._dict(company="COMPANY", from_date="2026-10-01", to_date="2026-10-10")
+		self.translation = patch.object(report, "_", side_effect=lambda text: text)
+		self.translation.start()
+		self.addCleanup(self.translation.stop)
+
+	def test_groups_sort_batches_and_keep_metrics_on_children(self):
+		rows = [
+			{"item_code": "COW", "batch": "C1", "fcr": 3},
+			{"item_code": "BIRD", "batch": "Z", "fcr": None},
+			{"item_code": "BIRD", "batch": "BIRD", "fcr": 2},
+		]
+		grouped = report.group_by_item(rows)
+		self.assertEqual([r["entity_name"] for r in grouped], ["BIRD", "BIRD", "Z", "COW", "C1"])
+		self.assertEqual([r["indent"] for r in grouped], [0, 1, 1, 0, 1])
+		self.assertEqual(len({r["row_id"] for r in grouped}), 5)
+		self.assertEqual(grouped[1]["parent_row_id"], grouped[0]["row_id"])
+		self.assertEqual(grouped[-1]["parent_row_id"], grouped[-2]["row_id"])
+		self.assertEqual(grouped[0]["entity_doctype"], "Item")
+		self.assertEqual(grouped[1]["entity_doctype"], "Batch")
+		self.assertNotIn("fcr", grouped[0])
+		self.assertEqual(grouped[1]["fcr"], 2)
+		self.assertIsNone(grouped[2]["fcr"])
+		self.assertNotIn("indent", rows[0])
+
+	def test_all_items_use_permission_aware_item_query(self):
+		items = [frappe._dict(name="BIRD", stock_uom="Nos"), frappe._dict(name="COW", stock_uom="Unit")]
+		with (
+			patch.object(frappe, "get_doc", return_value=Mock()),
+			patch.object(frappe, "has_permission", return_value=True),
+			patch.object(frappe, "get_list", return_value=items) as query,
+			patch.object(report, "get_data", return_value=[]) as data,
+		):
+			columns, rows = report.execute(self.filters)
+			self.assertEqual(rows, [])
+			self.assertEqual(columns[0]["fieldtype"], "Dynamic Link")
+			query.assert_called_once_with(
+				"Item",
+				filters={"has_batch_no": 1, "is_stock_item": 1},
+				fields=["name", "stock_uom"],
+				order_by="name asc",
+				limit_page_length=0,
+			)
+			self.assertEqual(data.call_args.args[1], items)
+
+	def test_batch_filter_alone_resolves_and_checks_its_item(self):
+		self.filters.batch = "B1"
+		item = Mock(name="BIRD", has_batch_no=1, is_stock_item=1)
+		docs = {"Company": Mock(), "Batch": Mock(item="BIRD"), "Item": item}
+		with (
+			patch.object(frappe, "get_doc", side_effect=lambda dt, name: docs[dt]),
+			patch.object(frappe, "has_permission", return_value=True),
+			patch.object(frappe, "get_list") as query,
+			patch.object(report, "get_data", return_value=[]) as data,
+		):
+			report.execute(self.filters)
+			self.assertEqual(data.call_args.args[0].item_code, "BIRD")
+			item.check_permission.assert_called_once_with("read")
+			docs["Batch"].check_permission.assert_called_once_with("read")
+			query.assert_not_called()
+
+	def test_mismatched_batch_and_item_are_rejected(self):
+		self.filters.update(batch="B1", item_code="COW")
+		with (
+			patch.object(frappe, "get_doc", return_value=Mock(item="BIRD")),
+			patch.object(frappe, "throw", side_effect=frappe.ValidationError),
+			patch.object(report, "get_data") as data,
+		):
+			with self.assertRaises(frappe.ValidationError):
+				report.execute(self.filters)
+			data.assert_not_called()
+
+	def test_multiple_items_share_queries_and_keep_their_units(self):
+		items = [frappe._dict(name="BIRD", stock_uom="Nos"), frappe._dict(name="COW", stock_uom="Unit")]
+		batches = [frappe._dict(name="B1", item="BIRD"), frappe._dict(name="C1", item="COW")]
+
+		def query(doctype, **kwargs):
+			return batches if doctype == "Batch" else []
+
+		with (
+			patch.object(frappe, "get_list", side_effect=query) as queries,
+			patch.object(frappe, "has_permission", return_value=True),
+			patch.object(report, "get_batch_movements", return_value={"B1": [1], "C1": [1]}) as stock,
+			patch.object(
+				report,
+				"build_row",
+				side_effect=lambda batch, item, *args: {
+					"batch": batch.name,
+					"item_code": item.name,
+					"stock_uom": item.stock_uom,
+				},
+			) as build,
+		):
+			rows = report.get_data(self.filters, items)
+			self.assertEqual([r["stock_uom"] for r in rows], ["Nos", "Unit"])
+			self.assertEqual(build.call_count, 2)
+			stock.assert_called_once()
+			self.assertEqual(stock.call_args.args[0].item_codes, ["BIRD", "COW"])
+			calls = {call.args[0]: call.kwargs for call in queries.call_args_list}
+			self.assertEqual(calls["Batch"]["filters"]["item"], ["in", ["BIRD", "COW"]])
+			self.assertEqual(calls["Weight Record"]["filters"]["item"], ["in", ["BIRD", "COW"]])
+			self.assertEqual(calls["Stock Entry"]["filters"]["company"], "COMPANY")
+
+	def test_no_accessible_items_returns_no_groups_or_stock_queries(self):
+		with patch.object(frappe, "get_list") as query, patch.object(report, "get_batch_movements") as stock:
+			self.assertEqual(report.group_by_item(report.get_data(self.filters, [])), [])
+			query.assert_not_called()
+			stock.assert_not_called()
