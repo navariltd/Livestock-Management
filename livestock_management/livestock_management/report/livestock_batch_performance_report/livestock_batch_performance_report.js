@@ -2,6 +2,10 @@
 // For license information, please see license.txt
 
 frappe.query_reports["Livestock Batch Performance report"] = {
+	tree: true,
+	name_field: "row_id",
+	parent_field: "parent_row_id",
+	initial_depth: 2,
 	filters: [
 		{
 			fieldname: "company",
@@ -30,7 +34,7 @@ frappe.query_reports["Livestock Batch Performance report"] = {
 			label: __("Livestock Item"),
 			fieldtype: "Link",
 			options: "Item",
-			reqd: 1,
+			description: __("Leave blank to show all accessible batch-tracked livestock Items."),
 			get_query: () => ({ filters: { has_batch_no: 1, is_stock_item: 1 } }),
 			on_change: () => {
 				frappe.query_report.set_filter_value("batch", "");
@@ -42,9 +46,10 @@ frappe.query_reports["Livestock Batch Performance report"] = {
 			label: __("Batch"),
 			fieldtype: "Link",
 			options: "Batch",
-			get_query: () => ({
-				filters: { item: frappe.query_report.get_filter_value("item_code") },
-			}),
+			get_query: () => {
+				const item = frappe.query_report.get_filter_value("item_code");
+				return { filters: item ? { item } : {} };
+			},
 		},
 		{
 			fieldname: "warehouse",

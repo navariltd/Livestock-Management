@@ -22,20 +22,20 @@ PRODUCE_TYPES = {"Produce Collection", "Production", "Egg Production"}
 
 def execute(filters=None):
 	filters = frappe._dict(filters or {})
-	for field in ("company", "item_code", "from_date", "to_date"):
+	for field in ("company", "from_date", "to_date"):
 		if not filters.get(field):
-			frappe.throw(_("Company, Livestock Item, From Date and To Date are required."))
+			frappe.throw(_("Company, From Date and To Date are required."))
 	filters.from_date = getdate(filters.from_date)
 	filters.to_date = getdate(filters.to_date)
 	if filters.from_date > filters.to_date:
 		frappe.throw(_("From Date cannot be after To Date."))
-	for doctype, name in (("Company", filters.company), ("Item", filters.item_code)):
-		frappe.get_doc(doctype, name).check_permission("read")
+	frappe.get_doc("Company", filters.company).check_permission("read")
 	if filters.batch:
 		batch_doc = frappe.get_doc("Batch", filters.batch)
 		batch_doc.check_permission("read")
-		if batch_doc.item != filters.item_code:
+		if filters.item_code and batch_doc.item != filters.item_code:
 			frappe.throw(_("Batch must belong to the selected Livestock Item."))
+		filters.item_code = batch_doc.item
 	if filters.warehouse:
 		warehouse = frappe.get_doc("Warehouse", filters.warehouse)
 		warehouse.check_permission("read")
@@ -43,14 +43,57 @@ def execute(filters=None):
 			frappe.throw(_("Select a non-group Warehouse belonging to the selected Company."))
 	for doctype in ("Stock Ledger Entry", "Stock Entry"):
 		frappe.has_permission(doctype, "read", throw=True)
-	item = frappe.get_doc("Item", filters.item_code)
-	if not item.has_batch_no or not item.is_stock_item:
-		frappe.throw(_("Select a batch-tracked livestock stock Item."))
-	return get_columns(), get_data(filters, item)
+	if filters.item_code:
+		item = frappe.get_doc("Item", filters.item_code)
+		item.check_permission("read")
+		if not item.has_batch_no or not item.is_stock_item:
+			frappe.throw(_("Select a batch-tracked livestock stock Item."))
+		items = [item]
+	else:
+		items = frappe.get_list(
+			"Item",
+			filters={"has_batch_no": 1, "is_stock_item": 1},
+			fields=["name", "stock_uom"],
+			order_by="name asc",
+			limit_page_length=0,
+		)
+	return get_columns(), group_by_item(get_data(filters, items))
+
+
+def group_by_item(rows):
+	"""Item headings carry no totals: ratios and produce UOMs are batch-specific."""
+	result = []
+	for row in sorted(rows, key=lambda row: (row["item_code"], row["batch"])):
+		parent = f"item:{row['item_code']}"
+		if not result or result[-1]["parent_row_id"] != parent:
+			result.append(
+				{
+					"row_id": parent,
+					"parent_row_id": None,
+					"entity_name": row["item_code"],
+					"entity_doctype": "Item",
+					"item_code": row["item_code"],
+					"indent": 0,
+					"is_group": 1,
+				}
+			)
+		result.append(
+			{
+				**row,
+				"row_id": f"batch:{row['batch']}",
+				"parent_row_id": parent,
+				"entity_name": row["batch"],
+				"entity_doctype": "Batch",
+				"indent": 1,
+				"is_group": 0,
+			}
+		)
+	return result
 
 
 def get_columns():
 	specs = [
+		("entity_name", "Livestock Item / Batch", "Dynamic Link", "entity_doctype"),
 		("batch", "Batch", "Link", "Batch"),
 		("item_code", "Livestock Item", "Link", "Item"),
 		("stock_uom", "Population UOM", "Link", "UOM"),
@@ -95,20 +138,27 @@ def get_columns():
 			"label": _(label),
 			"fieldtype": kind,
 			"options": options,
-			"width": 300 if name == "notes" else 150,
+			"width": 300 if name in {"entity_name", "notes"} else 150,
 		}
 		for name, label, kind, options in specs
 	]
 
 
-def get_data(filters, item):
-	batch_filters = {"item": filters.item_code}
+def get_data(filters, items):
+	# Accept one Item as well as a list for existing internal callers.
+	items = items if isinstance(items, list) else [items]
+	item_map = {item.name: item for item in items}
+	if not item_map:
+		return []
+	filters = frappe._dict(filters)
+	filters.item_codes = list(item_map)
+	batch_filters = {"item": ["in", list(item_map)]}
 	if filters.batch:
 		batch_filters["name"] = filters.batch
 	batches = frappe.get_list(
 		"Batch",
 		filters=batch_filters,
-		fields=["name", "lvm_hatch_date", "lvm_performance_profile"],
+		fields=["name", "item", "lvm_hatch_date", "lvm_performance_profile"],
 		limit_page_length=0,
 	)
 	if not batches:
@@ -182,7 +232,7 @@ def get_data(filters, item):
 			"Weight Record",
 			filters={
 				"batch": ["in", batch_names],
-				"item": filters.item_code,
+				"item": ["in", list(item_map)],
 				"lvm_company": filters.company,
 				"docstatus": ["<", 2],
 				"posting_date": ["<", add_days(filters.to_date, 1)],
@@ -220,7 +270,7 @@ def get_data(filters, item):
 			continue
 		row = build_row(
 			batch,
-			item,
+			item_map[batch.item],
 			moves,
 			weights[batch.name],
 			operations,
