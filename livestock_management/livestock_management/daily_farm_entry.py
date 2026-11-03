@@ -170,7 +170,7 @@ def population(context, timestamp):
 			warehouse=context["house"],
 			item_code=context["item"],
 			posting_date=timestamp.date(),
-			posting_time=timestamp.time(),
+			posting_time=timestamp.strftime("%H:%M:%S"),
 		)
 	)
 
@@ -188,7 +188,7 @@ def make_document(activity, context, values, item, batch, timestamp):
 				"project": context.get("project"),
 				"set_posting_time": 1,
 				"posting_date": timestamp.date(),
-				"posting_time": timestamp.time(),
+				"posting_time": timestamp.strftime("%H:%M:%S"),
 			}
 		)
 		entry_type, purpose = {
