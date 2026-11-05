@@ -132,10 +132,12 @@ def save_activity(payload: str | dict):
 	activity = payload.get("activity")
 	if activity not in ACTIVITIES:
 		frappe.throw(_("Unsupported farm activity."))
+		return
 	try:
 		operation_id = str(UUID(str(payload.get("operation_id"))))
 	except (ValueError, TypeError, AttributeError):
 		frappe.throw(_("A valid operation ID is required."))
+		return
 	doctype = ACTIVITIES[activity]
 	validate_keys(payload.get("values"), INPUT_FIELDS[activity])
 	validate_keys(payload.get("context"), CONTEXT_FIELDS)
@@ -170,7 +172,7 @@ def population(context, timestamp):
 			warehouse=context["house"],
 			item_code=context["item"],
 			posting_date=timestamp.date(),
-			posting_time=timestamp.time(),
+			posting_time=timestamp.strftime("%H:%M:%S"),
 		)
 	)
 
@@ -188,7 +190,7 @@ def make_document(activity, context, values, item, batch, timestamp):
 				"project": context.get("project"),
 				"set_posting_time": 1,
 				"posting_date": timestamp.date(),
-				"posting_time": timestamp.time(),
+				"posting_time": timestamp.strftime("%H:%M:%S"),
 			}
 		)
 		entry_type, purpose = {
