@@ -37,7 +37,10 @@ def validate_metadata(doc, method=None):
 	if frappe.flags.in_performance_alerts:
 		return
 	before = doc.get_doc_before_save()
-	managed = any(doc.get(f) for f in META_FIELDS) or (before and any(before.get(f) for f in META_FIELDS))
+	# The scope key is the detector's stable identity for an alert episode. Other
+	# lvm_alert_* fields may be present or manipulated on ordinary ToDos without
+	# making them detector-managed records.
+	managed = bool(doc.get("lvm_alert_scope_key") or (before and before.get("lvm_alert_scope_key")))
 	if not managed:
 		return
 	if doc.is_new() or any(

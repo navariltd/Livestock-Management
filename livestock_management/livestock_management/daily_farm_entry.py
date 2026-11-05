@@ -132,10 +132,12 @@ def save_activity(payload: str | dict):
 	activity = payload.get("activity")
 	if activity not in ACTIVITIES:
 		frappe.throw(_("Unsupported farm activity."))
+		return
 	try:
 		operation_id = str(UUID(str(payload.get("operation_id"))))
 	except (ValueError, TypeError, AttributeError):
 		frappe.throw(_("A valid operation ID is required."))
+		return
 	doctype = ACTIVITIES[activity]
 	validate_keys(payload.get("values"), INPUT_FIELDS[activity])
 	validate_keys(payload.get("context"), CONTEXT_FIELDS)
