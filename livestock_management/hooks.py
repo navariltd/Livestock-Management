@@ -41,6 +41,7 @@ fixtures = [
 				"in",
 				[
 					"Stock Entry-custom_source_material_issue",
+					"UOM-lvm_is_count_uom",
 					"Company-lvm_auto_close_performance_todos",
 					"ToDo-lvm_alert_rule",
 					"ToDo-lvm_alert_type",
