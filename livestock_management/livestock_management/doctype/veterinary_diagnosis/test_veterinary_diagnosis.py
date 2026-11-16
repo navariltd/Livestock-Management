@@ -442,9 +442,21 @@ class TestLivestockCapitalisation(TestCase):
 		):
 			target = stock_entry.get_capitalisation_target("Farm", serial_no="COW-1")
 			self.assertEqual((target.qty, target.batch_no, target.serial_no), (1, "COW-BATCH", "COW-1"))
+			with patch.object(
+				stock_entry, "get_batch_serial_nos", return_value=["COW-1", "COW-2"]
+			) as serials:
+				target = stock_entry.get_capitalisation_target("Farm", batch_no="COW-BATCH")
+			serials.assert_called_once_with("Cow", "COW-BATCH", "Farm Warehouse", "Farm")
+			self.assertEqual(
+				(target.qty, target.batch_no, target.serial_no), (2, "COW-BATCH", "COW-1\nCOW-2")
+			)
+			with (
+				patch.object(stock_entry, "get_batch_serial_nos", return_value=[]),
+				self.assertRaises(frappe.ValidationError),
+			):
+				stock_entry.get_capitalisation_target("Farm", batch_no="COW-BATCH")
 			for kwargs in (
 				{},
-				{"batch_no": "COW-BATCH"},
 				{"serial_no": "COW-1", "batch_no": "WRONG"},
 				{"serial_no": "COW-1", "warehouse": "Other Warehouse"},
 			):
