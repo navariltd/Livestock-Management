@@ -10,6 +10,7 @@ from frappe.utils import add_days, date_diff, flt, getdate, nowdate
 from frappe.utils.dateutils import get_from_date_from_timespan
 
 from livestock_management.livestock_management.batch_stock import get_batch_movements
+from livestock_management.livestock_management.stock_units import count_uom_filter, is_count_uom
 
 
 @frappe.whitelist()
@@ -72,7 +73,7 @@ def get(
 	item_filters = {
 		"is_stock_item": 1,
 		"has_batch_no": 1,
-		"stock_uom": ["in", ["Nos", "Unit"]],
+		"stock_uom": count_uom_filter(),
 	}
 	if chart_filters.get("item_code"):
 		item_filters["name"] = chart_filters["item_code"]
@@ -121,8 +122,8 @@ def validate_item(name):
 	item.check_permission("read")
 	if not item.is_stock_item or not item.has_batch_no:
 		frappe.throw(_("Select a batch-tracked livestock stock Item."))
-	if item.stock_uom not in ("Nos", "Unit"):
-		frappe.throw(_("Daily Population requires livestock counted in Nos or Unit."))
+	if not is_count_uom(item.stock_uom):
+		frappe.throw(_("Daily Population requires livestock counted in a Livestock Count UOM."))
 
 
 def daily_balances(movements, from_date, to_date):

@@ -12,6 +12,7 @@ from livestock_management.livestock_management.performance_alerts.evaluation imp
 	detect_treatment,
 	occupancy,
 )
+from livestock_management.livestock_management.stock_units import count_uom_filter
 
 
 def inputs_accessible(user, required):
@@ -39,7 +40,7 @@ def inputs_accessible(user, required):
 
 
 def baseline(rule, today):
-	item_filters = {"is_stock_item": 1, "has_batch_no": 1, "stock_uom": ["in", ["Nos", "Unit"]]}
+	item_filters = {"is_stock_item": 1, "has_batch_no": 1, "stock_uom": count_uom_filter()}
 	if rule.item_code:
 		item_filters["name"] = rule.item_code
 	items = frappe.get_all("Item", filters=item_filters, pluck="name", limit_page_length=0)

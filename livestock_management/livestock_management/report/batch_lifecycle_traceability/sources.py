@@ -11,6 +11,7 @@ from livestock_management.livestock_management.report.batch_lifecycle_traceabili
 	repack_allocations,
 	same_allocations,
 )
+from livestock_management.livestock_management.stock_units import count_uom_filter
 
 STOCK_FIELDS = [
 	"name",
@@ -60,7 +61,7 @@ class LifecycleSources:
 			r.name: r
 			for r in frappe.get_list(
 				"Item",
-				filters={"is_stock_item": 1, "has_batch_no": 1, "stock_uom": ["in", ["Nos", "Unit"]]},
+				filters={"is_stock_item": 1, "has_batch_no": 1, "stock_uom": count_uom_filter()},
 				fields=["name", "stock_uom"],
 				limit_page_length=0,
 			)

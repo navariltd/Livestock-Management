@@ -13,6 +13,7 @@ from livestock_management.livestock_management.dashboard_chart_source.daily_popu
 )
 from livestock_management.livestock_management.number_card.feed_consumed.feed_consumed import sum_feed_kg
 from livestock_management.livestock_management.performance_fcr import calculate_fcr as calculate_interval_fcr
+from livestock_management.livestock_management.stock_units import count_uom_filter
 
 
 @frappe.whitelist()
@@ -33,7 +34,7 @@ def get(filters: str | dict | list | None = None) -> dict:
 	validate_scope(scope)
 	for doctype in ("Stock Entry", "Weight Record"):
 		frappe.has_permission(doctype, "read", throw=True)
-	item_filters = {"is_stock_item": 1, "has_batch_no": 1, "stock_uom": ["in", ["Nos", "Unit"]]}
+	item_filters = {"is_stock_item": 1, "has_batch_no": 1, "stock_uom": count_uom_filter()}
 	if scope.get("item_code"):
 		item_filters["name"] = scope["item_code"]
 	items = frappe.get_list("Item", filters=item_filters, pluck="name", limit_page_length=0)

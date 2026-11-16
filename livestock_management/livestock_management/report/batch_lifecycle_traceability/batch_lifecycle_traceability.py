@@ -15,6 +15,7 @@ from livestock_management.livestock_management.report.batch_lifecycle_traceabili
 from livestock_management.livestock_management.report.batch_lifecycle_traceability.sources import (
 	LifecycleSources,
 )
+from livestock_management.livestock_management.stock_units import is_count_uom
 
 EVENT_TYPES = (
 	"Receipt",
@@ -47,7 +48,7 @@ def execute(filters=None):
 	frappe.has_permission("Stock Ledger Entry", "read", throw=True)
 	sources = LifecycleSources(filters)
 	if filters.batch not in sources.batches:
-		frappe.throw(_("Select an accessible batch-tracked stock Item counted in Nos or Unit."))
+		frappe.throw(_("Select an accessible batch-tracked stock Item counted in a Livestock Count UOM."))
 	batches = reachable_batches(filters.batch, sources.transformations, filters.include_related_batches)
 	activities = sources.activities(batches)
 	rows = stock_events(sources, batches, activities)
@@ -74,8 +75,8 @@ def validate_filters(filters):
 	batch.check_permission("read")
 	item = frappe.get_doc("Item", batch.item)
 	item.check_permission("read")
-	if not item.is_stock_item or not item.has_batch_no or item.stock_uom not in ("Nos", "Unit"):
-		frappe.throw(_("Select a batch-tracked stock Item counted in Nos or Unit."))
+	if not item.is_stock_item or not item.has_batch_no or not is_count_uom(item.stock_uom):
+		frappe.throw(_("Select a batch-tracked stock Item counted in a Livestock Count UOM."))
 	if filters.warehouse:
 		warehouse = frappe.get_doc("Warehouse", filters.warehouse)
 		warehouse.check_permission("read")

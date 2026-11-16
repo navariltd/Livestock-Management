@@ -4,6 +4,8 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
+from livestock_management.livestock_management.stock_units import is_count_uom
+
 TARGET_FIELDS = ("weight_kg", "feed_g", "fcr", "egg_yield_percent")
 
 
@@ -44,5 +46,5 @@ class LivestockPerformanceProfile(Document):
 			seen_items.add(row.item)
 			item = frappe.get_doc("Item", row.item)
 			item.check_permission("read")
-			if not item.is_stock_item or item.stock_uom not in ("Nos", "Unit"):
-				frappe.throw(_("Egg Items must be stock Items counted in Nos or Unit."))
+			if not item.is_stock_item or not is_count_uom(item.stock_uom):
+				frappe.throw(_("Egg Items must be stock Items counted in a Livestock Count UOM."))

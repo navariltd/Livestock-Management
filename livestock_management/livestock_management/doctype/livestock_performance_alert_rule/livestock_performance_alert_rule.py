@@ -4,6 +4,8 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
+from livestock_management.livestock_management.stock_units import is_count_uom
+
 ALERT_TYPES = ("Mortality", "Below-target Weight", "Overdue Weighing", "Overdue Treatment")
 
 
@@ -39,8 +41,8 @@ class LivestockPerformanceAlertRule(Document):
 		if self.item_code:
 			item = frappe.get_doc("Item", self.item_code)
 			item.check_permission("read")
-			if not item.is_stock_item or not item.has_batch_no or item.stock_uom not in ("Nos", "Unit"):
-				frappe.throw(_("Select a batch-tracked stock Item counted in Nos or Unit."))
+			if not item.is_stock_item or not item.has_batch_no or not is_count_uom(item.stock_uom):
+				frappe.throw(_("Select a batch-tracked stock Item counted in a Livestock Count UOM."))
 		if self.warehouse:
 			house = frappe.get_doc("Warehouse", self.warehouse)
 			house.check_permission("read")

@@ -7,6 +7,8 @@ import frappe
 from frappe import _
 from frappe.utils import flt
 
+from livestock_management.livestock_management.stock_units import is_count_uom
+
 MAX_BATCHES = 200
 MAX_DEPTH = 20
 TOLERANCE = 0.000001
@@ -104,7 +106,7 @@ def repack_allocations(rows, bundle_rows, eligible_batches, warehouses):
 		if (
 			bool(row.s_warehouse) == bool(row.t_warehouse)
 			or warehouse not in warehouses
-			or row.stock_uom not in ("Nos", "Unit")
+			or not is_count_uom(row.stock_uom)
 			or not isfinite(qty)
 			or qty <= 0
 			or abs(qty - round(qty)) > TOLERANCE

@@ -6,7 +6,7 @@ from math import isfinite
 
 import frappe
 from frappe import _
-from frappe.utils import add_days, date_diff, flt, get_datetime, getdate
+from frappe.utils import add_days, flt, get_datetime, getdate
 
 from livestock_management.livestock_management.batch_stock import get_batch_movements
 from livestock_management.livestock_management.dashboard_chart_source.daily_population.daily_population import (
@@ -15,7 +15,7 @@ from livestock_management.livestock_management.dashboard_chart_source.daily_popu
 from livestock_management.livestock_management.number_card.feed_consumed.feed_consumed import sum_feed_kg
 from livestock_management.livestock_management.performance_fcr import calculate_fcr
 from livestock_management.livestock_management.performance_targets import age_on, apply_targets
-from livestock_management.livestock_management.stock_units import to_kg
+from livestock_management.livestock_management.stock_units import is_count_uom
 
 PRODUCE_TYPES = {"Produce Collection", "Production", "Egg Production"}
 
@@ -402,7 +402,7 @@ def build_row(batch, item, moves, weights, operations, details, entry_map, filte
 				produce_invalid = True
 			produce[d.stock_uom] += flt(d.transfer_qty)
 			if d.item_code in egg_items:
-				if d.stock_uom not in ("Nos", "Unit"):
+				if not is_count_uom(d.stock_uom):
 					produce_invalid = True
 				egg_count += flt(d.transfer_qty)
 	if produce_invalid:
@@ -417,7 +417,7 @@ def build_row(batch, item, moves, weights, operations, details, entry_map, filte
 	else:
 		notes.append("Produce has mixed stock UOMs; generic totals are unavailable.")
 	intervals = []
-	if item.stock_uom in ("Nos", "Unit") and not invalid_house and not feed_invalid:
+	if is_count_uom(item.stock_uom) and not invalid_house and not feed_invalid:
 		period_weights = [w for w in weights if getdate(w.posting_date) >= filters.from_date]
 		row["fcr"], reason, intervals = calculate_fcr(
 			{batch.name: moves}, period_weights, feeding, feed_rows, filters.from_date, sum_feed_kg
@@ -437,11 +437,11 @@ def build_row(batch, item, moves, weights, operations, details, entry_map, filte
 				+ "; ".join(f"{i['warehouse']}: {i['from_date']} to {i['to_date']}" for i in intervals)
 			)
 	labels, values = daily_balances({batch.name: moves}, filters.from_date, filters.to_date)
-	if item.stock_uom in ("Nos", "Unit"):
+	if is_count_uom(item.stock_uom):
 		apply_targets(
 			row, batch, profile, list(zip(labels, values, strict=True)), intervals, egg_count, notes
 		)
 	else:
-		notes.append("Age target comparisons require population in Nos or Unit.")
+		notes.append("Age target comparisons require population in a Livestock Count UOM.")
 	row["notes"] = " ".join(_(note) for note in notes)
 	return row
