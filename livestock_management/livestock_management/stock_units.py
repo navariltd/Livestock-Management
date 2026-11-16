@@ -42,7 +42,14 @@ def count_uom_filter():
 
 @frappe.whitelist()
 @frappe.validate_and_sanitize_search_inputs
-def count_item_query(doctype, txt, searchfield, start, page_len, filters):
+def count_item_query(
+	doctype: str,
+	txt: str,
+	searchfield: str,
+	start: int,
+	page_len: int,
+	filters: dict | list | str | None = None,
+):
 	"""Link-field search for Items stocked in a Livestock Count UOM."""
 	from frappe.desk.search import search_widget
 
