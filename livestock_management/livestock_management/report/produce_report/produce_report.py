@@ -5,6 +5,8 @@ import frappe
 from frappe import _
 from frappe.utils import date_diff, nowdate
 
+STOCK_ENTRY_TYPE = "Produce Collection"
+
 
 def execute(filters: dict | None = None):
 	filters = frappe._dict(filters or {})
@@ -108,6 +110,7 @@ def get_data(filters: dict | None = None) -> list[dict]:
 		key: filters.get(key) or None
 		for key in ["company", "stock_entry", "from_date", "to_date", "batch", "warehouse", "item_code"]
 	}
+	params["stock_entry_type"] = STOCK_ENTRY_TYPE
 
 	stock_entries = frappe.db.sql(
 		"""
@@ -132,7 +135,7 @@ def get_data(filters: dict | None = None) -> list[dict]:
 				ON sed.parent = se.name
 			LEFT JOIN `tabBatch` b
 				ON b.name = se.lvm_batch
-			WHERE se.stock_entry_type = 'Production' AND se.docstatus = 1
+			WHERE se.stock_entry_type = %(stock_entry_type)s AND se.docstatus = 1
 				AND (%(company)s IS NULL OR se.company = %(company)s)
 				AND (%(stock_entry)s IS NULL OR se.name = %(stock_entry)s)
 				AND (%(from_date)s IS NULL OR se.posting_date >= %(from_date)s)
