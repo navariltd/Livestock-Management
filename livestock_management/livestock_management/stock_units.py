@@ -61,3 +61,9 @@ def count_item_query(
 	return search_widget(
 		"Item", txt, searchfield=searchfield, start=start, page_length=page_len, filters=filters
 	)
+
+
+def flag_default_count_uom(doc, method=None):
+	"""UOM before_insert: Nos/Unit created after install (e.g. by the setup wizard) count livestock."""
+	if doc.uom_name in DEFAULT_COUNT_UOMS and doc.meta.has_field(COUNT_UOM_FIELD):
+		doc.set(COUNT_UOM_FIELD, 1)

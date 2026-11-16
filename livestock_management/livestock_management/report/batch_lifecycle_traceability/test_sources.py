@@ -7,9 +7,13 @@ from frappe.utils import getdate
 
 from livestock_management.livestock_management import batch_stock
 from livestock_management.livestock_management.report.batch_lifecycle_traceability import sources
+from livestock_management.livestock_management.testing import pin_count_uoms
 
 
 class TestLifecycleSources(TestCase):
+	def setUp(self):
+		pin_count_uoms(self)
+
 	def context(self):
 		context = sources.LifecycleSources.__new__(sources.LifecycleSources)
 		context.filters = frappe._dict(

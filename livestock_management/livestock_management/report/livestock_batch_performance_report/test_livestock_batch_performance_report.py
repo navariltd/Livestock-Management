@@ -4,13 +4,16 @@ from unittest.mock import Mock, patch
 
 import frappe
 
+from livestock_management.livestock_management import stock_units
 from livestock_management.livestock_management.report.livestock_batch_performance_report import (
 	livestock_batch_performance_report as report,
 )
+from livestock_management.livestock_management.testing import pin_count_uoms
 
 
 class TestBatchPerformance(TestCase):
 	def setUp(self):
+		pin_count_uoms(self)
 		self.translation = patch.object(report, "_", side_effect=lambda text: text)
 		self.translation.start()
 		self.addCleanup(self.translation.stop)
@@ -129,9 +132,9 @@ class TestBatchPerformance(TestCase):
 
 	def test_feed_conversion_requires_valid_factor(self):
 		with patch.object(frappe, "db", Mock(get_value=Mock(return_value=50))):
-			self.assertEqual(report.to_kg("FEED", "g", 100), 2)
+			self.assertEqual(stock_units.to_kg("FEED", "g", 100), 2)
 		with patch.object(frappe, "db", Mock(get_value=Mock(return_value=None))):
-			self.assertIsNone(report.to_kg("FEED", "Bag", 10))
+			self.assertIsNone(stock_units.to_kg("FEED", "Bag", 10))
 
 	def test_hatch_date_never_falls_back_to_manufacturing_date(self):
 		self.batch.lvm_hatch_date = None

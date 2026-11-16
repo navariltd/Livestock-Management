@@ -4,10 +4,12 @@ from unittest.mock import patch
 import frappe
 
 from livestock_management.livestock_management.report.batch_lifecycle_traceability import lineage
+from livestock_management.livestock_management.testing import pin_count_uoms
 
 
 class TestLineage(TestCase):
 	def setUp(self):
+		pin_count_uoms(self)
 		for mock in (
 			patch.object(frappe, "throw", side_effect=frappe.ValidationError),
 			patch.object(lineage, "_", side_effect=lambda x: x),

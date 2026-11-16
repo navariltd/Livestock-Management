@@ -11,6 +11,9 @@ app_license = "mit"
 required_apps = ["frappe/erpnext", "frappe/hrms"]
 
 doc_events = {
+	"UOM": {
+		"before_insert": "livestock_management.livestock_management.stock_units.flag_default_count_uom",
+	},
 	"ToDo": {
 		"validate": "livestock_management.livestock_management.performance_alerts.todos.validate_metadata",
 		"on_trash": "livestock_management.livestock_management.performance_alerts.todos.prevent_history_deletion",
@@ -204,7 +207,7 @@ doctype_js = {
 # ------------
 
 # before_install = "livestock_management.install.before_install"
-# after_install = "livestock_management.install.after_install"
+after_install = "livestock_management.install.after_install"
 
 # Uninstallation
 # ------------
