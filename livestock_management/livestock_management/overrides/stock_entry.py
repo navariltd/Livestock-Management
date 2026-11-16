@@ -80,7 +80,19 @@ def get_capitalisation_target(company, batch_no=None, serial_no=None, warehouse=
 	if not item.is_stock_item or item.disabled:
 		frappe.throw(_("The livestock must be an enabled stock Item."))
 	if item.has_serial_no and not serial_no:
-		frappe.throw(_("Select a livestock Serial No when capitalising a serial-tracked Item."))
+		# Batch-level capitalisation of serialised livestock (e.g. feeding a herd of tagged cows):
+		# revalue every animal of the batch currently held in the warehouse.
+		if not batch_no:
+			frappe.throw(_("Select a livestock Batch or Serial No to capitalise a serial-tracked Item."))
+		serial_nos = get_batch_serial_nos(item_code, batch_no, warehouse, company)
+		if not serial_nos:
+			frappe.throw(
+				_("The livestock Batch {0} has no in-stock Serial Nos in warehouse {1}.").format(
+					batch_no, warehouse
+				)
+			)
+		serial_no = "\n".join(serial_nos)
+		qty = len(serial_nos)
 	if item.has_batch_no:
 		if not batch_no:
 			frappe.throw(_("The livestock Item requires a Batch."))
@@ -94,6 +106,22 @@ def get_capitalisation_target(company, batch_no=None, serial_no=None, warehouse=
 		batch_no=batch_no if item.has_batch_no else None,
 		serial_no=serial_no,
 		qty=qty,
+	)
+
+
+def get_batch_serial_nos(item_code, batch_no, warehouse, company):
+	"""Serial Nos of a livestock batch currently in stock in the given warehouse."""
+	return frappe.get_all(
+		"Serial No",
+		filters={
+			"item_code": item_code,
+			"batch_no": batch_no,
+			"warehouse": warehouse,
+			"company": company,
+			"status": "Active",
+		},
+		pluck="name",
+		order_by="name asc",
 	)
 
 

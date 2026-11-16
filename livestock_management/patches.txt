@@ -5,3 +5,4 @@
 [post_model_sync]
 # Patches added in this section will be executed after doctypes are migrated
 livestock_management.patches.quality_inspection
+livestock_management.patches.remove_stock_entry_column_breaks
