@@ -70,7 +70,8 @@
    "fieldname": "serial_no",
    "fieldtype": "Link",
    "label": "Serial No",
-   "options": "Serial No"
+   "options": "Serial No",
+   "depends_on": "animal"
   },
   {
    "fieldname": "column_break_lygm",
@@ -124,7 +125,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-05 10:57:41.995309",
+ "modified": "2026-11-16 15:00:00.000000",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Livestock Event",

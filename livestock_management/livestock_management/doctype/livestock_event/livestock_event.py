@@ -20,6 +20,18 @@ class LivestockEvent(Document):
 			self.ends_on = self.starts_on
 		if get_datetime(self.ends_on) < get_datetime(self.starts_on):
 			frappe.throw(_("Ends On cannot be before Starts On."))
+		self.validate_serial_no()
+
+	def validate_serial_no(self):
+		if not self.serial_no:
+			return
+		serial_item = frappe.db.get_value("Serial No", self.serial_no, "item_code")
+		if serial_item != self.animal:
+			frappe.throw(
+				_("Serial No {0} belongs to Item {1}, not {2}.").format(
+					frappe.bold(self.serial_no), frappe.bold(serial_item), frappe.bold(self.animal)
+				)
+			)
 
 	def on_update(self):
 		previous_serial = pregnancy_check_serial(self.get_doc_before_save())
