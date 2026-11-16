@@ -17,7 +17,8 @@ frappe.dashboards.chart_sources["Mortality Trend Source"] = {
 			fieldtype: "Link",
 			options: "Item",
 			get_query: () => ({
-				filters: { is_stock_item: 1, has_batch_no: 1, stock_uom: ["in", ["Nos", "Unit"]] },
+				query: "livestock_management.livestock_management.stock_units.count_item_query",
+				filters: { is_stock_item: 1, has_batch_no: 1 },
 			}),
 		},
 		{

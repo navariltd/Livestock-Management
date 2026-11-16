@@ -7,6 +7,7 @@ from livestock_management.livestock_management.doctype.livestock_performance_pro
 	livestock_performance_profile as module,
 )
 from livestock_management.livestock_management.overrides.batch import validate_performance_profile
+from livestock_management.livestock_management.testing import pin_count_uoms
 
 
 class TargetRow(frappe._dict):
@@ -16,6 +17,7 @@ class TargetRow(frappe._dict):
 
 class TestPerformanceProfile(TestCase):
 	def setUp(self):
+		pin_count_uoms(self)
 		for mock in (
 			patch.object(module, "_", side_effect=lambda x: x),
 			patch.object(frappe, "throw", side_effect=frappe.ValidationError),

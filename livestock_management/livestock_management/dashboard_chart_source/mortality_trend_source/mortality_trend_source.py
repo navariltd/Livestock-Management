@@ -13,6 +13,7 @@ from livestock_management.livestock_management.batch_stock import get_batch_move
 from livestock_management.livestock_management.dashboard_chart_source.daily_population.daily_population import (
 	validate_scope,
 )
+from livestock_management.livestock_management.stock_units import count_uom_filter
 
 
 @frappe.whitelist()
@@ -75,7 +76,7 @@ def get(
 	item_filters = {
 		"is_stock_item": 1,
 		"has_batch_no": 1,
-		"stock_uom": ["in", ["Nos", "Unit"]],
+		"stock_uom": count_uom_filter(),
 	}
 	if chart_filters.get("item_code"):
 		item_filters["name"] = chart_filters["item_code"]

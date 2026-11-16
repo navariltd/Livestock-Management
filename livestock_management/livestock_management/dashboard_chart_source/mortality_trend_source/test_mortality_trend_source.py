@@ -6,10 +6,12 @@ import frappe
 from livestock_management.livestock_management.dashboard_chart_source.mortality_trend_source import (
 	mortality_trend_source as source,
 )
+from livestock_management.livestock_management.testing import pin_count_uoms
 
 
 class TestMortalityTrend(TestCase):
 	def setUp(self):
+		pin_count_uoms(self)
 		for mock in (
 			patch.object(frappe, "in_test", True),
 			patch.object(source, "_", side_effect=lambda text: text),

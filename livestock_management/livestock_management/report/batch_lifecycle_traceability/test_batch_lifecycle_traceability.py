@@ -9,10 +9,12 @@ from frappe.utils import getdate
 from livestock_management.livestock_management.report.batch_lifecycle_traceability import (
 	batch_lifecycle_traceability as report,
 )
+from livestock_management.livestock_management.testing import pin_count_uoms
 
 
 class TestLifecycleEvents(TestCase):
 	def setUp(self):
+		pin_count_uoms(self)
 		self.sources = SimpleNamespace(
 			batches={"A": frappe._dict(item="Bird"), "B": frappe._dict(item="Bird")},
 			items={"Bird": frappe._dict(stock_uom="Nos")},
