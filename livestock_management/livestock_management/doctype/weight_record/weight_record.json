@@ -15,6 +15,7 @@
   "section_break_rojr",
   "batch",
   "item",
+  "serial_no",
   "column_break_omhq",
   "sample_size",
   "population_size",
@@ -71,6 +72,15 @@
    "label": "Item",
    "options": "Item",
    "reqd": 1
+  },
+  {
+   "depends_on": "item",
+   "description": "Optional. Record the weight of a single animal of this Item.",
+   "fieldname": "serial_no",
+   "fieldtype": "Link",
+   "label": "Serial No",
+   "options": "Serial No",
+   "search_index": 1
   },
   {
    "fieldname": "batch",
@@ -135,7 +145,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-09-29 14:02:08.146811",
+ "modified": "2026-11-16 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Livestock Management",
  "name": "Weight Record",

@@ -41,5 +41,19 @@ def get_previous_weight_record(
 
 
 class WeightRecord(Document):
+	def validate(self):
+		self.validate_serial_no()
+
+	def validate_serial_no(self):
+		if not self.serial_no:
+			return
+		serial_item = frappe.db.get_value("Serial No", self.serial_no, "item_code")
+		if serial_item != self.item:
+			frappe.throw(
+				_("Serial No {0} belongs to Item {1}, not {2}.").format(
+					frappe.bold(self.serial_no), frappe.bold(serial_item), frappe.bold(self.item)
+				)
+			)
+
 	def before_save(self):
 		self.weight_gain = self.actual_weight - self.previous_weight

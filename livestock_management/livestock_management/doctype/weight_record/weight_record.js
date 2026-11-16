@@ -2,6 +2,18 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Weight Record", {
+	setup(frm) {
+		frm.set_query("serial_no", () => ({
+			filters: { item_code: frm.doc.item || "" },
+		}));
+	},
+
+	item(frm) {
+		if (frm.doc.serial_no) {
+			frm.set_value("serial_no", null);
+		}
+	},
+
 	refresh(frm) {
 		if (frm.doc.docstatus === 0) {
 			frm.add_custom_button(__("Fetch Previous Weight"), () =>
