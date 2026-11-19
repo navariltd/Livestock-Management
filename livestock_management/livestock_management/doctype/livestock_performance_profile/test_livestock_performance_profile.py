@@ -45,6 +45,27 @@ class TestPerformanceProfile(TestCase):
 			with self.subTest(targets=targets), self.assertRaises(frappe.ValidationError):
 				self.validate(targets)
 
+	def test_weeks_fill_days_and_days_fill_weeks(self):
+		doc = self.validate([dict(age_weeks=2.5), dict(age_days=0, age_weeks=1), dict(age_days=10)])
+		self.assertEqual(
+			[(r.age_days, r.age_weeks) for r in doc.targets],
+			[(18, 2.57), (7, 1.0), (10, 1.43)],
+		)
+
+	def test_two_decimal_weeks_round_trip_to_the_same_day(self):
+		for days in range(0, 1000):
+			with self.subTest(days=days):
+				self.assertEqual(module.weeks_to_days(module.days_to_weeks(days)), days)
+
+	def test_rejects_conflicting_weeks_and_days(self):
+		with self.assertRaises(frappe.ValidationError):
+			self.validate([dict(age_days=10, age_weeks=2)])
+		self.validate([dict(age_days=14, age_weeks=2)])
+		with self.assertRaises(frappe.ValidationError):
+			self.validate([dict(age_weeks=1), dict(age_days=7)])
+		with self.assertRaises(frappe.ValidationError):
+			self.validate([dict(age_weeks=-1)])
+
 	def test_invalid_numbers_and_percentages(self):
 		for value in ("no", "NaN", "inf", "-1"):
 			with self.subTest(value=value), self.assertRaises(frappe.ValidationError):
