@@ -5,6 +5,7 @@
  "engine": "InnoDB",
  "field_order": [
   "age_days",
+  "age_weeks",
   "weight_kg",
   "feed_g",
   "fcr",
@@ -16,7 +17,18 @@
    "label": "Age (Days)",
    "fieldtype": "Int",
    "reqd": 1,
-   "in_list_view": 1
+   "in_list_view": 1,
+   "columns": 1,
+   "description": "Whole days since hatch. Filled automatically when you enter Age (Weeks)."
+  },
+  {
+   "fieldname": "age_weeks",
+   "label": "Age (Weeks)",
+   "fieldtype": "Float",
+   "precision": "2",
+   "columns": 1,
+   "in_list_view": 1,
+   "description": "Optional. Enter weeks with up to two decimals (e.g. 2.5); converted to the nearest whole day."
   },
   {
    "fieldname": "weight_kg",
