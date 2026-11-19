@@ -60,5 +60,13 @@ frappe.query_reports["Livestock Batch Performance report"] = {
 				filters: { company: frappe.query_report.get_filter_value("company"), is_group: 0 },
 			}),
 		},
+		{
+			fieldname: "age_unit",
+			label: __("Age Unit"),
+			fieldtype: "Select",
+			options: ["Weeks", "Days"],
+			default: "Weeks",
+			reqd: 1,
+		},
 	],
 };
