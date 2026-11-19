@@ -12,12 +12,21 @@ from livestock_management.livestock_management.batch_stock import get_batch_move
 from livestock_management.livestock_management.dashboard_chart_source.daily_population.daily_population import (
 	daily_balances,
 )
+from livestock_management.livestock_management.doctype.livestock_performance_profile.livestock_performance_profile import (
+	days_to_weeks,
+)
 from livestock_management.livestock_management.number_card.feed_consumed.feed_consumed import sum_feed_kg
 from livestock_management.livestock_management.performance_fcr import calculate_fcr
 from livestock_management.livestock_management.performance_targets import age_on, apply_targets
 from livestock_management.livestock_management.stock_units import is_count_uom
 
 PRODUCE_TYPES = {"Produce Collection", "Production", "Egg Production"}
+AGE_UNITS = ("Weeks", "Days")
+# Day-based age columns and their weeks equivalents (fieldname, label).
+AGE_COLUMNS = {
+	"age_days": ("age_weeks", "Age at End Date (Weeks)"),
+	"weight_age_days": ("weight_age_weeks", "Weight Measurement Age (Weeks)"),
+}
 
 
 def execute(filters=None):
@@ -29,6 +38,9 @@ def execute(filters=None):
 	filters.to_date = getdate(filters.to_date)
 	if filters.from_date > filters.to_date:
 		frappe.throw(_("From Date cannot be after To Date."))
+	filters.age_unit = filters.get("age_unit") or "Weeks"
+	if filters.age_unit not in AGE_UNITS:
+		frappe.throw(_("Age Unit must be Weeks or Days."))
 	frappe.get_doc("Company", filters.company).check_permission("read")
 	if filters.batch:
 		batch_doc = frappe.get_doc("Batch", filters.batch)
@@ -57,7 +69,19 @@ def execute(filters=None):
 			order_by="name asc",
 			limit_page_length=0,
 		)
-	return get_columns(), group_by_item(get_data(filters, items))
+	rows = group_by_item(get_data(filters, items))
+	if filters.age_unit == "Weeks":
+		rows = [ages_in_weeks(row) for row in rows]
+	return get_columns(filters.age_unit), rows
+
+
+def ages_in_weeks(row):
+	"""Ages are computed (and matched to targets) in whole days; convert only for display."""
+	for days_field, (weeks_field, _label) in AGE_COLUMNS.items():
+		if days_field in row:
+			days = row.pop(days_field)
+			row[weeks_field] = None if days is None else days_to_weeks(days)
+	return row
 
 
 def group_by_item(rows):
@@ -91,7 +115,7 @@ def group_by_item(rows):
 	return result
 
 
-def get_columns():
+def get_columns(age_unit="Days"):
 	specs = [
 		("entity_name", "Livestock Item / Batch", "Dynamic Link", "entity_doctype"),
 		("batch", "Batch", "Link", "Batch"),
@@ -132,16 +156,21 @@ def get_columns():
 		("egg_yield_variance_pp", "Egg Yield Variance (pp)", "Float", None),
 		("notes", "Data Notes", "Data", None),
 	]
-	return [
-		{
+	columns = []
+	for name, label, kind, options in specs:
+		column = {
 			"fieldname": name,
-			"label": _(label),
+			"label": label,
 			"fieldtype": kind,
 			"options": options,
 			"width": 300 if name in {"entity_name", "notes"} else 150,
 		}
-		for name, label, kind, options in specs
-	]
+		if age_unit == "Weeks" and name in AGE_COLUMNS:
+			column.update(fieldname=AGE_COLUMNS[name][0], label=AGE_COLUMNS[name][1], fieldtype="Float")
+			column["precision"] = 2
+		column["label"] = _(column["label"])
+		columns.append(column)
+	return columns
 
 
 def get_data(filters, items):

@@ -323,6 +323,44 @@ class TestItemHierarchy(TestCase):
 			)
 			self.assertEqual(data.call_args.args[1], items)
 
+	def run_with_ages(self, age_unit=None):
+		if age_unit:
+			self.filters.age_unit = age_unit
+		self.filters.company = "CO"
+		rows = [frappe._dict(name="BIRD", stock_uom="Nos")]
+		data = [{"batch": "B1", "item_code": "BIRD", "age_days": 39, "weight_age_days": None}]
+		with (
+			patch.object(frappe, "get_doc", return_value=Mock()),
+			patch.object(frappe, "has_permission", return_value=True),
+			patch.object(frappe, "get_list", return_value=rows),
+			patch.object(report, "get_data", return_value=data),
+		):
+			return report.execute(self.filters)
+
+	def test_ages_default_to_weeks(self):
+		columns, rows = self.run_with_ages()
+		fields = {c["fieldname"]: c for c in columns}
+		self.assertNotIn("age_days", fields)
+		self.assertEqual(fields["age_weeks"]["fieldtype"], "Float")
+		self.assertEqual(fields["age_weeks"]["precision"], 2)
+		self.assertIn("weight_age_weeks", fields)
+		self.assertNotIn("age_weeks", rows[0])  # item heading
+		self.assertEqual(rows[1]["age_weeks"], 5.57)
+		self.assertIsNone(rows[1]["weight_age_weeks"])
+		self.assertNotIn("age_days", rows[1])
+
+	def test_days_unit_keeps_whole_day_columns(self):
+		columns, rows = self.run_with_ages("Days")
+		fields = {c["fieldname"]: c for c in columns}
+		self.assertEqual(fields["age_days"]["fieldtype"], "Int")
+		self.assertNotIn("age_weeks", fields)
+		self.assertEqual(rows[1]["age_days"], 39)
+
+	def test_rejects_unknown_age_unit(self):
+		with patch.object(frappe, "throw", side_effect=frappe.ValidationError):
+			with self.assertRaises(frappe.ValidationError):
+				self.run_with_ages("Months")
+
 	def test_batch_filter_alone_resolves_and_checks_its_item(self):
 		self.filters.batch = "B1"
 		item = Mock(name="BIRD", has_batch_no=1, is_stock_item=1)
