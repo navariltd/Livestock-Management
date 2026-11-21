@@ -105,3 +105,26 @@ class TestAgeTargets(TestCase):
 		row, _ = self.apply(profile=profile, intervals=intervals)
 		self.assertEqual(row["target_fcr"], 2.75)
 		self.assertEqual(row["fcr_variance"], -0.25)
+
+	def test_mortality_target_is_population_weighted_expected_deaths(self):
+		profile = self.profile()
+		for target in profile.targets:
+			target.mortality_percent = "1"
+		row, _ = self.apply(
+			row=dict(feed_kg=22, mortality_qty=3),
+			profile=profile,
+			populations=[("2026-10-01", 100), ("2026-10-02", 90)],
+		)
+		self.assertAlmostEqual(row["target_mortality_qty"], 1.9)
+		self.assertAlmostEqual(row["mortality_variance"], 1.1)
+		self.assertAlmostEqual(row["mortality_variance_percent"], 110 / 1.9)
+
+	def test_mortality_target_needs_every_exposed_age_and_is_silent_when_unused(self):
+		row, notes = self.apply(row=dict(mortality_qty=0))
+		self.assertNotIn("target_mortality_qty", row)
+		self.assertFalse(any("mortality" in note for note in notes))
+		profile = self.profile()
+		profile.targets[0].mortality_percent = "1"
+		row, notes = self.apply(row=dict(mortality_qty=0), profile=profile)
+		self.assertNotIn("target_mortality_qty", row)
+		self.assertTrue(any("mortality target unavailable" in note for note in notes))

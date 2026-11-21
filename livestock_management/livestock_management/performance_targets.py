@@ -62,6 +62,15 @@ def apply_targets(row, batch, profile, populations, intervals, egg_count, notes)
 		variance(row, "feed_kg", "target_feed_kg", "feed")
 	else:
 		notes.append("Period feed target unavailable: an exposed age has no intake target or precedes hatch.")
+	# Expected deaths use the same end-of-day exposure as feed; blank profiles stay silent.
+	mortality_targets = [(lookup(day, "mortality_percent"), pop) for day, pop in active]
+	if all(value is not None for value, _ in mortality_targets):
+		row["target_mortality_qty"] = sum(value * pop / 100 for value, pop in mortality_targets)
+		variance(row, "mortality_qty", "target_mortality_qty", "mortality")
+	elif any(target_number(t.get("mortality_percent")) is not None for t in profile.targets):
+		notes.append(
+			"Period mortality target unavailable: an exposed age has no mortality target or precedes hatch."
+		)
 	if not profile.all_female_laying_flock:
 		notes.append("Hen-day yield requires an all-female laying profile.")
 		return
