@@ -9,7 +9,8 @@
   "weight_kg",
   "feed_g",
   "fcr",
-  "egg_yield_percent"
+  "egg_yield_percent",
+  "mortality_percent"
  ],
  "fields": [
   {
@@ -35,28 +36,40 @@
    "label": "Average Weight (kg/animal)",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target."
+   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target.",
+   "columns": 2
   },
   {
    "fieldname": "feed_g",
    "label": "Daily Feed Intake (g/animal/day)",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target."
+   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target.",
+   "columns": 2
   },
   {
    "fieldname": "fcr",
    "label": "Interval FCR (kg/kg)",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target."
+   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target.",
+   "columns": 1
   },
   {
    "fieldname": "egg_yield_percent",
    "label": "Hen-Day Egg Yield (%)",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target."
+   "description": "Optional non-negative number. Leave blank for unspecified; enter 0 for an explicit zero target.",
+   "columns": 1
+  },
+  {
+   "fieldname": "mortality_percent",
+   "label": "Daily Mortality (%)",
+   "fieldtype": "Data",
+   "columns": 2,
+   "in_list_view": 1,
+   "description": "Optional. Chance (0-100) that an animal alive at this age dies on this day. Leave blank for unspecified; use Fill Mortality from Cumulative to convert breed-guide cumulative figures."
   }
  ],
  "permissions": [],
